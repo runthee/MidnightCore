@@ -25,19 +25,34 @@ case "$INPUT" in
 	1)
 		LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
 		echo "Retrieving necessary files..."
-		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
-		echo "Initializing MidnightFonts..."
-		echo "Make sure to reboot after applying a font!"
-		sleep 2s
-		sh "$MIDFONT"/fonts.sh
+		if [ -e "$MIDFONT"/fonts.sh ]
+		then
+			echo "Initializing MidnightFonts..."
+			echo "Make sure to reboot after applying a font!"
+			sleep 2s
+			sh "$MIDFONT"/fonts.sh
+		else
+			wget -q -O "$MIDFONT"/fonts.sh "$LINK"
+			echo "Initializing MidnightFonts..."
+			echo "Make sure to reboot after applying a font!"
+			sleep 2s
+			sh "$MIDFONT"/fonts.sh
+		fi
 		;;
 	2)
 		LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
 		echo "Retrieving necessary files..."
-		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
-		echo "Initializing MidnightMedia..."
-		sleep 2s
-		sh "$MIDMEDIA"/midmedia.sh
+		if [ -e "$MIDMEDIA"/midmedia.sh ]
+		then
+			echo "Initializing MidnightMedia..."
+			sleep 2s
+			sh "$MIDMEDIA"/midmedia.sh
+		else
+			wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
+			echo "Initializing MidnightMedia..."
+			sleep 2s
+			sh "$MIDMEDIA"/midmedia.sh
+		fi
 		;;
 	q)
 		;;
