@@ -13,10 +13,14 @@ fi
 if [ -e "$MIDFONT"/fonts.sh ] || [ -e "$MIDMEDIA"/midmedia.sh ] || [ -e "$MIDFONT"/MidnightMake/fontmake.sh ]
 then
 	rm -r "$MIDFONT"/fonts.sh
+	rm -r "$MIDFONT"/DONT-DELETE
+	rm -r "$MIDFONT"/DONT-DELETE-2
+	rm -r "$MIDMEDIA"/MDONT-MDELETE
+	rm -r "$MIDMEDIA"/MDONT-MDELETE-2
 	rm -r "$MIDMEDIA"/midmedia.sh
 	rm -r "$MIDFONT"/MidnightMake/fontmake.sh
-else
-	echo "Scripts up to date!"
+	rm -r "$MIDFONT"/MidnightMake/DONT-DELETE
+	rm -r "$MIDFONT"/MidnightMake/DONT-DELETE-2
 fi
 clear
 echo ""
