@@ -10,18 +10,6 @@ then
 	mkdir "$MIDFONT"
 	mkdir "$MIDMEDIA"
 fi
-if [ -e "$MIDFONT"/fonts.sh ] || [ -e "$MIDMEDIA"/midmedia.sh ] || [ -e "$MIDFONT"/MidnightMake/fontmake.sh ]
-then
-	rm -r "$MIDFONT"/fonts.sh
-	rm -r "$MIDFONT"/Fonts/DONT-DELETE
-	rm -r "$MIDFONT"/Fonts/DONT-DELETE-2
-	rm -r "$MIDMEDIA"/MDONT-MDELETE
-	rm -r "$MIDMEDIA"/MDONT-MDELETE-2
-	rm -r "$MIDMEDIA"/midmedia.sh
-	rm -r "$MIDFONT"/MidnightMake/fontmake.sh
-	rm -r "$MIDFONT"/MidnightMake/DONT-DELETE
-	rm -r "$MIDFONT"/MidnightMake/DONT-DELETE-2
-fi
 clear
 echo ""
 echo "********************************************************"
@@ -41,6 +29,7 @@ case "$INPUT" in
 		echo "Initializing MidnightFonts..."
 		echo "Make sure to reboot after applying a font!"
 		sh "$MIDFONT"/fonts.sh
+		rm -r "$MIDFONT"/fonts.sh
 		;;
 	2)
 		LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
@@ -48,6 +37,7 @@ case "$INPUT" in
 		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
 		echo "Initializing MidnightMedia..."
 		sh "$MIDMEDIA"/midmedia.sh
+		rm -r "$MIDMEDIA"/midmedia.sh
 		;;
 	q)
 		;;

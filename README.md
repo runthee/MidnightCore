@@ -16,7 +16,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v1.1.1
+v1.2.0
 
 ## Changelog
 
@@ -26,6 +26,8 @@ v1.1.1
 * Optimized scripts, added media files
 ### v1.1.1 - 14.03.18
 * Minor fix
+### v1.2.0 - 14.03.18
+* Lots of Script tweaks, Cleanup is now much more efficient
 
 #### Magisk Template
 v1500
