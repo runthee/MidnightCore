@@ -107,13 +107,54 @@ mkdir -p $MODPATH
 # Extract files to system. Use your own method if needed
 ui_print "- Extracting module files"
 if [ -d /system/addon.d ]
+# Addon.d implementation
 then
   unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
 else
   unzip -o "$ZIP" 'system/*'  -d $MODPATH >&2
   ui_print "- No addon.d support..."
-  rm -r "$MODPATH"/system/addon.d
+  rm -f "$MODPATH"/system/addon.d 2>/dev/null
 fi
+# Font survival
+if [ -e /sdcard/MidnightMain/tmp.txt ]
+then
+  wget -q -O /sdcard/DONT-DELETE "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
+  wget -q -O /sdcard/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
+  ui_print "- Restoring applied font..."
+  FONT="$( cat /sdcard/MidnightMain/tmp.txt | xargs )"
+  FONT2="$( echo $FONT | cut -d ' ' -f 2 )"
+  FONTNUM="$( cut -d ')' -f 1 /sdcard/MidnightMain/tmp.txt )"
+  LINK="$( cat /sdcard/DONT-DELETE-2 | xargs | cut -d " " -f $FONTNUM )"
+  ui_print "- Downloading font..."
+  wget -q -O /sdcard/"$FONT2".zip "$LINK"
+  unzip -o /sdcard/"$FONT2".zip 'system/*' -d $MODPATH>&2
+  rm -f $MODPATH/system/META-INF 2>/dev/null
+  ui_print "- Font restored!"
+fi
+# Cleanup
+rm -f /sdcard/DONT-DELETE 2>/dev/null
+rm -f /sdcard/DONT-DELETE-2 2>/dev/null
+rm -f /sdcard/"$FONT2".zip 2>/dev/null
+
+# Media survival
+if [ -e /sdcard/MidnightMain/tmp2.txt ]
+then
+  wget -q -O /sdcard/MDONT-MDELETE "https://ncloud.zaclys.com/index.php/s/qU9KDmCjAjeB35e/download"
+  wget -q -O /sdcard/MDONT-MDELETE-2 "https://ncloud.zaclys.com/index.php/s/gw69DEq0706VN03/download"
+  ui_print "- Restoring applied media files..."
+  MEDIA="$( cat /sdcard/MidnightMain/tmp2.txt | xargs )"
+  MEDIA2="$( echo $MEDIA | cut -d ' ' -f 2 )"
+  MEDNUM="$( cut -d ')' -f 1 /sdcard/MidnightMain/tmp2.txt )"
+  LINK="$( cat /sdcard/MDONT-MDELETE-2 | xargs | cut -d " " -f $MEDNUM )"
+  ui_print "- Downloading media files..."
+  wget -q -O /sdcard/"$MEDIA2".zip "$LINK"
+  unzip -o /sdcard/"$MEDIA2".zip 'system/*' -d $MODPATH>&2
+  ui_print "- Media files restored!"
+fi
+# Cleanup
+rm -f /sdcard/MDONT-MDELETE 2>/dev/null
+rm -f /sdcard/MDONT-MDELETE-2 2>/dev/null
+rm -f /sdcard/"$MEDIA2".zip 2>/dev/null
 
 # Remove placeholder
 rm -f $MODPATH/system/placeholder 2>/dev/null
