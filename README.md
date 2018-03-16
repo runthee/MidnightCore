@@ -33,6 +33,7 @@ v1.3.2
 ### v1.3.1 - 15.03.18
 * Added scripts to support font and media survival after Module update
 ### v1.3.2 - 16.03.18
+* Fixes for last update, removed addon.d scripts
 
 #### Magisk Template
 v1500
