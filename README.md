@@ -16,7 +16,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v1.3.2
+v1.3.3
 
 ## Changelog
 
@@ -34,6 +34,8 @@ v1.3.2
 * Added scripts to support font and media survival after Module update
 ### v1.3.2 - 16.03.18
 * Fixes for last update, removed addon.d scripts
+### v1.3.3 - 16.03.18
+* Support for xbin, fixing errors with some Samsung devices, fixed media files restore
 
 #### Magisk Template
 v1500

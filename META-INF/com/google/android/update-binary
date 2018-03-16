@@ -106,7 +106,15 @@ mkdir -p $MODPATH
 
 # Extract files to system. Use your own method if needed
 ui_print "- Extracting module files"
-unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
+if [ -d /system/xbin ]
+then
+  unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
+else
+  unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
+  mkdir $MODPATH/system/bin
+  mv -f $MODPATH/system/xbin/midnight $MODPATH/system/bin
+  rm -r $MODPATH/system/xbin
+fi
 
 # Font survival
 if [ -e /sdcard/MidnightMain/tmp.txt ]
@@ -141,7 +149,8 @@ then
   LINK="$( cat /sdcard/MDONT-MDELETE-2 | xargs | cut -d " " -f $MEDNUM )"
   ui_print "- Downloading media files..."
   wget -q -O /sdcard/"$MEDIA2".zip "$LINK"
-  unzip -o /sdcard/"$MEDIA2".zip 'system/*' -d $MODPATH>&2
+  mkdir $MODPATH/system/media
+  unzip -o /sdcard/"$MEDIA2".zip -d $MODPATH/system/media>&2
   ui_print "- Media files restored!"
 fi
 # Cleanup

@@ -85,7 +85,12 @@ set_permissions() {
 
   # The following is default permissions, DO NOT remove
   set_perm_recursive  $MODPATH  0  0  0755  0644
-	set_perm $MODPATH/system/bin/midnight  0  0  0777
+	if [ -d $MODPATH/system/xbin ]
+	then
+		set_perm $MODPATH/system/xbin/midnight  0  0  0777
+	else
+		set_perm $MODPATH/system/bin/midnight  0  0  0777
+	fi
 }
 
 ##########################################################################################
