@@ -1,5 +1,5 @@
 
-# MidnightCore: By OldMidnight
+# MidnightCore: By OldMidnight[UNITY]
 
 ## Description
 This module is an All-In-One package for the MidnightModule series. It currently Contains: 
@@ -16,7 +16,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v1.3.3
+v1.4.0
 
 ## Changelog
 
@@ -36,6 +36,8 @@ v1.3.3
 * Fixes for last update, removed addon.d scripts
 ### v1.3.3 - 16.03.18
 * Support for xbin, fixing errors with some Samsung devices, fixed media files restore
+### v1.4.0 - 16.03.18
+* Unity is here!
 
 #### Magisk Template
 v1500
