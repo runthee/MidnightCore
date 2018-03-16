@@ -106,15 +106,8 @@ mkdir -p $MODPATH
 
 # Extract files to system. Use your own method if needed
 ui_print "- Extracting module files"
-if [ -d /system/addon.d ]
-# Addon.d implementation
-then
-  unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
-else
-  unzip -o "$ZIP" 'system/*'  -d $MODPATH >&2
-  ui_print "- No addon.d support..."
-  rm -f "$MODPATH"/system/addon.d 2>/dev/null
-fi
+unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
+
 # Font survival
 if [ -e /sdcard/MidnightMain/tmp.txt ]
 then

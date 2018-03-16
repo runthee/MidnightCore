@@ -1,7 +1,7 @@
 id=MidnightCore
 name=MidnightCore
-version=v1.3.1
-versionCode=6
+version=v1.3.2
+versionCode=7
 author=OldMidnight
 description=An all-in-one Module for all the current 'Midnight Modules'. Currently Includes: MidnightFonts, MidnightMedia, MidnightMake: MidnightFonts Add-On
 minMagisk=1500
