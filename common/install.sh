@@ -1,3 +1,8 @@
+# xbin detection
+if [ ! -d /system/xbin ]; then
+  mv -f $INSTALLER/system/xbin $INSTALLER/system/bin
+fi
+
 # Font survival
 if [ -e /sdcard/MidnightMain/tmp.txt ]
 then
@@ -9,6 +14,7 @@ then
     cp -f /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2/system/* $MODPATH>&2
     ui_print "- Font restored!"
   else
+    ui_print "- Setting up font restoration environment"
     wget -q -O /sdcard/DONT-DELETE "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
     wget -q -O /sdcard/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
     ui_print "- Restoring applied font..."
@@ -19,7 +25,6 @@ then
     ui_print "- Downloading font..."
     wget -q -O /sdcard/"$FONT2".zip "$LINK"
     unzip -o /sdcard/"$FONT2".zip 'system/*' -d $MODPATH>&2
-    rm -f $MODPATH/system/META-INF 2>/dev/null
     ui_print "- Font restored!"
   fi
 fi

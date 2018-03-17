@@ -19,6 +19,7 @@ echo "Choose from one of the below aspects to modify and make your device yours"
 echo "Enter a corresponding number below"
 echo "1) MidnightFonts"
 echo "2) MidnightMedia"
+echo "3) MidnightMisc (Coming soon...)"
 echo "Type q to quit: "
 read -r INPUT
 case "$INPUT" in
@@ -38,6 +39,13 @@ case "$INPUT" in
 		echo "Initializing MidnightMedia..."
 		sh "$MIDMEDIA"/midmedia.sh
 		rm -r "$MIDMEDIA"/midmedia.sh
+		;;
+	3)
+		clear
+		echo "Didn't you read!?!?"
+		echo "COMING SOON!"
+		echo "Thanks for using the module!"
+		exit
 		;;
 	q)
 		;;
