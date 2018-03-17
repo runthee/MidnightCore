@@ -9,6 +9,8 @@ This module is an All-In-One package for the MidnightModule series. It currently
 * This package allows you to Systemless-ly switch Media files such as boot animations, System UI sounds, lock screen sounds etc. Just a quick Reboot and you're good to go! Choose from a range of devices to apply files from!
 ### MidnightMake: MidnightFonts Add-On
 * A simple add-on for MidnightFonts that allows you to create recovery flashable zips of the fonts available. This is for those who are switching ROM's or are leaving root behind or whatever reason!
+### MidnightMisc
+* This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
 
 After flashing, type 'midnight' in a terminal to begin.
 
@@ -16,7 +18,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v1.4.2
+v1.4.3
 
 ## Changelog
 
@@ -42,6 +44,8 @@ v1.4.2
 * Fixed font and media files restore after update
 ### v1.4.2 - 17.03.18
 * Script and unity code fixes
+### v1.4.3 - 17.03.18
+* Added MidnightMisc, fix for font restore during update
 
 #### Magisk Template
 v1500

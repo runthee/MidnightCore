@@ -2,13 +2,15 @@ alias wget="sbin/.core/busybox/wget"
 MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
+MIDMISC="$MIDMAIN/MidnightMisc"
 clear
 echo "Initializing..."
-if [ ! -d "$MIDMAIN" ] || [ ! -d "$MIDFONT" ] || [ ! -d "$MIDMEDIA" ]
+if [ ! -d "$MIDMAIN" ] || [ ! -d "$MIDFONT" ] || [ ! -d "$MIDMEDIA" ] || [ ! -d "$MIDMISC" ]
 then
 	mkdir "$MIDMAIN"
 	mkdir "$MIDFONT"
 	mkdir "$MIDMEDIA"
+	mkdir "$MIDMISC"
 fi
 clear
 echo ""
@@ -19,7 +21,7 @@ echo "Choose from one of the below aspects to modify and make your device yours"
 echo "Enter a corresponding number below"
 echo "1) MidnightFonts"
 echo "2) MidnightMedia"
-echo "3) MidnightMisc (Coming soon...)"
+echo "3) MidnightMisc (Beta)"
 echo "Type q to quit: "
 read -r INPUT
 case "$INPUT" in
@@ -41,11 +43,12 @@ case "$INPUT" in
 		rm -r "$MIDMEDIA"/midmedia.sh
 		;;
 	3)
-		clear
-		echo "Didn't you read!?!?"
-		echo "COMING SOON!"
-		echo "Thanks for using the module!"
-		exit
+		LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDMISC"/misc.sh "$LINK"
+		echo "Initializing MidnightMisc..."
+		sh "$MIDMISC"/misc.sh
+		rm -r "$MIDMISC"/misc.sh
 		;;
 	q)
 		;;

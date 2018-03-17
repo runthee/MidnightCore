@@ -8,10 +8,11 @@ if [ -e /sdcard/MidnightMain/tmp.txt ]
 then
   FONT="$( cat /sdcard/MidnightMain/tmp.txt | xargs )"
   FONT2="$( echo $FONT | cut -d ' ' -f 2 )"
-  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2 ]
+	ui_print "- $FONT2"
+  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/" $FONT2" ]
   then
     ui_print "- Restoring applied font..."
-    cp -f /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2/system/* $MODPATH>&2
+    cp -f /sdcard/MidnightMain/MidnightFonts/Backup/" $FONT2"/system/* $MODPATH>&2
     ui_print "- Font restored!"
   else
     ui_print "- Setting up font restoration environment"
