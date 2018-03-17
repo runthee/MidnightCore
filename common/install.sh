@@ -1,18 +1,27 @@
 # Font survival
 if [ -e /sdcard/MidnightMain/tmp.txt ]
 then
-  wget -q -O /sdcard/DONT-DELETE "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
-  wget -q -O /sdcard/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
-  ui_print "- Restoring applied font..."
   FONT="$( cat /sdcard/MidnightMain/tmp.txt | xargs )"
   FONT2="$( echo $FONT | cut -d ' ' -f 2 )"
-  FONTNUM="$( cut -d ')' -f 1 /sdcard/MidnightMain/tmp.txt )"
-  LINK="$( cat /sdcard/DONT-DELETE-2 | xargs | cut -d " " -f $FONTNUM )"
-  ui_print "- Downloading font..."
-  wget -q -O /sdcard/"$FONT2".zip "$LINK"
-  unzip -o /sdcard/"$FONT2".zip 'system/*' -d $MODPATH>&2
-  rm -f $MODPATH/system/META-INF 2>/dev/null
-  ui_print "- Font restored!"
+  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2 ]
+  then
+    ui_print "- Restoring applied font..."
+    cp -f /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2/system/* $MODPATH>&2
+    ui_print "- Font restored!"
+  else
+    wget -q -O /sdcard/DONT-DELETE "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
+    wget -q -O /sdcard/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
+    ui_print "- Restoring applied font..."
+    FONT="$( cat /sdcard/MidnightMain/tmp.txt | xargs )"
+    FONT2="$( echo $FONT | cut -d ' ' -f 2 )"
+    FONTNUM="$( cut -d ')' -f 1 /sdcard/MidnightMain/tmp.txt )"
+    LINK="$( cat /sdcard/DONT-DELETE-2 | xargs | cut -d " " -f $FONTNUM )"
+    ui_print "- Downloading font..."
+    wget -q -O /sdcard/"$FONT2".zip "$LINK"
+    unzip -o /sdcard/"$FONT2".zip 'system/*' -d $MODPATH>&2
+    rm -f $MODPATH/system/META-INF 2>/dev/null
+    ui_print "- Font restored!"
+  fi
 fi
 # Cleanup
 rm -f /sdcard/DONT-DELETE 2>/dev/null
