@@ -16,7 +16,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v1.4.0
+v1.4.1
 
 ## Changelog
 
@@ -38,6 +38,8 @@ v1.4.0
 * Support for xbin, fixing errors with some Samsung devices, fixed media files restore
 ### v1.4.0 - 16.03.18
 * Unity is here!
+### v1.4.1 - 17.03.18
+* Fixed font and media files restore after update
 
 #### Magisk Template
 v1500
