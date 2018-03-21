@@ -3,7 +3,10 @@ MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
+wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
+. /sdcard/SoftStone.sh
 clear
+res
 echo "Initializing..."
 if [ ! -d "$MIDMAIN" ] || [ ! -d "$MIDFONT" ] || [ ! -d "$MIDMEDIA" ] || [ ! -d "$MIDMISC" ]
 then
@@ -21,38 +24,53 @@ echo "Choose from one of the below aspects to modify and make your device yours"
 echo "Enter a corresponding number below"
 echo "1) MidnightFonts"
 echo "2) MidnightMedia"
-echo "3) MidnightMisc (Beta)"
+if  $ss1  ||  $ss2 
+then
+	echo "3) MidnightMisc (Beta)"
+else
+	echo "something is wrong..."
+fi
 echo "Type q to quit: "
 read -r INPUT
 case "$INPUT" in
 	1)
+		rm -r /sdcard/SoftStone.sh
 		LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
 		echo "Initializing MidnightFonts..."
 		echo "Make sure to reboot after applying a font!"
-		sh "$MIDFONT"/fonts.sh
+		. "$MIDFONT"/fonts.sh
 		rm -r "$MIDFONT"/fonts.sh
 		;;
 	2)
+		rm -r /sdcard/SoftStone.sh
 		LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
 		echo "Initializing MidnightMedia..."
-		sh "$MIDMEDIA"/midmedia.sh
+		. "$MIDMEDIA"/midmedia.sh
 		rm -r "$MIDMEDIA"/midmedia.sh
 		;;
 	3)
-		LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
-		echo "Retrieving necessary files..."
-		wget -q -O "$MIDMISC"/misc.sh "$LINK"
-		echo "Initializing MidnightMisc..."
-		sh "$MIDMISC"/misc.sh
-		rm -r "$MIDMISC"/misc.sh
+		if [ $ss1 ] || [ $ss2 ]
+		then
+			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDMISC"/misc.sh "$LINK"
+			echo "Initializing MidnightMisc..."
+			. "$MIDMISC"/misc.sh
+			rm -r "$MIDMISC"/misc.sh
+		else
+			missing
+			rm -r /sdcard/SoftStone.sh
+		fi
 		;;
 	q)
+		rm -r /sdcard/SoftStone.sh
 		;;
 	*)
+		rm -r /sdcard/SoftStone.sh
 		echo ""
 		echo "Invalid Input."
 		;;

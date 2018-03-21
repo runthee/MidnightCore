@@ -4,7 +4,7 @@
 ## Description
 This module is an All-In-One package for the MidnightModule series. It currently Contains: 
 ### MidnightFonts
-* This Package allows you to systemless-ly switch between fonts On-The-Go. Fonts are downloaded, applied and cleaned up at the same time, so no font zips are left lying around. Choose from over 30 Fonts!
+* This Package allows you to systemless-ly switch between fonts On-The-Go. Fonts are downloaded, applied and cleaned up at the same time, so no font zips are left lying around. Choose from over 40 Fonts!
 ### MidnightMedia
 * This package allows you to Systemless-ly switch Media files such as boot animations, System UI sounds, lock screen sounds etc. Just a quick Reboot and you're good to go! Choose from a range of devices to apply files from!
 ### MidnightMake: MidnightFonts Add-On
@@ -18,7 +18,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v1.4.4
+v1.5.0
 
 ## Changelog
 
@@ -48,6 +48,8 @@ v1.4.4
 * Added MidnightMisc, fix for font restore during update
 ### v1.4.4 - 18.03.18
 * Multiple fixes, restore from backup fully working, removed media backup, caused bootloops
+### v1.5.0 - 21.03.18
+* Script optimisations, what's up with MidnightMisc?
 
 #### Magisk Template
 v1500
