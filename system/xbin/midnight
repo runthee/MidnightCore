@@ -24,7 +24,7 @@ echo "Choose from one of the below aspects to modify and make your device yours"
 echo "Enter a corresponding number below"
 echo "1) MidnightFonts"
 echo "2) MidnightMedia"
-if  $ss1  ||  $ss2 
+if [ $ss1 ] || [ $ss2 ]
 then
 	echo "3) MidnightMisc (Beta)"
 else
