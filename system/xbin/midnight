@@ -32,12 +32,12 @@ echo "Choose from one of the below aspects to modify and make your device yours"
 echo "Enter a corresponding number below"
 echo "1) MidnightFonts"
 echo "2) MidnightMedia"
-if $ss1
-then
-	echo "3) MidnightMisc (Beta)"
-else
-	echo "something is wrong...ask the dog..."
-fi
+#if $ss1
+#then
+#	echo "3) MidnightMisc (Beta)"
+#else
+#	echo "something is wrong...ask the dog..."
+#fi
 echo "Type q to quit: "
 read -r INPUT
 case "$INPUT" in
@@ -60,27 +60,27 @@ case "$INPUT" in
 		sh "$MIDMEDIA"/midmedia.sh
 		rm -r "$MIDMEDIA"/midmedia.sh
 		;;
-	3)
-		if $ss1
-		then
-			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
-			echo "Retrieving necessary files..."
-			wget -q -O "$MIDMISC"/misc.sh "$LINK"
-			echo "Initializing MidnightMisc..."
-			sh "$MIDMISC"/misc.sh
-			rm -r "$MIDMISC"/misc.sh
-		else
-			clear
-			echo "..."
-			sleep 2s
-			clear
-			echo "not yet..."
-			sleep 1s
-			clear
-			exit
-			rm -r /sdcard/SoftStone.sh
-		fi
-		;;
+#	3)
+#		if $ss1
+#		then
+#			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+#			echo "Retrieving necessary files..."
+#			wget -q -O "$MIDMISC"/misc.sh "$LINK"
+#			echo "Initializing MidnightMisc..."
+#			sh "$MIDMISC"/misc.sh
+#			rm -r "$MIDMISC"/misc.sh
+#		else
+#			clear
+#			echo "..."
+#			sleep 2s
+#			clear
+#			echo "not yet..."
+#			sleep 1s
+#			clear
+#			exit
+#			rm -r /sdcard/SoftStone.sh
+#		fi
+#		;;
 	q)
 		rm -r /sdcard/SoftStone.sh
 		;;
