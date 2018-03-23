@@ -24,25 +24,7 @@ sleep 1s
 wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
 . ./sdcard/SoftStone.sh
 clear
-echo ""
-echo "********************************************************"
-echo "		MidnightCore: By OldMidnight"
-echo "********************************************************"
-echo "Choose from one of the below aspects to modify and make your device yours"
-echo "Enter a corresponding number below"
-echo "1) MidnightFonts"
-echo "2) MidnightMedia"
-if [ -e /sdcard/MidnightMain/tmp.txt ]
-then
-	if grep -q "$ss1" "$ts1"
-	then
-		echo "3) MidnightMisc (Beta)"
-	else
-		echo "something is wrong...ask the dog..."
-	fi
-else
-	echo "something is wrong...ask the dog..."
-fi
+main_start
 echo "Type q to quit: "
 read -r INPUT
 case "$INPUT" in

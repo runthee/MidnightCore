@@ -18,7 +18,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 
 ## Current Version
-v2.0.0
+v2.0.1
 
 ## Changelog
 
