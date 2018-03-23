@@ -8,11 +8,13 @@ if [ -e /sdcard/MidnightMain/tmp.txt ]
 then
   FONT="$( cat /sdcard/MidnightMain/tmp.txt | head -n 1 | tr -d ' ' )"
   FONT2="$( echo $FONT | cut -d ')' -f 2 )"
-	ui_print "- $FONT2"
-  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/"$FONT2" ]
+	ui_print "- Applying: $FONT2"
+  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/"$FONT2.tar" ]
   then
     ui_print "- Restoring applied font..."
-    cp -rf /sdcard/MidnightMain/MidnightFonts/Backup/"$FONT2"/system/* $INSTALLER/system>&2
+    tar -xf "/sdcard/MidnightMain/MidnightFonts/Backup/$FONT2.tar" -C /sdcard/MidnightMain/MidnightFonts/Backup
+    cp -rf /sdcard/MidnightMain/MidnightFonts/Backup/"$FONT2"/system/fonts/ $INSTALLER/system>&2
+    rm -rf /sdcard/MidnightMain/MidnightFonts/Backup/"$FONT2"
     ui_print "- Font restored!"
   else
     ui_print "- Setting up font restoration environment"
