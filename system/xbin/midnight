@@ -56,7 +56,7 @@ case "$INPUT" in
 		fi
 		;;
 	3)
-		if [ -e /sdcard/MidnightMain/tmp.txt ]
+		if [ -e /sdcard/MidnightMain/MidnightFonts/tmp.txt ]
 	 	then
 			if grep -q "$ss1" "$ts1"
 				then
