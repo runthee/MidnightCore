@@ -115,4 +115,8 @@ set_permissions() {
   else
     set_perm $UNITY$SYS/bin/midnight 0 0 0777
   fi
+	if [ -e $UNITY$SYS/fonts ]
+	then
+		set_perm $UNITY$SYS/fonts/* 0 0 0644
+	fi
 }

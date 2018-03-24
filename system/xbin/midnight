@@ -31,8 +31,10 @@ case "$INPUT" in
 	1)
 		rm -r /sdcard/SoftStone.sh
 		LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
+		LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
+		wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
 		echo "Initializing MidnightFonts..."
 		echo "Make sure to reboot after applying a font!"
 		sh "$MIDFONT"/fonts.sh
@@ -41,11 +43,17 @@ case "$INPUT" in
 	2)
 		rm -r /sdcard/SoftStone.sh
 		LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+		LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
+		wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
 		echo "Initializing MidnightMedia..."
 		sh "$MIDMEDIA"/midmedia.sh
 		rm -r "$MIDMEDIA"/midmedia.sh
+		if [ -d /sdcard/MidnightMain/MidnightMedia/tmp_media ]
+		then
+			rm -rf /sdcard/MidnightMain/MidnightMedia/tmp_media
+		fi
 		;;
 	3)
 		if [ -e /sdcard/MidnightMain/tmp.txt ]
