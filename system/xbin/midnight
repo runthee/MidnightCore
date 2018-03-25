@@ -20,52 +20,71 @@ if [ ! -d "$MIDMISC" ]
 then
 	mkdir "$MIDMISC"
 fi
-sleep 1s
+sleep 1
 wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
-. ./sdcard/SoftStone.sh
+. /sdcard/SoftStone.sh
 clear
-main_start
-echo "Type q to quit: "
-read -r INPUT
-case "$INPUT" in
-	1)
-		rm -r /sdcard/SoftStone.sh
-		LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
-		LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
-		echo "Retrieving necessary files..."
-		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
-		wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
-		echo "Initializing MidnightFonts..."
-		echo "Make sure to reboot after applying a font!"
-		sh "$MIDFONT"/fonts.sh
-		rm -r "$MIDFONT"/fonts.sh
-		;;
-	2)
-		rm -r /sdcard/SoftStone.sh
-		LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
-		LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
-		echo "Retrieving necessary files..."
-		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
-		wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
-		echo "Initializing MidnightMedia..."
-		sh "$MIDMEDIA"/midmedia.sh
-		rm -r "$MIDMEDIA"/midmedia.sh
-		if [ -d /sdcard/MidnightMain/MidnightMedia/tmp_media ]
-		then
-			rm -rf /sdcard/MidnightMain/MidnightMedia/tmp_media
-		fi
-		;;
-	3)
-		if [ -e /sdcard/MidnightMain/MidnightFonts/tmp.txt ]
-	 	then
-			if grep -q "$ss1" "$ts1"
-				then
-				LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
-				echo "Retrieving necessary files..."
-				wget -q -O "$MIDMISC"/misc.sh "$LINK"
-				echo "Initializing MidnightMisc..."
-				sh "$MIDMISC"/misc.sh
-				rm -r "$MIDMISC"/misc.sh
+midnight=0
+while [ midnight -le 0 ]
+do
+	main_start
+	echo "Type q to quit: "
+	read -r INPUT
+	case "$INPUT" in
+		1)
+			rm -f /sdcard/SoftStone.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDFONT"/fonts.sh "$LINK"
+			wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
+			echo "Initializing MidnightFonts..."
+			echo "Make sure to reboot after applying a font!"
+			sh "$MIDFONT"/fonts.sh
+			rm -f "$MIDFONT"/fonts.sh
+			midnight=$((midnight + 1))
+			;;
+		2)
+			rm -f /sdcard/SoftStone.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
+			wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
+			echo "Initializing MidnightMedia..."
+			sh "$MIDMEDIA"/midmedia.sh
+			rm -f "$MIDMEDIA"/midmedia.sh
+			if [ -e "$MIDMEDIA"/med_functions.sh ]
+			then
+				rm -f "$MIDMEDIA"/med_functions.sh
+			fi
+			if [ -d "$MIDMEDIA"/tmp_media ]
+			then
+				rm -rf "$MIDMEDIA"/tmp_media
+			fi
+			midnight=$((midnight + 1))
+			;;
+		3)
+			if [ -e "$MIDMEDIA"/tmp.txt ]
+		 	then
+				if grep -q "$ss1" "$ts1"
+					then
+					LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+					echo "Retrieving necessary files..."
+					wget -q -O "$MIDMISC"/misc.sh "$LINK"
+					echo "Initializing MidnightMisc..."
+					sh "$MIDMISC"/misc.sh
+					rm -f "$MIDMISC"/misc.sh
+					midnight=$((midnight + 1))
+				else
+					clear
+					echo "..."
+					sleep 2s
+					clear
+					echo "not yet..."
+					sleep 1s
+					clear
+				fi
 			else
 				clear
 				echo "..."
@@ -74,27 +93,16 @@ case "$INPUT" in
 				echo "not yet..."
 				sleep 1s
 				clear
-				rm -r /sdcard/SoftStone.sh
-				exit
 			fi
-		else
-			clear
-			echo "..."
-			sleep 2s
-			clear
-			echo "not yet..."
-			sleep 1s
-			clear
+			;;
+		q)
 			rm -r /sdcard/SoftStone.sh
-			exit
-		fi
-		;;
-	q)
-		rm -r /sdcard/SoftStone.sh
-		;;
-	*)
-		rm -r /sdcard/SoftStone.sh
-		echo ""
-		echo "Invalid Input."
-		;;
-esac
+			midnight=$((midnight + 1))
+			;;
+		*)
+			rm -r /sdcard/SoftStone.sh
+			echo ""
+			echo "Invalid Input."
+			;;
+	esac
+done

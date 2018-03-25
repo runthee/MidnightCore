@@ -9,17 +9,17 @@ then
   FONT="$( cat /sdcard/MidnightMain/MidnightFonts/tmp.txt | head -n 1 | tr -d ' ' )"
   FONT2="$( echo $FONT | cut -d ')' -f 2 )"
 	ui_print "- Applying: $FONT2"
-  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/"$FONT2.tar" ]
+  if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2.tar ]
   then
     ui_print "- Restoring applied font..."
-		cd /sdcard/MidnightMain/MidnightFonts/Backup
-    tar -xf "$FONT2.tar" sbin/.core/img/MidnightCore/system/fonts/
-		cd /
-		if [ ! -d sbin/.core/img/MidnightCore/system/fonts ]
-		then
-			mkdir "$INSTALLER"/system/fonts
-		fi
-		cp -rf /sdcard/MidnightMain/MidnightFonts/Backup/sbin/.core/img/MidnightCore/system/fonts "$INSTALLER"/system>&2
+    cd /sdcard/MidnightMain/MidnightFonts/Backup
+    tar -xf $FONT2.tar sbin/.core/img/MidnightCore/system/fonts/
+    cd /
+    if [ ! -d /sbin/.core/img/MidnightCore/system/fonts ]
+    then
+      mkdir $INSTALLER/system/fonts
+    fi
+    cp -rf /sdcard/MidnightMain/MidnightFonts/Backup/sbin/.core/img/MidnightCore/system/fonts "$INSTALLER"/system>&2
     rm -rf /sdcard/MidnightMain/MidnightFonts/Backup/sbin
     ui_print "- Font restored!"
   else
@@ -29,14 +29,14 @@ then
     FONTNUM="$( cat /sdcard/MidnightMain/MidnightFonts/tmp.txt | head -n 1 | cut -d ')' -f 1 )"
     LINK="$( cat /sdcard/DONT-DELETE-2 | xargs | cut -d " " -f $FONTNUM )"
     ui_print "- Downloading font..."
-    wget -q -O /sdcard/"$FONT2".zip "$LINK"
+    wget -q -O /sdcard/$FONT2.zip $LINK
     mkdir /sdcard/tmpfont
-    unzip -o /sdcard/"$FONT2".zip -d /sdcard/tmpfont>&2
+    unzip -o /sdcard/$FONT2.zip -d /sdcard/tmpfont>&2
     cp -rf /sdcard/tmpfont/system/* $INSTALLER/system>&2
     ui_print "- Font restored!"
   fi
 fi
 # Cleanup
 rm -f /sdcard/DONT-DELETE-2 2>/dev/null
-rm -f /sdcard/"$FONT2".zip 2>/dev/null
+rm -f /sdcard/$FONT2.zip 2>/dev/null
 rm -rf /sdcard/tmpfont 2>/dev/null
