@@ -3,6 +3,7 @@ MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
+clear
 echo "Initializing..."
 if [ ! -d "$MIDMAIN" ]
 then

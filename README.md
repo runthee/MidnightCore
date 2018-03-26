@@ -16,11 +16,14 @@ After flashing, type 'midnight' in a terminal to begin.
 
 #### Note:
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
+* For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.1.2
+v2.2.0
 
 ## Changelog
+### v2.2.0 - 26.03.18
+* Added beta stream, join by typing setbeta 1/0 for on or off, script tweaks
 ### v2.1.2 - 26.03.18
 * fixed audio dissapearance
 ### v2.1.1 - 25.03.18

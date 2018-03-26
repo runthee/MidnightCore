@@ -1,8 +1,18 @@
 # xbin detection
 if [ ! -d /system/xbin ]; then
   mv -f $INSTALLER/system/xbin $INSTALLER/system/bin
+  bin=bin
+else
+  bin=xbin
 fi
-
+# stable version backup for beta users
+if [ -f /sdcard/MidBack/midnight ]
+then
+  ui_print "- Beta tester detected!"
+  ui_print "- Setting backup files..."
+  rm -f /sdcard/MidBack/midnight
+	cp -f $INSTALLER/system/$bin/midnight /sdcard/MidBack
+fi
 # Font survival
 if [ -e /sdcard/MidnightMain/MidnightFonts/tmp.txt ]
 then

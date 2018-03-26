@@ -109,12 +109,14 @@ set_permissions() {
 
   # set_perm  <filename>                         <owner> <group> <permission> <contexts> (default: u:object_r:system_file:s0)
   # set_perm $UNITY$SYS/lib/libart.so 0 0 0644
-  if [ -d $UNITY$SYS/xbin ]
+  if [ -d /system/xbin ]
   then
-    set_perm $UNITY$SYS/xbin/midnight 0 0 0777
+    bin=xbin
   else
-    set_perm $UNITY$SYS/bin/midnight 0 0 0777
+    bin=bin
   fi
+  set_perm $UNITY$SYS/$bin/midnight 0 0 0777
+  set_perm $UNITY$SYS/$bin/setbeta 0 0 0777
 	if [ -e $UNITY$SYS/fonts ]
 	then
 		set_perm $UNITY$SYS/fonts/* 0 0 0644
