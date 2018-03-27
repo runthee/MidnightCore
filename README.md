@@ -70,5 +70,10 @@ v2.2.0
 #### Magisk Template
 v1500
 
+#### Links
+* [GitHub](https://github.com/Magisk-Modules-Repo/MidnightCore)
+* [Support](https://forum.xda-developers.com/apps/magisk/module-midnightcore-one-midnight-modules-t3762758)
+* [Donate](https://forum.xda-developers.com/donatetome.php?u=8918441)
+
 ## NOTICE
 * You should use latest Magisk Manager to install this module. If you meet any problem under installation from Magisk Manager, please try to install it from recovery.
