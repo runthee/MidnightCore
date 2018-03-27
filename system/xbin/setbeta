@@ -80,6 +80,7 @@ then
 			exit
 		else
 			echo "No update available."
+			rm -rf /sdcard/tmp_beta
 			exit
 		fi
 	else
@@ -104,5 +105,7 @@ then
 	echo "setbeta -s or setbeta --status - Shows you you're current Stream status, whether Beta or Stable."
 	echo " "
 	echo "setbeta -h or setbeta --help - Shows this dialogue."
+	echo " "
+	echo "setbeta -u or setbeta --update - Check for an update if you are on the beta stream"
 	echo " "
 fi

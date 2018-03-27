@@ -80,10 +80,10 @@ if $STABLE; then
   ui_print "- Remaining on stable stream..."
   # stable version backup for previous beta users
   if [ -f /sdcard/MidBack/midnight ]; then
-  ui_print "- Previous beta tester detected!"
+    ui_print "- Previous beta tester detected!"
     ui_print "- Setting backup files..."
     rm -f /sdcard/MidBack/midnight
-  	cp -f $INSTALLER/system/$bin/midnight /sdcard/MidBack
+    cp -f $INSTALLER/system/$bin/midnight /sdcard/MidBack
   fi
 else
   ui_print "- Backing up stable stream..."
@@ -96,7 +96,7 @@ else
   ui_print "- Switching to beta stream..."
   LINK="https://ncloud.zaclys.com/index.php/s/75I9STT9yhqGZyJ/download"
   wget -q -O $INSTALLER/custom/midnight "$LINK"
-  mv -f $INSTALLER/custom/midnight $INSTALLER/system
+  mv -f $INSTALLER/custom/midnight $INSTALLER/system/$bin
   echo "Done!"
 fi
 # Font survival
