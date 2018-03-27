@@ -42,6 +42,49 @@ then
 	fi
 	echo "Done!"
 	unmount_magisk_img
+elif [ "$1" == "-u" ] || [ "$1" == "--update" ]
+then
+	if grep -q 'beta' /sbin/.core/img/MidnightCore/system/$bin/midnight
+	then
+		BETA="true"
+	fi
+	if [ $BETA == "true" ]
+	then
+		VER="$( cat /sbin/.core/img/MidnightCore/system/$bin/midnight | tail -n 1 | cut -d '#' -f 2 )"
+		UPVER="$( cat /sdcard/tmp_beta/midnight | tail -n 1 | cut -d '#' -f 2 )"
+		echo $VER
+		echo "Checking for updates..."
+		if [ ! -d /sdcard/tmp_beta ]
+		then
+			mkdir /sdcard/tmp_beta
+		fi
+		if [ ! -d /sdcard/MidBack ]
+		then
+			mkdir /sdcard/MidBack
+		fi
+		LINK="https://ncloud.zaclys.com/index.php/s/75I9STT9yhqGZyJ/download"
+		wget -q -O /sdcard/tmp_beta/midnight "$LINK"
+		if [ $UPVER -gt $VER ]
+		then
+			echo "Update available!"
+			echo "Applying update..."
+			mount_magisk_img
+			rm -f /sbin/.core/img/MidnightCore/system/$bin/midnight
+			mv -f /sdcard/tmp_beta/midnight /sbin/.core/img/MidnightCore/system/$bin
+			chmod 777 /sbin/.core/img/MidnightCore/system/$bin/midnight
+			echo "Cleaning up..."
+			rm -rf /sdcard/tmp_beta
+			unmount_magisk_img
+			echo "Done!!"
+			echo "Reboot for changes to take effect!"
+			exit
+		else
+			echo "No update available."
+			exit
+		fi
+	else
+		echo "You are not on the beta stream. Stable updates are only available through the Magisk repo."
+	fi
 elif [ "$1" == "-s" ] || [ "$1" == "--status" ]
 then
 	if grep -q 'beta' /sbin/.core/img/MidnightCore/system/$bin/midnight

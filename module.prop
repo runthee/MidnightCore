@@ -1,7 +1,7 @@
 id=MidnightCore
 name=MidnightCore
-version=v2.2.0
-versionCode=25
+version=v2.3.0
+versionCode=26
 author=OldMidnight
 description=An all-in-one Module for all the current 'Midnight Modules'. Currently Includes: MidnightFonts, MidnightMedia, MidnightMake: MidnightFonts Add-On, MidnightMisc. Uses the Unity template.
 minMagisk=1500
