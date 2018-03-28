@@ -1,0 +1,88 @@
+alias wget="sbin/.core/busybox/wget"
+MIDMAIN="/sdcard/MidnightMain(Beta)"
+MIDFONT="$MIDMAIN/MidnightFonts"
+MIDMEDIA="$MIDMAIN/MidnightMedia"
+MIDMISC="$MIDMAIN/MidnightMisc"
+clear
+echo "Initializing..."
+if [ ! -d "$MIDMAIN" ]
+then
+	mkdir "$MIDMAIN"
+fi
+if [ ! -d "$MIDFONT" ]
+then
+	mkdir "$MIDFONT"
+fi
+if [ ! -d "$MIDMEDIA" ]
+then
+	mkdir "$MIDMEDIA"
+fi
+if [ ! -d "$MIDMISC" ]
+then
+	mkdir "$MIDMISC"
+fi
+sleep 1
+wget -q -O /sdcard/SoftStone_beta.sh "https://ncloud.zaclys.com/index.php/s/BuLAbc9fcY3YKq6/download"
+. /sdcard/SoftStone_beta.sh
+clear
+midnight=0
+while [ midnight -le 0 ]
+do
+	main_start
+	echo "Type q to quit: "
+	read -r INPUT
+	case "$INPUT" in
+		1)
+			rm -f /sdcard/SoftStone_beta.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/cpdyxjObFBRpUW3/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/SeiQIgeszRu493K/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDFONT"/fonts_beta.sh "$LINK"
+			wget -q -O "$MIDFONT"/font_functions_beta.sh "$LINK2"
+			echo "Initializing MidnightFonts..."
+			echo "Make sure to reboot after applying a font!"
+			sh "$MIDFONT"/fonts_beta.sh
+			rm -f "$MIDFONT"/fonts_beta.sh
+			midnight=$((midnight + 1))
+			;;
+		2)
+			rm -f /sdcard/SoftStone_beta.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/YKV7CO4OaPVIPpu/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/fsQVGPMf91DJCzo/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDMEDIA"/midmedia_beta.sh "$LINK"
+			wget -q -O "$MIDMEDIA"/med_functions_beta.sh "$LINK2"
+			echo "Initializing MidnightMedia..."
+			sh "$MIDMEDIA"/midmedia_beta.sh
+			rm -f "$MIDMEDIA"/midmedia_beta.sh
+			if [ -e "$MIDMEDIA"/med_functions_beta.sh ]
+			then
+				rm -f "$MIDMEDIA"/med_functions_beta.sh
+			fi
+			if [ -d "$MIDMEDIA"/tmp_media ]
+			then
+				rm -rf "$MIDMEDIA"/tmp_media
+			fi
+			midnight=$((midnight + 1))
+			;;
+		3)
+			LINK="https://ncloud.zaclys.com/index.php/s/HKMzlZxykanBvQE/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDMISC"/misc_beta.sh "$LINK"
+			echo "Initializing MidnightMisc..."
+			sh "$MIDMISC"/misc_beta.sh
+			rm -f "$MIDMISC"/misc_beta.sh
+			midnight=$((midnight + 1))
+			;;
+		q)
+			rm -r /sdcard/SoftStone_beta.sh
+			midnight=$((midnight + 1))
+			;;
+		*)
+			rm -r /sdcard/SoftStone_beta.sh
+			echo ""
+			echo "Invalid Input."
+			;;
+	esac
+done
+#1

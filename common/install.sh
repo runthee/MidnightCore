@@ -8,6 +8,13 @@ fi
 #Beta test Choice
 BETA=false
 STABLE=false
+
+# GET OLD/NEW FROM ZIP NAME
+case $(basename $ZIP) in
+  *beta*|*Beta*|*BETA*) BETA=true;;
+  *stable*|*STABLE*|*STABLE*) STABLE=true;;
+esac
+
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
 chmod 755 $INSTALLER/common/keycheck
 
@@ -94,8 +101,6 @@ else
   fi
   mv -f $INSTALLER/system/$bin/midnight /sdcard/MidBack
   ui_print "- Switching to beta stream..."
-  LINK="https://ncloud.zaclys.com/index.php/s/75I9STT9yhqGZyJ/download"
-  wget -q -O $INSTALLER/custom/midnight "$LINK"
   mv -f $INSTALLER/custom/midnight $INSTALLER/system/$bin
   echo "Done!"
 fi
