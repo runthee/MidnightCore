@@ -26,7 +26,7 @@ wget -q -O /sdcard/SoftStone_beta.sh "https://ncloud.zaclys.com/index.php/s/BuLA
 . /sdcard/SoftStone_beta.sh
 clear
 midnight=0
-while [ midnight -le 0 ]
+while [ $midnight -le 0 ]
 do
 	main_start
 	echo "Type q to quit: "
@@ -119,7 +119,7 @@ if [ -f $MIDMEDIA/midmedia_beta.sh ]
 then
 	rm -f $MIDMEDIA/midmedia_beta.sh
 fi
-if [ - f $MIDMEDIA/midmedia_beta_sam.sh ]
+if [ -f $MIDMEDIA/midmedia_beta_sam.sh ]
 then
 	rm -f $MIDMEDIA/midmedia_beta_sam.sh
 fi
@@ -131,4 +131,4 @@ if [ -f $MIDMEDIA/font_functions_beta.sh ]
 then
 	rm -f $MIDMEDIA/font_functions_beta.sh
 fi
-#6
+#7

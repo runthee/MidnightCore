@@ -19,9 +19,11 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.3.1
+v2.3.2
 
 ## Changelog
+### v2.3.2 - 29.03.18
+* Updated to Unity v1.4.1
 ### v2.3.1 - 29.03.18
 * Small tweaks and corrections
 ### v2.3.0 - 28.03.18
