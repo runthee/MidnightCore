@@ -1,5 +1,5 @@
 alias wget="/sbin/.core/busybox/wget"
-. /data/adb/magisk/util_functions.sh
+. /sbin/.core/mirror/bin/util_functions.sh
 if [ -d /system/xbin ]
 then
 	bin=xbin

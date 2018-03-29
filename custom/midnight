@@ -47,8 +47,22 @@ do
 			;;
 		2)
 			rm -f /sdcard/SoftStone_beta.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/YKV7CO4OaPVIPpu/download"
+			BOOTCHECK="$( ls /system/media )"
+			echo $BOOTCHECK > /sdcard/tmpt.txt
+			if grep -q qmg /sdcard/tmpt.txt
+			then
+				if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
+				then
+					echo "Samsung device detected!"
+					LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+				else
+					LINK="https://ncloud.zaclys.com/index.php/s/YKV7CO4OaPVIPpu/download"
+				fi
+			else
+				LINK="https://ncloud.zaclys.com/index.php/s/YKV7CO4OaPVIPpu/download"
+			fi	
 			LINK2="https://ncloud.zaclys.com/index.php/s/fsQVGPMf91DJCzo/download"
+			rm -f /sdcard/tmpt.txt
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDMEDIA"/midmedia_beta.sh "$LINK"
 			wget -q -O "$MIDMEDIA"/med_functions_beta.sh "$LINK2"
@@ -85,4 +99,36 @@ do
 			;;
 	esac
 done
-#1
+if [ -d $MIDFONT/tmp_fonts ]
+then
+	rm -r $MIDFONT/tmp_fonts
+fi
+if [ -d $MIDMEDIA/tmp_media ]
+then
+	rm -r $MIDMEDIA/tmp_media
+fi
+if [ -f $MIDFONT/fonts.sh ]
+then
+	rm -f $MIDFONT/fonts.sh
+fi
+if [ -d $MIDFONT/fonts ]
+then
+	rm -r $MIDFONT/fonts
+fi
+if [ -f $MIDMEDIA/midmedia_beta.sh ]
+then
+	rm -f $MIDMEDIA/midmedia_beta.sh
+fi
+if [ - f $MIDMEDIA/midmedia_beta_sam.sh ]
+then
+	rm -f $MIDMEDIA/midmedia_beta_sam.sh
+fi
+if [ -f $MIDMEDIA/med_functions_beta.sh ]
+then
+	rm -f $MIDMEDIA/med_functions_beta.sh
+fi
+if [ -f $MIDMEDIA/font_functions_beta.sh ]
+then
+	rm -f $MIDMEDIA/font_functions_beta.sh
+fi
+#6

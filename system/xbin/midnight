@@ -66,35 +66,13 @@ do
 			midnight=$((midnight + 1))
 			;;
 		3)
-			if [ -e "$MIDMEDIA"/tmp.txt ]
-		 	then
-				if grep -q "$ss1" "$ts1"
-					then
-					LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
-					echo "Retrieving necessary files..."
-					wget -q -O "$MIDMISC"/misc.sh "$LINK"
-					echo "Initializing MidnightMisc..."
-					sh "$MIDMISC"/misc.sh
-					rm -f "$MIDMISC"/misc.sh
-					midnight=$((midnight + 1))
-				else
-					clear
-					echo "..."
-					sleep 2s
-					clear
-					echo "not yet..."
-					sleep 1s
-					clear
-				fi
-			else
-				clear
-				echo "..."
-				sleep 2s
-				clear
-				echo "not yet..."
-				sleep 1s
-				clear
-			fi
+			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+			echo "Retrieving necessary files..."
+			wget -q -O "$MIDMISC"/misc.sh "$LINK"
+			echo "Initializing MidnightMisc..."
+			sh "$MIDMISC"/misc.sh
+			rm -f "$MIDMISC"/misc.sh
+			midnight=$((midnight + 1))
 			;;
 		q)
 			rm -r /sdcard/SoftStone.sh
@@ -107,3 +85,31 @@ do
 			;;
 	esac
 done
+if [ -d $MIDFONT/tmp_fonts ]
+then
+	rm -r $MIDFONT/tmp_fonts
+fi
+if [ -d $MIDMEDIA/tmp_media ]
+then
+	rm -r $MIDMEDIA/tmp_media
+fi
+if [ -f $MIDFONT/fonts.sh ]
+then
+	rm -f $MIDFONT/fonts.sh
+fi
+if [ -d $MIDFONT/fonts ]
+then
+	rm -r $MIDFONT/fonts
+fi
+if [ -f $MIDMEDIA/midmedia.sh ]
+then
+	rm -f $MIDMEDIA/midmedia.sh
+fi
+if [ -f $MIDMEDIA/med_functions.sh ]
+then
+	rm -f $MIDMEDIA/med_functions.sh
+fi
+if [ -f $MIDMEDIA/font_functions.sh ]
+then
+	rm -f $MIDMEDIA/font_functions.sh
+fi

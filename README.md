@@ -19,9 +19,11 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.3.0
+v2.3.1
 
 ## Changelog
+### v2.3.1 - 29.03.18
+* Small tweaks and corrections
 ### v2.3.0 - 28.03.18
 * Added volume options for total wipe and beta stream during install and uninstall, Made beta stream updates seamless, Type 'setbeta -h' for details!
 ### v2.2.0 - 26.03.18
