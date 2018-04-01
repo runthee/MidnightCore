@@ -3,6 +3,32 @@ MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
+id="$(id)"; id="${id#*=}"; id="${id%%\(*}"; id="${id%% *}"
+divider='======================================================' > /dev/null 2>&1
+#
+BL='\e[01;90m' > /dev/null 2>&1; # Black
+R='\e[01;91m' > /dev/null 2>&1; # Red
+G='\e[01;92m' > /dev/null 2>&1; # Green
+Y='\e[01;93m' > /dev/null 2>&1; # Yellow
+B='\e[01;94m' > /dev/null 2>&1; # Blue
+P='\e[01;95m' > /dev/null 2>&1; # Purple
+C='\e[01;96m' > /dev/null 2>&1; # Cyan
+W='\e[01;97m' > /dev/null 2>&1; # White
+N='\e[0m' > /dev/null 2>&1; # Null
+#
+# Root checking...
+if [ "$id" != "0" ] && [ "$id" != "root" ]
+then
+	clear
+	echo -e $Y"$divider"$N
+	echo ''
+	echo -e $R'Please type'$N $G'su '$N $R'first'$N
+	echo -e $R'then type'$N $G'cd'$N
+	echo -e $R'then type'$N $G'midnight'$N
+	echo ''
+	echo -e $Y"$divider"$N
+	exit 0
+fi
 clear
 echo "Initializing..."
 if [ ! -d "$MIDMAIN" ]
@@ -23,13 +49,13 @@ then
 fi
 sleep 1
 wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
-. /sdcard/SoftStone.sh
+. /sdcard/SoftStone_beta.sh
 clear
 midnight=0
-while [ midnight -le 0 ]
+while [ $midnight -le 0 ]
 do
 	main_start
-	echo "Type q to quit: "
+	echo -e -n $W'[CHOOSE] : '$N
 	read -r INPUT
 	case "$INPUT" in
 		1)
@@ -47,8 +73,22 @@ do
 			;;
 		2)
 			rm -f /sdcard/SoftStone.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+			BOOTCHECK="$( ls /system/media )"
+			echo $BOOTCHECK > /sdcard/tmpt.txt
+			if grep -q qmg /sdcard/tmpt.txt
+			then
+				if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
+				then
+					echo "Samsung device detected!"
+					LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+				else
+					LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+				fi
+			else
+				LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+			fi	
 			LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
+			rm -f /sdcard/tmpt.txt
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
 			wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
@@ -74,6 +114,20 @@ do
 			rm -f "$MIDMISC"/misc.sh
 			midnight=$((midnight + 1))
 			;;
+		4)
+			rm -f /sdcard/SoftStone.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/vd6usVZIBwuij2b/download"
+			echo "Retrieving necessary files..."
+			wget -q -O $MIDMAIN/dns.sh "$LINK"
+			echo "Initializing MidnightDNS..."
+			sh $MIDMAIN/dns.sh "$LINK"
+			rm -f $MIDMAIN/dns.sh "$LINK"
+			midnight=$((midnight + 1))
+			;;
+		r)
+			restore
+			midnight=$((midnight + 1))
+			;;
 		q)
 			rm -r /sdcard/SoftStone.sh
 			midnight=$((midnight + 1))
@@ -85,6 +139,7 @@ do
 			;;
 	esac
 done
+rm -r /sdcard/SoftStone.sh
 if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts

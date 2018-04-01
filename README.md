@@ -11,6 +11,8 @@ This module is an All-In-One package for the MidnightModule series. It currently
 * A simple add-on for MidnightFonts that allows you to create recovery flashable zips of the fonts available. This is for those who are switching ROM's or are leaving root behind or whatever reason!
 ### MidnightMisc
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
+### MidnightDNS
+* This package allows you to systemlessly change your DNS server for speed, security, protection or privacy benefits.
 
 After flashing, type 'midnight' in a terminal to begin.
 
@@ -19,9 +21,11 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.3.2
+v2.4.0
 
 ## Changelog
+### v2.4.0 - 1.04.18
+* Added MidnightDNS, other tweaks, colors!
 ### v2.3.2 - 29.03.18
 * Updated to Unity v1.4.1
 ### v2.3.1 - 29.03.18
