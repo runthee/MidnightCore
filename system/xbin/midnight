@@ -49,7 +49,7 @@ then
 fi
 sleep 1
 wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
-. /sdcard/SoftStone_beta.sh
+. /sdcard/SoftStone.sh
 clear
 midnight=0
 while [ $midnight -le 0 ]
