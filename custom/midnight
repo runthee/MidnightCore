@@ -126,7 +126,6 @@ do
 			;;
 	esac
 done
-rm -r /sdcard/SoftStone_beta.sh
 if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts
@@ -155,4 +154,4 @@ if [ -f $MIDMEDIA/font_functions_beta.sh ]
 then
 	rm -f $MIDMEDIA/font_functions_beta.sh
 fi
-#13
+#14

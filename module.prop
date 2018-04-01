@@ -1,7 +1,7 @@
 id=MidnightCore
 name=MidnightCore
-version=v2.4.0
-versionCode=29
+version=v2.4.1
+versionCode=30
 author=OldMidnight
 description=An all-in-one Module for all the current 'Midnight Modules'. Uses the Unity template.
 minMagisk=1500

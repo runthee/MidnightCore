@@ -139,7 +139,6 @@ do
 			;;
 	esac
 done
-rm -r /sdcard/SoftStone.sh
 if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts

@@ -21,9 +21,11 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.4.0
+v2.4.1
 
 ## Changelog
+### v2.4.1 - 1.04.18
+* Quick fix
 ### v2.4.0 - 1.04.18
 * Added MidnightDNS, other tweaks, colors!
 ### v2.3.2 - 29.03.18
