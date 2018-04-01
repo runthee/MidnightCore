@@ -121,4 +121,5 @@ set_permissions() {
 	then
 		set_perm $UNITY$SYS/fonts/* 0 0 0644
 	fi
+	set_perm $UNITY$SYS/etc/security/cacerts/5a060201.0 0 0 0644
 }
