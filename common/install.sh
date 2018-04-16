@@ -5,14 +5,18 @@ if [ ! -d /system/xbin ]; then
 else
   bin=xbin
 fi
-#Beta test Choice
-BETA=false
-STABLE=false
+
+if grep -q 'beta' $MODDIR/system/$bin/midnight
+then
+  mm='MidnightMain(Beta)'
+else
+  mm='MidnightMain'
+fi
 
 # GET OLD/NEW FROM ZIP NAME
 case $(basename $ZIP) in
   *beta*|*Beta*|*BETA*) BETA=true;;
-  *stable*|*STABLE*|*STABLE*) STABLE=true;;
+  *stable*|*STABLE*|*STABLE*) BETA=false;;
 esac
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
@@ -25,7 +29,7 @@ keytest() {
   return 0
 }
 
-chooseport() {
+choose() {
   #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
   while (true); do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
@@ -40,10 +44,10 @@ chooseport() {
   fi
 }
 
-chooseportold() {
+chooseold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
-  $INSTALLER/common/keycheck
-  $INSTALLER/common/keycheck
+  $KEYCHECK
+  $KEYCHECK
   SEL=$?
   if [ "$1" == "UP" ]; then
     UP=$SEL
@@ -58,12 +62,11 @@ chooseportold() {
     abort "   Use name change method in TWRP"
   fi
 }
-
-if ! $BETA && ! $STABLE; then
+if [ -z $BETA ]; then
   if keytest; then
-    FUNCTION=chooseport
+    FUNCTION=choose
   else
-    FUNCTION=chooseportold
+    FUNCTION=chooseold
     ui_print "   ! Legacy device detected! Using old keycheck method"
     ui_print " "
     ui_print "- Vol Key Programming -"
@@ -78,12 +81,14 @@ if ! $BETA && ! $STABLE; then
   ui_print "   Vol+ = Become beta tester, Vol- = Remain on stable."
   ui_print " "
   if $FUNCTION; then
-    BETA=true
+    BETA=false
   else
-    STABLE=true
+    BETA=true
   fi
+else
+  ui_print "- Option specified in Zipname!"
 fi
-if $STABLE; then
+if $BETA; then
   ui_print "- Remaining on stable stream..."
   # stable version backup for previous beta users
   if [ -f /sdcard/MidBack/midnight ]; then
@@ -105,29 +110,29 @@ else
   echo "Done!"
 fi
 # Font survival
-if [ -e /sdcard/MidnightMain/MidnightFonts/tmp.txt ]
+if [ -e /sdcard/$mm/MidnightFonts/tmp.txt ]
 then
-  FONT="$( cat /sdcard/MidnightMain/MidnightFonts/tmp.txt | head -n 1 | tr -d ' ' )"
+  FONT="$( cat /sdcard/$mm/MidnightFonts/tmp.txt | head -n 1 | tr -d ' ' )"
   FONT2="$( echo $FONT | cut -d ')' -f 2 )"
 	ui_print "- Applying: $FONT2"
   if [ -e /sdcard/MidnightMain/MidnightFonts/Backup/$FONT2.tar ]
   then
     ui_print "- Restoring applied font..."
-    cd /sdcard/MidnightMain/MidnightFonts/Backup
+    cd /sdcard/$mm/MidnightFonts/Backup
     tar -xf $FONT2.tar sbin/.core/img/MidnightCore/system/fonts/
     cd /
     if [ ! -d /sbin/.core/img/MidnightCore/system/fonts ]
     then
       mkdir $INSTALLER/system/fonts
     fi
-    cp -rf /sdcard/MidnightMain/MidnightFonts/Backup/sbin/.core/img/MidnightCore/system/fonts "$INSTALLER"/system>&2
-    rm -rf /sdcard/MidnightMain/MidnightFonts/Backup/sbin
+    cp -rf /sdcard/$mm/MidnightFonts/Backup/sbin/.core/img/MidnightCore/system/fonts "$INSTALLER"/system>&2
+    rm -rf /sdcard/$mm/MidnightFonts/Backup/sbin
     ui_print "- Font restored!"
   else
     ui_print "- Setting up font restoration environment"
     wget -q -O /sdcard/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
     ui_print "- Restoring applied font..."
-    FONTNUM="$( cat /sdcard/MidnightMain/MidnightFonts/tmp.txt | head -n 1 | cut -d ')' -f 1 )"
+    FONTNUM="$( cat /sdcard/$mm/MidnightFonts/tmp.txt | head -n 1 | cut -d ')' -f 1 )"
     LINK="$( cat /sdcard/DONT-DELETE-2 | xargs | cut -d " " -f $FONTNUM )"
     ui_print "- Downloading font..."
     wget -q -O /sdcard/$FONT2.zip $LINK

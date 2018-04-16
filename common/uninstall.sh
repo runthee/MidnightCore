@@ -1,5 +1,7 @@
-DELETE=false
-DONTDEL=false
+case $(basename $ZIP) in
+  *delete*|*Delete*|*DELETE*) DELETE=true;;
+esac
+
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
 chmod 755 $INSTALLER/common/keycheck
 
@@ -10,7 +12,7 @@ keytest() {
   return 0
 }
 
-chooseport() {
+choose() {
   #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
   while (true); do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
@@ -25,10 +27,10 @@ chooseport() {
   fi
 }
 
-chooseportold() {
+chooseold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
-  $INSTALLER/common/keycheck
-  $INSTALLER/common/keycheck
+  $KEYCHECK
+  $KEYCHECK
   SEL=$?
   if [ "$1" == "UP" ]; then
     UP=$SEL
@@ -44,11 +46,11 @@ chooseportold() {
   fi
 }
 
-if ! $DELETE && ! $DONTDEL; then
+if [ -z $DELETE]; then
   if keytest; then
-    FUNCTION=chooseport
+    FUNCTION=choose
   else
-    FUNCTION=chooseportold
+    FUNCTION=chooseold
     ui_print "   ! Legacy device detected! Using old keycheck method"
     ui_print " "
     ui_print "- Vol Key Programming -"
@@ -65,21 +67,21 @@ if ! $DELETE && ! $DONTDEL; then
   if $FUNCTION; then
     DELETE=true
   else
-    DONTDEL=true
+    DELETE=false
   fi
 fi
-if $DONTDEL; then
+if [ $DELETE == false ]; then
   ui_print "- No files removed."
 else
   ui_print "- Removing related files..."
   if [ -d /sdcard/MidnightMain ]; then
-    rm -r /sdcard/MidnightMain
+    rm -rf /sdcard/MidnightMain
   fi
   if [ -d /sdcard/'MidnightMain(Beta)' ]; then
-    rm -r /sdcard/'MidnightMain(Beta)'
+    rm -rf /sdcard/'MidnightMain(Beta)'
   fi
   if [ -d /sdcard/MidBack ]; then
-    rm -r /sdcard/MidBack
+    rm -rf /sdcard/MidBack
   fi
 fi
 	

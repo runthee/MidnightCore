@@ -1,6 +1,6 @@
 id=MidnightCore
 name=MidnightCore
-version=v2.4.2
+version=v2.5
 versionCode=32
 author=OldMidnight
 description=An all-in-one Module for all the current 'Midnight Modules'. Uses the Unity template.

@@ -30,6 +30,107 @@ then
 	exit 0
 fi
 clear
+if [ $# -eq 1 ]; then
+	if [ "$1" == '-f' ]; then
+		LINK="https://ncloud.zaclys.com/index.php/s/Fl1D7pEkj4dIHeL/download"
+		LINK2="https://ncloud.zaclys.com/index.php/s/LuiQ2UXwUllfjTU/download"
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
+		wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
+		echo "Initializing MidnightFonts..."
+		echo "Make sure to reboot after applying a font!"
+		sh "$MIDFONT"/fonts.sh
+		rm -f "$MIDFONT"/fonts.sh
+	elif [ "$1" == '-m' ]; then
+		BOOTCHECK="$( ls /system/media )"
+		echo $BOOTCHECK > /sdcard/tmpt.txt
+		if grep -q qmg /sdcard/tmpt.txt
+		then
+			if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
+			then
+				echo "Samsung device detected!"
+				LINK="https://ncloud.zaclys.com/index.php/s/0kvDCLDIacUJ7DG/download"
+			else
+				LINK="https://ncloud.zaclys.com/index.php/s/ZURXYTwrnvto5rd/download"
+			fi
+		else
+			LINK="https://ncloud.zaclys.com/index.php/s/ZURXYTwrnvto5rd/download"
+		fi	
+		LINK2="https://ncloud.zaclys.com/index.php/s/tIRttxcdYcwe2RO/download"
+		rm -f /sdcard/tmpt.txt
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
+		wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
+		echo "Initializing MidnightMedia..."
+		sh "$MIDMEDIA"/midmedia.sh
+		rm -f "$MIDMEDIA"/midmedia.sh
+		if [ -e "$MIDMEDIA"/med_functions.sh ]
+		then
+			rm -f "$MIDMEDIA"/med_functions.sh
+		fi
+		if [ -d "$MIDMEDIA"/tmp_media ]
+		then
+			rm -rf "$MIDMEDIA"/tmp_media
+		fi
+	elif [ "$1" == '-mm' ]; then
+		LINK="https://ncloud.zaclys.com/index.php/s/6vI4U0xw6qHvxek/download"
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDMISC"/misc.sh "$LINK"
+		echo "Initializing MidnightMisc..."
+		sh "$MIDMISC"/misc.sh
+		rm -f "$MIDMISC"/misc.sh
+	elif [ "$1" == '-dns' ]; then
+		LINK="https://ncloud.zaclys.com/index.php/s/vd6usVZIBwuij2b/download"
+		echo "Retrieving necessary files..."
+		wget -q -O $MIDMAIN/dns.sh "$LINK"
+		echo "Initializing MidnightDNS..."
+		sh $MIDMAIN/dns.sh "$LINK"
+		rm -f $MIDMAIN/dns.sh "$LINK"
+	elif [ "$1" == '-r' ]; then
+		res=0
+		while [ $res != 1 ]
+		do
+			echo "Select a package to restore to your system default"
+			echo -e $G"1) MidnightFonts"$N
+			echo -e $G"2) MidnightMedia"$N
+			echo -e $C"q) Quit"$N
+			echo -e -n $W'[CHOOSE] : '$N
+			read -r RESTORE
+			case $RESTORE in
+				1)
+					echo "Restoring defaults..."
+					mount_magisk_img
+					rm -r $magisk/MidnightCore/system/fonts
+					unmount_magisk_img
+					echo "Defaults restored!"
+					res=$((res + 1))
+					exit
+					;;
+				2)
+					echo "Restoring defaults..."
+					mount_magisk_img
+					rm -r $magisk/MidnightCore/system/media
+					unmount_magisk_img
+					echo "Defaults restored!"
+					res=$((res + 1))
+					exit
+					;;
+				q)
+					res=$((res + 1))
+					exit
+					;;
+				*)
+					echo "Invalid Input."
+					clear
+					;;
+			esac
+		done
+	fi
+	exit
+else
+	echo "Only one argument is accepted at this moment. Maybe in another update..."
+	exit
+fi
 echo "Initializing..."
 if [ ! -d "$MIDMAIN" ]
 then
@@ -60,8 +161,8 @@ do
 	case "$INPUT" in
 		1)
 			rm -f /sdcard/SoftStone.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
-			LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
+			LINK="https://ncloud.zaclys.com/index.php/s/Fl1D7pEkj4dIHeL/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/LuiQ2UXwUllfjTU/download"
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDFONT"/fonts.sh "$LINK"
 			wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
@@ -106,6 +207,7 @@ do
 			midnight=$((midnight + 1))
 			;;
 		3)
+			rm -f /sdcard/SoftStone.sh
 			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDMISC"/misc.sh "$LINK"
@@ -143,25 +245,9 @@ if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts
 fi
-if [ -d $MIDMEDIA/tmp_media ]
-then
-	rm -r $MIDMEDIA/tmp_media
-fi
-if [ -f $MIDFONT/fonts.sh ]
-then
-	rm -f $MIDFONT/fonts.sh
-fi
 if [ -d $MIDFONT/fonts ]
 then
 	rm -r $MIDFONT/fonts
-fi
-if [ -f $MIDMEDIA/midmedia.sh ]
-then
-	rm -f $MIDMEDIA/midmedia.sh
-fi
-if [ -f $MIDMEDIA/med_functions.sh ]
-then
-	rm -f $MIDMEDIA/med_functions.sh
 fi
 if [ -f $MIDMEDIA/font_functions.sh ]
 then

@@ -21,9 +21,13 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.4.2
+v2.5.0
 
 ## Changelog
+### v2.5.0 - xx.xx.xx
+* Added argument shortcuts for all packages and restoration of defaults
+* Reworked structure of the beta and stable streams completely
+* Misc fixes
 ###  v2.4.2 - 1.04.18
 * reworked MidnightDNS due to reports of errors
 ### v2.4.1 - 1.04.18
@@ -35,7 +39,8 @@ v2.4.2
 ### v2.3.1 - 29.03.18
 * Small tweaks and corrections
 ### v2.3.0 - 28.03.18
-* Added volume options for total wipe and beta stream during install and uninstall, Made beta stream updates seamless, Type 'setbeta -h' for details!
+* Added volume options for total wipe and beta stream during install and uninstall
+* Made beta stream updates seamless, Type 'setbeta -h' for details!
 ### v2.2.0 - 26.03.18
 * Added beta stream, join by typing setbeta 1/0 for on or off, script tweaks
 ### v2.1.2 - 26.03.18
@@ -45,7 +50,10 @@ v2.4.2
 ### v2.1.0 - 24.03.18
 * All Scripts rewritten, structure reworked, bootanimation previews added
 ### v2.0.0 - 23.03.18
-* Massive server side script reworks, fonts don't cause the system ui to crash anymore, fonts will only apply after reboot, Media sounds now work
+* Massive server side script reworks
+* Fonts don't cause the system ui to crash anymore
+* Fonts will only apply after reboot
+* Media sounds now work
 ### v1.5.3 - 22.03.18
 * FIXES!!
 ### v1.5.2 - 22.03.18

@@ -1,5 +1,5 @@
 alias wget="sbin/.core/busybox/wget"
-MIDMAIN="/sdcard/MidnightMain(Beta)"
+MIDMAIN=/sdcard/'MidnightMain(Beta)'
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
@@ -30,6 +30,107 @@ then
 	exit 0
 fi
 clear
+if [ $# -eq 1 ]; then
+	if [ "$1" == '-f' ]; then
+		LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
+		LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
+		wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
+		echo "Initializing MidnightFonts..."
+		echo "Make sure to reboot after applying a font!"
+		sh "$MIDFONT"/fonts.sh
+		rm -f "$MIDFONT"/fonts.sh
+	elif [ "$1" == '-m' ]; then
+		BOOTCHECK="$( ls /system/media )"
+		echo $BOOTCHECK > /sdcard/tmpt.txt
+		if grep -q qmg /sdcard/tmpt.txt
+		then
+			if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
+			then
+				echo "Samsung device detected!"
+				LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+			else
+				LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+			fi
+		else
+			LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+		fi	
+		LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
+		rm -f /sdcard/tmpt.txt
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
+		wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
+		echo "Initializing MidnightMedia..."
+		sh "$MIDMEDIA"/midmedia.sh
+		rm -f "$MIDMEDIA"/midmedia.sh
+		if [ -e "$MIDMEDIA"/med_functions.sh ]
+		then
+			rm -f "$MIDMEDIA"/med_functions.sh
+		fi
+		if [ -d "$MIDMEDIA"/tmp_media ]
+		then
+			rm -rf "$MIDMEDIA"/tmp_media
+		fi
+	elif [ "$1" == '-mm' ]; then
+		LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDMISC"/misc.sh "$LINK"
+		echo "Initializing MidnightMisc..."
+		sh "$MIDMISC"/misc.sh
+		rm -f "$MIDMISC"/misc.sh
+	elif [ "$1" == '-dns' ]; then
+		LINK="https://ncloud.zaclys.com/index.php/s/vd6usVZIBwuij2b/download"
+		echo "Retrieving necessary files..."
+		wget -q -O $MIDMAIN/dns.sh "$LINK"
+		echo "Initializing MidnightDNS..."
+		sh $MIDMAIN/dns.sh "$LINK"
+		rm -f $MIDMAIN/dns.sh "$LINK"
+	elif [ "$1" == '-r' ]; then
+		res=0
+		while [ $res != 1 ]
+		do
+			echo "Select a package to restore to your system default"
+			echo -e $G"1) MidnightFonts"$N
+			echo -e $G"2) MidnightMedia"$N
+			echo -e $C"q) Quit"$N
+			echo -e -n $W'[CHOOSE] : '$N
+			read -r RESTORE
+			case $RESTORE in
+				1)
+					echo "Restoring defaults..."
+					mount_magisk_img
+					rm -r $magisk/MidnightCore/system/fonts
+					unmount_magisk_img
+					echo "Defaults restored!"
+					res=$((res + 1))
+					exit
+					;;
+				2)
+					echo "Restoring defaults..."
+					mount_magisk_img
+					rm -r $magisk/MidnightCore/system/media
+					unmount_magisk_img
+					echo "Defaults restored!"
+					res=$((res + 1))
+					exit
+					;;
+				q)
+					res=$((res + 1))
+					exit
+					;;
+				*)
+					echo "Invalid Input."
+					clear
+					;;
+			esac
+		done
+	fi
+	exit
+else
+	echo "Only one argument is accepted at this moment. Maybe in another update..."
+	exit
+fi
 echo "Initializing..."
 if [ ! -d "$MIDMAIN" ]
 then
@@ -48,8 +149,8 @@ then
 	mkdir "$MIDMISC"
 fi
 sleep 1
-wget -q -O /sdcard/SoftStone_beta.sh "https://ncloud.zaclys.com/index.php/s/BuLAbc9fcY3YKq6/download"
-. /sdcard/SoftStone_beta.sh
+wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
+. /sdcard/SoftStone.sh
 clear
 midnight=0
 while [ $midnight -le 0 ]
@@ -59,32 +160,45 @@ do
 	read -r INPUT
 	case "$INPUT" in
 		1)
-			rm -f /sdcard/SoftStone_beta.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/cpdyxjObFBRpUW3/download"
-			LINK2="https://ncloud.zaclys.com/index.php/s/SeiQIgeszRu493K/download"
+			rm -f /sdcard/SoftStone.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
 			echo "Retrieving necessary files..."
-			wget -q -O "$MIDFONT"/fonts_beta.sh "$LINK"
-			wget -q -O "$MIDFONT"/font_functions_beta.sh "$LINK2"
+			wget -q -O "$MIDFONT"/fonts.sh "$LINK"
+			wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
 			echo "Initializing MidnightFonts..."
 			echo "Make sure to reboot after applying a font!"
-			sh "$MIDFONT"/fonts_beta.sh
-			rm -f "$MIDFONT"/fonts_beta.sh
+			sh "$MIDFONT"/fonts.sh
+			rm -f "$MIDFONT"/fonts.sh
 			midnight=$((midnight + 1))
 			;;
 		2)
-			rm -f /sdcard/SoftStone_beta.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/YKV7CO4OaPVIPpu/download"
-			LINK2="https://ncloud.zaclys.com/index.php/s/fsQVGPMf91DJCzo/download"
+			rm -f /sdcard/SoftStone.sh
+			BOOTCHECK="$( ls /system/media )"
+			echo $BOOTCHECK > /sdcard/tmpt.txt
+			if grep -q qmg /sdcard/tmpt.txt
+			then
+				if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
+				then
+					echo "Samsung device detected!"
+					LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+				else
+					LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+				fi
+			else
+				LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+			fi	
+			LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
 			rm -f /sdcard/tmpt.txt
 			echo "Retrieving necessary files..."
-			wget -q -O "$MIDMEDIA"/midmedia_beta.sh "$LINK"
-			wget -q -O "$MIDMEDIA"/med_functions_beta.sh "$LINK2"
+			wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
+			wget -q -O "$MIDMEDIA"/med_functions.sh "$LINK2"
 			echo "Initializing MidnightMedia..."
-			sh "$MIDMEDIA"/midmedia_beta.sh
-			rm -f "$MIDMEDIA"/midmedia_beta.sh
-			if [ -e "$MIDMEDIA"/med_functions_beta.sh ]
+			sh "$MIDMEDIA"/midmedia.sh
+			rm -f "$MIDMEDIA"/midmedia.sh
+			if [ -e "$MIDMEDIA"/med_functions.sh ]
 			then
-				rm -f "$MIDMEDIA"/med_functions_beta.sh
+				rm -f "$MIDMEDIA"/med_functions.sh
 			fi
 			if [ -d "$MIDMEDIA"/tmp_media ]
 			then
@@ -93,16 +207,17 @@ do
 			midnight=$((midnight + 1))
 			;;
 		3)
-			LINK="https://ncloud.zaclys.com/index.php/s/HKMzlZxykanBvQE/download"
+			rm -f /sdcard/SoftStone.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
 			echo "Retrieving necessary files..."
-			wget -q -O "$MIDMISC"/misc_beta.sh "$LINK"
+			wget -q -O "$MIDMISC"/misc.sh "$LINK"
 			echo "Initializing MidnightMisc..."
-			sh "$MIDMISC"/misc_beta.sh
-			rm -f "$MIDMISC"/misc_beta.sh
+			sh "$MIDMISC"/misc.sh
+			rm -f "$MIDMISC"/misc.sh
 			midnight=$((midnight + 1))
 			;;
 		4)
-			rm -f /sdcard/SoftStone_beta.sh
+			rm -f /sdcard/SoftStone.sh
 			LINK="https://ncloud.zaclys.com/index.php/s/vd6usVZIBwuij2b/download"
 			echo "Retrieving necessary files..."
 			wget -q -O $MIDMAIN/dns.sh "$LINK"
@@ -116,11 +231,11 @@ do
 			midnight=$((midnight + 1))
 			;;
 		q)
-			rm -r /sdcard/SoftStone_beta.sh
+			rm -r /sdcard/SoftStone.sh
 			midnight=$((midnight + 1))
 			;;
 		*)
-			rm -r /sdcard/SoftStone_beta.sh
+			rm -r /sdcard/SoftStone.sh
 			echo ""
 			echo "Invalid Input."
 			;;
@@ -130,28 +245,12 @@ if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts
 fi
-if [ -d $MIDMEDIA/tmp_media ]
-then
-	rm -r $MIDMEDIA/tmp_media
-fi
-if [ -f $MIDFONT/fonts.sh ]
-then
-	rm -f $MIDFONT/fonts.sh
-fi
 if [ -d $MIDFONT/fonts ]
 then
 	rm -r $MIDFONT/fonts
 fi
-if [ -f $MIDMEDIA/midmedia_beta.sh ]
+if [ -f $MIDMEDIA/font_functions.sh ]
 then
-	rm -f $MIDMEDIA/midmedia_beta.sh
+	rm -f $MIDMEDIA/font_functions.sh
 fi
-if [ -f $MIDMEDIA/med_functions_beta.sh ]
-then
-	rm -f $MIDMEDIA/med_functions_beta.sh
-fi
-if [ -f $MIDMEDIA/font_functions_beta.sh ]
-then
-	rm -f $MIDMEDIA/font_functions_beta.sh
-fi
-#14
+#15
