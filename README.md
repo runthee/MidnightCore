@@ -24,10 +24,13 @@ After flashing, type 'midnight' in a terminal to begin.
 v2.5.0
 
 ## Changelog
-### v2.5.0 - xx.xx.xx
+### v2.5.0 - 16.04.18
 * Added argument shortcuts for all packages and restoration of defaults
 * Reworked structure of the beta and stable streams completely
 * Misc fixes
+* Removed previews
+* Updated to Unity v1.5.1
+* See support thread for full changelog
 ###  v2.4.2 - 1.04.18
 * reworked MidnightDNS due to reports of errors
 ### v2.4.1 - 1.04.18
