@@ -155,7 +155,6 @@ if [ $# -eq 1 ]; then
 	exit
 else
 	echo "Only one argument is accepted at this moment. Maybe in another update..."
-	exit
 fi
 echo "Initializing..."
 if [ ! -d "$MIDMAIN" ]
