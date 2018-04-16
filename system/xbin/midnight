@@ -31,6 +31,24 @@ then
 fi
 clear
 if [ $# -eq 1 ]; then
+	echo "Initializing..."
+	if [ ! -d "$MIDMAIN" ]
+	then
+		mkdir "$MIDMAIN"
+	fi
+	if [ ! -d "$MIDFONT" ]
+	then
+		mkdir "$MIDFONT"
+	fi
+	if [ ! -d "$MIDMEDIA" ]
+	then
+		mkdir "$MIDMEDIA"
+	fi
+	if [ ! -d "$MIDMISC" ]
+	then
+		mkdir "$MIDMISC"
+	fi
+	sleep 1
 	if [ "$1" == '-f' ]; then
 		LINK="https://ncloud.zaclys.com/index.php/s/Fl1D7pEkj4dIHeL/download"
 		LINK2="https://ncloud.zaclys.com/index.php/s/LuiQ2UXwUllfjTU/download"
@@ -125,6 +143,14 @@ if [ $# -eq 1 ]; then
 					;;
 			esac
 		done
+	fi
+	if [ -d $MIDFONT/tmp_fonts ]
+	then
+		rm -r $MIDFONT/tmp_fonts
+	fi
+	if [ -f $MIDMEDIA/font_functions.sh ]
+	then
+		rm -f $MIDMEDIA/font_functions.sh
 	fi
 	exit
 else
@@ -244,10 +270,6 @@ done
 if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts
-fi
-if [ -d $MIDFONT/fonts ]
-then
-	rm -r $MIDFONT/fonts
 fi
 if [ -f $MIDMEDIA/font_functions.sh ]
 then

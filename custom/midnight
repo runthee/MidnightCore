@@ -144,6 +144,14 @@ if [ $# -eq 1 ]; then
 			esac
 		done
 	fi
+	if [ -d $MIDFONT/tmp_fonts ]
+	then
+		rm -r $MIDFONT/tmp_fonts
+	fi
+	if [ -f $MIDMEDIA/font_functions.sh ]
+	then
+		rm -f $MIDMEDIA/font_functions.sh
+	fi
 	exit
 else
 	echo "Only one argument is accepted at this moment. Maybe in another update..."
@@ -262,10 +270,6 @@ done
 if [ -d $MIDFONT/tmp_fonts ]
 then
 	rm -r $MIDFONT/tmp_fonts
-fi
-if [ -d $MIDFONT/fonts ]
-then
-	rm -r $MIDFONT/fonts
 fi
 if [ -f $MIDMEDIA/font_functions.sh ]
 then
