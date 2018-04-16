@@ -18,7 +18,7 @@ then
 	then
 		mkdir /sdcard/MidBack
 	fi
-	LINK="https://ncloud.zaclys.com/index.php/s/75I9STT9yhqGZyJ/download"
+	LINK="https://ncloud.zaclys.com/index.php/s/hgBOtbh3VKxxuAE/download"
 	wget -q -O /sdcard/tmp_beta/midnight "$LINK"
 	mv -f /sbin/.core/img/MidnightCore/system/$bin/midnight /sdcard/MidBack
 	mv -f /sdcard/tmp_beta/midnight /sbin/.core/img/MidnightCore/system/$bin
@@ -59,7 +59,7 @@ then
 			mkdir /sdcard/MidBack
 		fi
 		echo "Checking for updates..."
-		LINK="https://ncloud.zaclys.com/index.php/s/75I9STT9yhqGZyJ/download"
+		LINK="https://ncloud.zaclys.com/index.php/s/hgBOtbh3VKxxuAE/download"
 		wget -q -O /sdcard/tmp_beta/midnight "$LINK"
 		VER="$( cat /sbin/.core/img/MidnightCore/system/$bin/midnight | tail -n 1 | cut -d '#' -f 2 )"
 		UPVER="$( cat /sdcard/tmp_beta/midnight | tail -n 1 | cut -d '#' -f 2 )"

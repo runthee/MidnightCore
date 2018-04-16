@@ -149,7 +149,7 @@ then
 	mkdir "$MIDMISC"
 fi
 sleep 1
-wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/24qeur7JpkHVtrk/download"
+wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/GGiUh3wWFPFLZeT/download"
 . /sdcard/SoftStone.sh
 clear
 midnight=0
@@ -181,14 +181,14 @@ do
 				if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
 				then
 					echo "Samsung device detected!"
-					LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+					LINK="https://ncloud.zaclys.com/index.php/s/0kvDCLDIacUJ7DG/download"
 				else
-					LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+					LINK="https://ncloud.zaclys.com/index.php/s/ZURXYTwrnvto5rd/download"
 				fi
 			else
-				LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+				LINK="https://ncloud.zaclys.com/index.php/s/ZURXYTwrnvto5rd/download"
 			fi	
-			LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/tIRttxcdYcwe2RO/download"
 			rm -f /sdcard/tmpt.txt
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
@@ -196,7 +196,7 @@ do
 			echo "Initializing MidnightMedia..."
 			sh "$MIDMEDIA"/midmedia.sh
 			rm -f "$MIDMEDIA"/midmedia.sh
-			if [ -e "$MIDMEDIA"/med_functions.sh ]
+			if [ -f "$MIDMEDIA"/med_functions.sh ]
 			then
 				rm -f "$MIDMEDIA"/med_functions.sh
 			fi
@@ -208,7 +208,7 @@ do
 			;;
 		3)
 			rm -f /sdcard/SoftStone.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+			LINK="https://ncloud.zaclys.com/index.php/s/6vI4U0xw6qHvxek/download"
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDMISC"/misc.sh "$LINK"
 			echo "Initializing MidnightMisc..."

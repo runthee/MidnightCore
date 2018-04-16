@@ -31,9 +31,27 @@ then
 fi
 clear
 if [ $# -eq 1 ]; then
+	echo "Initializing..."
+	if [ ! -d "$MIDMAIN" ]
+	then
+		mkdir "$MIDMAIN"
+	fi
+	if [ ! -d "$MIDFONT" ]
+	then
+		mkdir "$MIDFONT"
+	fi
+	if [ ! -d "$MIDMEDIA" ]
+	then
+		mkdir "$MIDMEDIA"
+	fi
+	if [ ! -d "$MIDMISC" ]
+	then
+		mkdir "$MIDMISC"
+	fi
+	sleep 1
 	if [ "$1" == '-f' ]; then
-		LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
-		LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
+		LINK="https://ncloud.zaclys.com/index.php/s/Fl1D7pEkj4dIHeL/download"
+		LINK2="https://ncloud.zaclys.com/index.php/s/LuiQ2UXwUllfjTU/download"
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDFONT"/fonts.sh "$LINK"
 		wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
@@ -49,14 +67,14 @@ if [ $# -eq 1 ]; then
 			if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
 			then
 				echo "Samsung device detected!"
-				LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+				LINK="https://ncloud.zaclys.com/index.php/s/0kvDCLDIacUJ7DG/download"
 			else
-				LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+				LINK="https://ncloud.zaclys.com/index.php/s/MhMrKIyJerp8Z5e/download"
 			fi
 		else
-			LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+			LINK="https://ncloud.zaclys.com/index.php/s/MhMrKIyJerp8Z5e/download"
 		fi	
-		LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
+		LINK2="https://ncloud.zaclys.com/index.php/s/tIRttxcdYcwe2RO/download"
 		rm -f /sdcard/tmpt.txt
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
@@ -73,7 +91,7 @@ if [ $# -eq 1 ]; then
 			rm -rf "$MIDMEDIA"/tmp_media
 		fi
 	elif [ "$1" == '-mm' ]; then
-		LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
+		LINK="https://ncloud.zaclys.com/index.php/s/6vI4U0xw6qHvxek/download"
 		echo "Retrieving necessary files..."
 		wget -q -O "$MIDMISC"/misc.sh "$LINK"
 		echo "Initializing MidnightMisc..."
@@ -161,8 +179,8 @@ do
 	case "$INPUT" in
 		1)
 			rm -f /sdcard/SoftStone.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/i5Zh6z1p1hS6E30/download"
-			LINK2="https://ncloud.zaclys.com/index.php/s/rGSdzxbEbRHei7k/download"
+			LINK="https://ncloud.zaclys.com/index.php/s/Fl1D7pEkj4dIHeL/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/LuiQ2UXwUllfjTU/download"
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDFONT"/fonts.sh "$LINK"
 			wget -q -O "$MIDFONT"/font_functions.sh "$LINK2"
@@ -181,14 +199,14 @@ do
 				if grep -q 'ro.product.manufacturer=samsung' /system/build.prop
 				then
 					echo "Samsung device detected!"
-					LINK="https://ncloud.zaclys.com/index.php/s/E0AVvdblJZmDJZp/download"
+					LINK="https://ncloud.zaclys.com/index.php/s/0kvDCLDIacUJ7DG/download"
 				else
-					LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+					LINK="https://ncloud.zaclys.com/index.php/s/MhMrKIyJerp8Z5e/download"
 				fi
 			else
-				LINK="https://ncloud.zaclys.com/index.php/s/paRJMwmfXUBBcXo/download"
+				LINK="https://ncloud.zaclys.com/index.php/s/MhMrKIyJerp8Z5e/download"
 			fi	
-			LINK2="https://ncloud.zaclys.com/index.php/s/efCiKCg0YUOaSA8/download"
+			LINK2="https://ncloud.zaclys.com/index.php/s/tIRttxcdYcwe2RO/download"
 			rm -f /sdcard/tmpt.txt
 			echo "Retrieving necessary files..."
 			wget -q -O "$MIDMEDIA"/midmedia.sh "$LINK"
@@ -198,7 +216,7 @@ do
 			rm -f "$MIDMEDIA"/midmedia.sh
 			if [ -e "$MIDMEDIA"/med_functions.sh ]
 			then
-				rm -f "$MIDMEDIA"/med_functions.sh
+			rm -f "$MIDMEDIA"/med_functions.sh
 			fi
 			if [ -d "$MIDMEDIA"/tmp_media ]
 			then
@@ -208,12 +226,12 @@ do
 			;;
 		3)
 			rm -f /sdcard/SoftStone.sh
-			LINK="https://ncloud.zaclys.com/index.php/s/RxQTIxFjPwc7k2V/download"
-			echo "Retrieving necessary files..."
-			wget -q -O "$MIDMISC"/misc.sh "$LINK"
-			echo "Initializing MidnightMisc..."
-			sh "$MIDMISC"/misc.sh
-			rm -f "$MIDMISC"/misc.sh
+			LINK="https://ncloud.zaclys.com/index.php/s/6vI4U0xw6qHvxek/download"
+		echo "Retrieving necessary files..."
+		wget -q -O "$MIDMISC"/misc.sh "$LINK"
+		echo "Initializing MidnightMisc..."
+		sh "$MIDMISC"/misc.sh
+		rm -f "$MIDMISC"/misc.sh
 			midnight=$((midnight + 1))
 			;;
 		4)

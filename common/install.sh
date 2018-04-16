@@ -6,7 +6,7 @@ else
   bin=xbin
 fi
 
-if grep -q 'beta' $MODDIR/system/$bin/midnight
+if grep -q 'beta' $UNITY$SYS/$bin/midnight
 then
   mm='MidnightMain(Beta)'
 else

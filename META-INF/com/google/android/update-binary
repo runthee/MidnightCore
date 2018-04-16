@@ -240,17 +240,6 @@ unity_uninstall() {
   ui_print "- Completing uninstall -"
 }
 
-# CHECK FOR UPDATE
-check_update() {
-  if [ -f "$MOD_VER" ]; then
-    if [ $(grep_prop versionCode $MOD_VER) -lt $(grep_prop versionCode $INSTALLER/module.prop) ]; then
-      ui_print " "
-      ui_print "- Updating Module..."
-      update_status=$((update_status + 1))
-    fi
-  fi
-}
-
 ##########################################################################################
 # (UN)INSTALL
 ##########################################################################################
@@ -366,12 +355,20 @@ done
 unity_custom
 
 # DETERMINE MOD INSTALLATION STATUS
-unin_status=0
-update_status=0
-check_update
-unity_install
-if [ $unin_status -eq 1 ]; then
-  unity_uninstall
+if [ -f "$MOD_VER" ]; then
+  if [ $(grep_prop versionCode $MOD_VER) -ge $(grep_prop versionCode $INSTALLER/module.prop) ]; then
+    ui_print " "
+    ui_print "   ! Current or newer version detected!"
+    unity_uninstall
+  else
+    ui_print " "
+    ui_print "   ! Older version detected! Upgrading..."
+    unity_uninstall
+    unity_install
+  fi
+else
+  unity_install
 fi
+
 # COMPLETE (UN)INSTALL
 cleanup
