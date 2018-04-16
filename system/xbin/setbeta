@@ -44,7 +44,7 @@ then
 	unmount_magisk_img
 elif [ "$1" == "-u" ] || [ "$1" == "--update" ]
 then
-	if grep -q 'beta' /sbin/.core/img/MidnightCore/system/$bin/midnight
+	if grep -q 'betaStream1' /sbin/.core/img/MidnightCore/system/$bin/midnight
 	then
 		BETA="true"
 	fi
@@ -87,7 +87,7 @@ then
 	fi
 elif [ "$1" == "-s" ] || [ "$1" == "--status" ]
 then
-	if grep -q 'beta' /sbin/.core/img/MidnightCore/system/$bin/midnight
+	if grep -q 'betaStream1' /sbin/.core/img/MidnightCore/system/$bin/midnight
 	then
 		echo "You are currently on: Beta Stream."
 	else

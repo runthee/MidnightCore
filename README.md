@@ -21,7 +21,7 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.5.0
+v2.5.2
 
 ## Changelog
 ### v2.5.0 - 16.04.18

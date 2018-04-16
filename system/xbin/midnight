@@ -29,26 +29,25 @@ then
 	echo -e $Y"$divider"$N
 	exit 0
 fi
+echo "Initializing..."
+if [ ! -d "$MIDMAIN" ]
+then
+	mkdir "$MIDMAIN"
+fi
+if [ ! -d "$MIDFONT" ]
+then
+	mkdir "$MIDFONT"
+fi
+if [ ! -d "$MIDMEDIA" ]
+then
+	mkdir "$MIDMEDIA"
+fi
+if [ ! -d "$MIDMISC" ]
+then
+	mkdir "$MIDMISC"
+fi
 clear
 if [ $# -eq 1 ]; then
-	echo "Initializing..."
-	if [ ! -d "$MIDMAIN" ]
-	then
-		mkdir "$MIDMAIN"
-	fi
-	if [ ! -d "$MIDFONT" ]
-	then
-		mkdir "$MIDFONT"
-	fi
-	if [ ! -d "$MIDMEDIA" ]
-	then
-		mkdir "$MIDMEDIA"
-	fi
-	if [ ! -d "$MIDMISC" ]
-	then
-		mkdir "$MIDMISC"
-	fi
-	sleep 1
 	if [ "$1" == '-f' ]; then
 		LINK="https://ncloud.zaclys.com/index.php/s/Fl1D7pEkj4dIHeL/download"
 		LINK2="https://ncloud.zaclys.com/index.php/s/LuiQ2UXwUllfjTU/download"
@@ -156,24 +155,6 @@ if [ $# -eq 1 ]; then
 else
 	echo "Only one argument is accepted at this moment. Maybe in another update..."
 fi
-echo "Initializing..."
-if [ ! -d "$MIDMAIN" ]
-then
-	mkdir "$MIDMAIN"
-fi
-if [ ! -d "$MIDFONT" ]
-then
-	mkdir "$MIDFONT"
-fi
-if [ ! -d "$MIDMEDIA" ]
-then
-	mkdir "$MIDMEDIA"
-fi
-if [ ! -d "$MIDMISC" ]
-then
-	mkdir "$MIDMISC"
-fi
-sleep 1
 wget -q -O /sdcard/SoftStone.sh "https://ncloud.zaclys.com/index.php/s/GGiUh3wWFPFLZeT/download"
 . /sdcard/SoftStone.sh
 clear
