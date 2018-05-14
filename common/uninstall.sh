@@ -6,13 +6,13 @@ esac
 chmod 755 $INSTALLER/common/keycheck
 
 keytest() {
-  ui_print "- Vol Key Test -"
+  ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
   (/system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events) || return 1
   return 0
 }
 
-choose() {
+chooseport() {
   #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
   while (true); do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
@@ -27,7 +27,7 @@ choose() {
   fi
 }
 
-chooseold() {
+chooseportold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
   $KEYCHECK
   $KEYCHECK
@@ -46,11 +46,11 @@ chooseold() {
   fi
 }
 
-if [ -z $DELETE]; then
+if [ -z $DELETE ]; then
   if keytest; then
-    FUNCTION=choose
+    FUNCTION=chooseport
   else
-    FUNCTION=chooseold
+    FUNCTION=chooseportold
     ui_print "   ! Legacy device detected! Using old keycheck method"
     ui_print " "
     ui_print "- Vol Key Programming -"
@@ -65,13 +65,12 @@ if [ -z $DELETE]; then
   ui_print "   Vol+ = Remove all files, Vol- = Do not remove files."
   ui_print "   Removing files will delete all backups as well."
   if $FUNCTION; then
-    DELETE=false
-  else
     DELETE=true
+  else
+    KEEP=true
   fi
 fi
-if $DELETE
-then
+if $KEEP; then
   ui_print "- No files removed."
 else
   ui_print "- Removing related files..."

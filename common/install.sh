@@ -16,20 +16,20 @@ fi
 # GET OLD/NEW FROM ZIP NAME
 case $(basename $ZIP) in
   *beta*|*Beta*|*BETA*) BETA=true;;
-  *stable*|*STABLE*|*STABLE*) BETA=false;;
+  *stable*|*STABLE*|*STABLE*) STABLE=true;;
 esac
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
 chmod 755 $INSTALLER/common/keycheck
 
 keytest() {
-  ui_print "- Vol Key Test -"
+  ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
   (/system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events) || return 1
   return 0
 }
 
-choose() {
+chooseport() {
   #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
   while (true); do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
@@ -44,7 +44,7 @@ choose() {
   fi
 }
 
-chooseold() {
+chooseportold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
   $KEYCHECK
   $KEYCHECK
@@ -62,11 +62,12 @@ chooseold() {
     abort "   Use name change method in TWRP"
   fi
 }
+
 if [ -z $BETA ]; then
   if keytest; then
-    FUNCTION=choose
+    FUNCTION=chooseport
   else
-    FUNCTION=chooseold
+    FUNCTION=chooseportold
     ui_print "   ! Legacy device detected! Using old keycheck method"
     ui_print " "
     ui_print "- Vol Key Programming -"
@@ -81,14 +82,14 @@ if [ -z $BETA ]; then
   ui_print "   Vol+ = Become beta tester, Vol- = Remain on stable."
   ui_print " "
   if $FUNCTION; then
-    BETA=false
-  else
     BETA=true
+  else
+    STABLE=true
   fi
 else
   ui_print "- Option specified in Zipname!"
 fi
-if $BETA; then
+if $STABLE; then
   ui_print "- Remaining on stable stream..."
   # stable version backup for previous beta users
   if [ -f /sdcard/MidBack/midnight ]; then
