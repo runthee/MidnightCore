@@ -228,8 +228,8 @@ do
 			echo "Retrieving necessary files..."
 			wget -q -O $MIDMAIN/dns.sh "$LINK"
 			echo "Initializing MidnightDNS..."
-			sh $MIDMAIN/dns.sh "$LINK"
-			rm -f $MIDMAIN/dns.sh "$LINK"
+			sh $MIDMAIN/dns.sh
+			rm -f $MIDMAIN/dns.sh
 			midnight=$((midnight + 1))
 			;;
 		r)
