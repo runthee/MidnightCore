@@ -21,9 +21,12 @@ After flashing, type 'midnight' in a terminal to begin.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 ## Current Version
-v2.5.4
+v2.5.5
 
 ## Changelog
+### v2.5.5 - 22.06.18
+* Fix for install and uninstall volume key logic
+* Fixed MidnightDNS
 ### v2.5.4 - 14.05.18
 * Unity 1.5.4
 * Fixes for magisk v16.4, with backwards compatibility

@@ -65,9 +65,9 @@ if [ -z $DELETE ]; then
   ui_print "   Vol+ = Remove all files, Vol- = Do not remove files."
   ui_print "   Removing files will delete all backups as well."
   if $FUNCTION; then
-    KEEP=true
-  else
     DELETE=true
+  else
+    KEEP=true
   fi
 fi
 if $KEEP; then

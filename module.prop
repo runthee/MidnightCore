@@ -1,7 +1,7 @@
 id=MidnightCore
 name=MidnightCore
-version=v2.5.4.1
-versionCode=38
-author=OldMidnight
+version=v2.5.5
+versionCode=39
+author=Fareed Idris
 description=An all-in-one Module for all the current 'Midnight Modules'. Uses the Unity template. Systemless-ly change your font, bootanimation, system audio, DNS resolver and easily get Logs, Dumpsys and reduce lag with fstrim.
 minMagisk=1500

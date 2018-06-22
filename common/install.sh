@@ -82,9 +82,9 @@ if [ -z $BETA ]; then
   ui_print "   Vol+ = Become beta tester, Vol- = Remain on stable."
   ui_print " "
   if $FUNCTION; then
-    STABLE=true
-  else
     BETA=true
+  else
+    STABLE=true
   fi
 else
   ui_print "- Option specified in Zipname!"
