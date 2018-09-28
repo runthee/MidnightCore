@@ -1,0 +1,151 @@
+#!/system/bin/sh
+. /sbin/.core/mirror/bin/util_functions.sh
+divider='==================================================' > /dev/null 2>&1
+# COLORS
+#==================================
+BL='\e[01;90m' > /dev/null 2>&1; # Black
+R='\e[01;91m' > /dev/null 2>&1; # Red
+G='\e[01;92m' > /dev/null 2>&1; # Green
+Y='\e[01;93m' > /dev/null 2>&1; # Yellow
+B='\e[01;94m' > /dev/null 2>&1; # Blue
+P='\e[01;95m' > /dev/null 2>&1; # Purple
+C='\e[01;96m' > /dev/null 2>&1; # Cyan
+W='\e[01;97m' > /dev/null 2>&1; # White
+N='\e[0m' > /dev/null 2>&1; # Null
+#==================================
+# SYS STRUCTURE
+#==================================
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+#==================================
+# VARIABLES
+#==================================
+magisk=/sbin/.core/img
+MODDIR=$magisk/MidnightCore/system
+version="$( cat $magisk/MidnightCore/module.prop | grep version | cut -d '=' -f 2 )"
+updated="$( cat $magisk/MidnightCore/module.prop | grep updated | cut -d '=' -f 2 )"
+fonts_frontend=/system/$bin/midnight_fonts_frontend
+fonts_backend=/system/$bin/midnight_fonts_backend
+media_frontend=/system/$bin/midnight_media_frontend
+media_backend=/system/$bin/midnight_media_backend
+#==================================
+# FUNCTIONS
+#==================================
+main_start () {
+    running=true
+    while [ "$running" = true ]
+    do
+        echo ""
+        echo -e $G" "$N
+        echo -e $G"     ____________ __ ___  _  ____ ____ _   __ ______  "$N
+        echo -e $G"    / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/  "$N
+        echo -e $G"   / /  / /  / // // // /    / // (_ / __  /  /  /    "$N
+        echo -e $G"  /_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/     "$N
+        echo ""
+        echo -e $Y"$divider"$N
+        echo -e $G"                   C     O     R     E                "$N
+        echo -e $Y"$divider"$N
+        sleep 0.1
+        echo "    Version: $version | Updated: $updated"
+        echo -e $Y"$divider"$N
+        sleep 0.1
+        echo "[#] Choose from one of the below aspects to modify and make your device yours"
+        echo "[#] Enter a corresponding number below"
+        echo -e $G"[1] MidnightFonts      [2] MidnightMedia"$N
+        echo -e $C"[r] Restore Defaults"$N      $R"[q] Quit"$N
+        echo -e -n $W"[CHOOSE]: "$N
+        read -r INPUT
+        case "$INPUT" in
+            1)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTFONTS..."
+                echo "[+] MAKE SURE TO REBOOT AFTER APPLYING A FONT!!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                sh $fonts_frontend
+                $running=false
+                ;;
+            2)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTMEDIA..."
+                echo "[+] MAKE SURE TO REBOOT AFTER APPLYING A FILE!!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                sh $media_frontend
+                $running=false
+                ;;
+            r)
+                restore
+                $running=false
+                ;;
+            q)
+                $running=false
+                ;;
+            *)
+                echo "[+] Unrecognized Input."
+                ;;
+        esac
+    done
+}
+restore () {
+    res=true
+    while [ "$res" = true ]
+    do
+        echo "[#] Select a package to restore to your system default"
+        echo -e $G"[1] MidnightFonts      [2] MidnightMedia"$N
+        echo -e $R"               [q] Quit"$N
+        echo -e -n $W'[CHOOSE] : '$N
+        read -r RESTORE
+        case $RESTORE in
+            1)
+                echo "[+] Restoring defaults..."
+                rm -rf $magisk/MidnightCore/system/fonts
+                echo "[+] Defaults restored!"
+                res=false
+                clear
+                exit
+                ;;
+            2)
+                echo "[+] Restoring defaults..."
+                rm -rf $magisk/MidnightCore/system/media
+                echo "[+] Defaults restored!"
+                res=false
+                clear
+                exit
+                ;;
+            q)
+                res=false
+                clear
+                exit
+                ;;
+            *)
+                echo "[+] Unrecognised Input."
+                ;;
+        esac
+    done
+}
+show_error() {
+    echo -e $R"[#] Error Occured!!"$N
+    echo -e $R"[+] Message: $1"$N
+    echo -e $R"[+] Cause: $2"$N
+    echo -e $R"[+] Possible Solution(s): $3"$N
+    echo "[#] Terminating Session. Please contact OldMidnight/Fareed Idris for more help."
+    #cleanup function
+}
+
+cleanup() {
+    echo "[+] Cleaning Up..."
+    MidFont=/sdcard/MidnightMain/MidnightFonts
+    MidMedia=/sdcard/MidnightMain/MidnightMedia
+    rm -rf $MidMedia/tmp_media > /dev/null 2>&1
+    rm -rf $MidFont/tmp_fonts > /dev/null 2>&1
+    echo "[+] Done!"
+    echo "[+] T H A N K S ! ! !"
+    exit
+}
+#==================================

@@ -1,0 +1,82 @@
+#!/system/bin/sh
+#================================
+# MAGISK ALIAS'
+#================================
+alias wget="/sbin/.core/busybox/wget"
+#================================
+# VARIABLES
+#================================
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+. /system/$bin/mc_init
+. /system/$bin/midnight_fonts_backend
+MIDFONT="/sdcard/MidnightMain/MidnightFonts"
+STOREFONT="$MIDFONT/tmp_fonts"
+FONTBACKUP="$MIDFONT/Backup"
+if [ -f "$MIDFONT/currently_applied_font.txt" ]; then
+    CURRENT=$G"$( cat $MIDFONT/currently_applied_font.txt )"$N
+else
+    CURRENT=$R"Default"$N
+fi
+#================================
+# ENVIRONMENT SETUP
+#================================
+mkdir -p $STOREFONT > /dev/null 2>&1
+mkdir -p $FONTBACKUP > /dev/null 2>&1
+echo "[+] Setting Up Environment..."
+wget -q -O $STOREFONT/font-list "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
+if [ $? != 0 ]; then
+    show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
+fi
+echo "[+] Fonts list downloaded to: $STOREFONT !"
+wget -q -O $STOREFONT/font-link-list "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
+if [ $? != 0 ]; then
+    show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
+fi
+echo "[+] Links list downloaded to: $STOREFONT !"
+#================================
+#================================
+main=true
+. $fonts_backend
+while [ "$main" == true ]
+do
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $G""$N
+    echo -e $G"      _____ ____    _  ________________   "$N
+    echo -e $G"     / ___//    \  / \/ /__   __//  __/   "$N
+    echo -e $G"    / /__ / /__  \/    /  /  /  /__ \     "$N
+    echo -e $G"   / ___/ \   /  /    /  /  /   __/  /    "$N
+    echo -e $G"  /_/      \____/_/\_/  /__/   /____/     "$N
+    echo -e $Y"$divider"$N
+    echo -e $G"   A   M I D N I G H T   M O D U L E      "$N
+    echo -e $Y"$divider"$N
+    echo " Applied: $CURRENT"
+    echo -e $Y"$divider"$N
+    echo "[+] Choose From the selection of fonts offered below"
+    echo "[+] Enter a corresponding Number"
+    echo ""
+    cat $STOREFONT/DONT-DELETE
+    echo ""
+    echo "[q] Quit"
+    echo ""
+    echo -e -n $W"[CHOOSE]: "$N
+    read -r INPUT
+    case "$INPUT" in
+        "$INPUT")
+            if [ "$INPUT" == "q" ]; then
+                $main=false
+            else
+                LINK="$( cat $STOREFONT/DONT-DELETE-2 | xargs | tr -s ' ' | cut -d '' -f $INPUT )"
+                FONT="$( cat $STOREFONT/DONT-DELETE | xargs | cut -d '.' -f $INPUT )"
+                FONT2="$( echo $FONT | cut -d ']' -f 2 | tr -d ' ' )"
+                check_stored
+                font_steps
+            fi
+            ;;
+    esac
+done
+#cleanup function

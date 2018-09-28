@@ -1,0 +1,113 @@
+#!/system/bin/sh
+
+#===============================
+# MAGISK ALIAS'
+#===============================
+alias rev="/sbin/.core/busybox/rev"
+alias unzip="/sbin/.core/busybox/unzip"
+alias awk="/sbin/.core/busybox/awk"
+#===============================
+# FUNCTIONS
+#===============================
+get_font () {
+    echo "[+] Retrieving FOnt..."
+    if [ -f "$STOREFONT/$FONT2.zip" ]; then
+        chmod 777 $STOREFONT/$FONT2.zip
+        echo "[+] Working..."
+    else
+        show_error "Permissions not set on Font zip." "Zip Not downloaded." "Check your internet connection. Remove any active VPN(s)."
+    fi
+}
+
+zip_sort_no_store() {
+    clear
+    if [ -d "$STOREFONT/system" ]; then
+        echo "[+] Working..."
+        mkdir $MODDIR/fonts > /dev/null 2>&1
+        cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
+        chmod 644 $DIR/fonts/* > /dev/null 2>&1
+        rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        echo $FONT > $MIDFONT/currently_applied_font.txt
+        clear
+        echo -e $G"           [+] Font Applied!!             "$N
+        echo -e $Y"$divider"$N
+        echo -e $R" [+] Reboot for changes to take effect!!  "$N
+        echo -e $Y"$divider"$N
+        $main=false
+        #cleanup function    
+    fi
+}
+
+zip_sort_store() {
+    clear
+    if [ -d $STOREFONT/system ]; then
+        echo "[+] Working..."
+        echo "[+] Saving font to $FONTBACKUP..."
+        mkdir $MODDIR/fonts > /dev/null 2>&1
+        cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
+        chmod 644 $MODDIR/fonts/*
+        cd $FONTBACKUP > /dev/null 2>&1
+        tar -czf "$FONT2.tar.gz" -C $MODDIR/fonts .
+        if [ $? != 0 ]; then
+            show_error "Backup not created" "Unknown." "Report error on XDA thread."
+        fi
+        cd / > /dev/null 2>&1
+        rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        echo $FONT > $MIDFONT/currently_applied_font.txt
+        clear
+        echo -e $G"           [+] Font Applied and Saved!!        "$N
+        echo -e $Y"$divider"$N
+        echo -e $R"      [+] Reboot for changes to take effect!!  "$N
+        echo -e $Y"$divider"$N
+        $main=false
+    fi
+}
+
+other_steps() {
+    clear
+    wget -O $STOREFONT/$FONT2.zip "$LINK"
+    get_font
+    unzip $STOREFONT/$FONT2.zip -d "$STOREFONT"
+    if [ "$LOCALCHOICE" == "1" ]; then
+        zip_sort_store
+    else
+        zip_sort_no_store
+    fi
+}
+
+font_steps() {
+    echo ""
+    echo -e $B"[#] Save Font Offline?"$N
+    echo -e $G"[1] Save Font     [2] Don't Save Font"$N
+    echo -e -n $W"[CHOOSE]: "$N
+    read -r LOCALCHOICE
+    other_steps
+}
+
+check_stored() {
+    clear
+    echo "[+] Checking for saved version..."
+    if [ -f "$FONTBACKUP/$FONT2.tar" ]; then
+        echo "[+] Saved version detected!"
+        echo "[+] Applying Font..."
+        cd $FONTBACKUP
+        mkdir $MODDIR/fonts > /dev/null 2>&1
+        tar -xzf "$FONT2.tar.gz" -C $MODDIR/fonts
+        cd /
+        chmod 644 $MODDIR/fonts/*
+        rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        echo $FONT > $MIDFONT/currently_applied_font.txt
+        clear
+        echo -e $G"           [+] Font Applied!!             "$N
+        echo -e $Y"$divider"$N
+        echo -e $R" [+] Reboot for changes to take effect!!  "$N
+        echo -e $Y"$divider"$N
+        $main=false
+    else
+        echo "[#] Saved version not found!"
+        echo "[+] Resuming Process.."
+    fi
+}
