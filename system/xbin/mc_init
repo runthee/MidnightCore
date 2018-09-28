@@ -107,7 +107,6 @@ restore () {
                 rm -rf $magisk/MidnightCore/system/fonts
                 echo "[+] Defaults restored!"
                 res=false
-                clear
                 exit
                 ;;
             2)
@@ -115,7 +114,6 @@ restore () {
                 rm -rf $magisk/MidnightCore/system/media
                 echo "[+] Defaults restored!"
                 res=false
-                clear
                 exit
                 ;;
             q)
