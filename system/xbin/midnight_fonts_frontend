@@ -26,13 +26,13 @@ fi
 mkdir -p $STOREFONT > /dev/null 2>&1
 mkdir -p $FONTBACKUP > /dev/null 2>&1
 echo "[+] Setting Up Environment..."
-wget -q -O $STOREFONT/font-list "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
+wget --no-check-certificate -q -O $STOREFONT/font-list "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
 if [ $? != 0 ]; then
     show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
 	sleep 2
 fi
 echo "[+] Fonts list downloaded to: $STOREFONT !"
-wget -q -O $STOREFONT/font-link-list "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
+wget --no-check-certificate -q -O $STOREFONT/font-link-list "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
 if [ $? != 0 ]; then
     show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
 	sleep 2
@@ -47,16 +47,15 @@ while [ "$main" == true ]
 do
     clear
     echo -e $Y"$divider"$N
-    echo -e $G""$N
-    echo -e $G"           _____ ____    _  ________________   "$N
-    echo -e $G"          / ___//    \  / \/ /__   __//  __/   "$N
-    echo -e $G"         / /__ / /__  \/    /  /  /  /__ \     "$N
-    echo -e $G"        / ___/ \   /  /    /  /  /   __/  /    "$N
-    echo -e $G"       /_/      \____/_/\_/  /__/   /____/     "$N
+    echo -e $G"          _____ ____    _  ________________    "$N
+    echo -e $G"         / ___//    \  / \/ /__   __//  __/    "$N
+    echo -e $G"        / /__ / /__  \/    /  /  /  /__ \      "$N
+    echo -e $G"       / ___/ \   /  /    /  /  /   __/  /     "$N
+    echo -e $G"      /_/      \____/_/\_/  /__/   /____/      "$N
     echo -e $Y"$divider"$N
-    echo -e $G"        A   M I D N I G H T   M O D U L E      "$N
+    echo -e $G"       A   M I D N I G H T   M O D U L E       "$N
     echo -e $Y"$divider"$N
-    echo " Applied: $CURRENT"
+    echo "             Applied: $CURRENT      "
     echo -e $Y"$divider"$N
     echo "[+] Choose From the selection of fonts offered below"
     echo "[+] Enter a corresponding Number"
@@ -72,7 +71,7 @@ do
             if [ "$INPUT" == "q" ]; then
                 main=false
             else
-                LINK="$( cat $STOREFONT/font-link-list | xargs | tr -s ' ' | cut -d '' -f $INPUT )"
+                LINK="$( cat $STOREFONT/font-link-list | xargs | cut -d '?' -f $INPUT | tr -d ' ' )"
                 FONT="$( cat $STOREFONT/font-list | xargs | cut -d '.' -f $INPUT )"
                 FONT2="$( echo $FONT | cut -d ']' -f 2 | tr -d ' ' )"
                 check_stored
@@ -81,4 +80,3 @@ do
             ;;
     esac
 done
-#cleanup function

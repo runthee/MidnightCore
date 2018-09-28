@@ -10,7 +10,7 @@ alias awk="/sbin/.core/busybox/awk"
 # FUNCTIONS
 #===============================
 get_font () {
-    echo "[+] Retrieving FOnt..."
+    echo "[+] Retrieving Font..."
     if [ -f "$STOREFONT/$FONT2.zip" ]; then
         chmod 777 $STOREFONT/$FONT2.zip
         echo "[+] Working..."
@@ -34,8 +34,7 @@ zip_sort_no_store() {
         echo -e $Y"$divider"$N
         echo -e $R" [+] Reboot for changes to take effect!!  "$N
         echo -e $Y"$divider"$N
-        $main=false
-        #cleanup function    
+        main=false
     fi
 }
 
@@ -61,13 +60,13 @@ zip_sort_store() {
         echo -e $Y"$divider"$N
         echo -e $R"      [+] Reboot for changes to take effect!!  "$N
         echo -e $Y"$divider"$N
-        $main=false
+        main=false
     fi
 }
 
 other_steps() {
     clear
-    wget -O $STOREFONT/$FONT2.zip "$LINK"
+    wget --no-check-certificate -q -O $STOREFONT/$FONT2.zip "$LINK"
     get_font
     unzip $STOREFONT/$FONT2.zip -d "$STOREFONT"
     if [ "$LOCALCHOICE" == "1" ]; then
@@ -105,7 +104,7 @@ check_stored() {
         echo -e $Y"$divider"$N
         echo -e $R" [+] Reboot for changes to take effect!!  "$N
         echo -e $Y"$divider"$N
-        $main=false
+        main=false
     else
         echo "[#] Saved version not found!"
         echo "[+] Resuming Process.."
