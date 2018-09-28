@@ -33,7 +33,7 @@ main_download() {
     echo "[+] This makes it easier to apply in the future."
     echo "[+] It also allows you to keep it during module updates."
     echo "[+] 1) Backup  2) Don't Backup"
-	echo -e $W"[CHOOSE]:"$N
+    echo -e $W"[CHOOSE]:"$N
     read -r BACKUP
     case $BACKUP in
         1)
@@ -65,23 +65,23 @@ main_download() {
 audio_choice() {
     echo "[+] Select a device to get these files from:"
     cat $STOREMEDIA/audio-list
-	audio_list_len=$( cat $STOREMEDIA/audio-list | wc -l )
-	re='^[0-9]+$'
+    audio_list_len=$( cat $STOREMEDIA/audio-list | wc -l )
+    re='^[0-9]+$'
     echo ""
-	echo -e $W"[CHOOSE]:"$N
+    echo -e $W"[CHOOSE]:"$N
     read -r CHOICE
     case $CHOICE in
         $CHOICE)
-			if [ $CHOICE -gt $audio_list_len ]; then
-				echo "[!] Invalid Input!"
-			elif ! [[ $CHOICE =~ $re ]]; then
-				echo "[!] Invalid Input!"
-			else
-            	LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
-            	MEDIA="$( cat $STOREMEDIA/audio-list | xargs | cut -d '.' -f $CHOICE )"
-            	MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
-            	check_stored
-			fi
+            if [ $CHOICE -gt $audio_list_len ]; then
+                echo "[!] Invalid Input!"
+            elif ! [[ $CHOICE =~ $re ]]; then
+                echo "[!] Invalid Input!"
+            else
+                LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
+                MEDIA="$( cat $STOREMEDIA/audio-list | xargs | cut -d '.' -f $CHOICE )"
+                MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
+                check_stored
+            fi
             ;;
     esac
 }
@@ -89,23 +89,23 @@ audio_choice() {
 device_choice() {
     echo "[+] Select a device to get these files from:"
     cat $STOREMEDIA/media-list
-	device_list_len=$( cat $STOREMEDIA/media-list | wc -l )
-	re='^[0-9]+$'
+    device_list_len=$( cat $STOREMEDIA/media-list | wc -l )
+    re='^[0-9]+$'
     echo ""
-	echo -e $W"[CHOOSE]:"$N
+    echo -e $W"[CHOOSE]:"$N
     read -r CHOICE
     case $CHOICE in
         $CHOICE)
-			if [ $CHOICE -gt $device_list_len ]; then
-				echo "[!] Invalid Input!"
-			elif ! [[ $CHOICE =~ $re ]]; then
-				echo "[!] Invalid Input!"
-			else
-            	LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
-            	MEDIA="$( cat $STOREMEDIA/media-list | xargs | cut -d '.' -f $CHOICE )"
-            	MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
-            	check_stored
-			fi
+            if [ $CHOICE -gt $device_list_len ]; then
+                echo "[!] Invalid Input!"
+            elif ! [[ $CHOICE =~ $re ]]; then
+                echo "[!] Invalid Input!"
+            else
+                LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
+                MEDIA="$( cat $STOREMEDIA/media-list | xargs | cut -d '.' -f $CHOICE )"
+                MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
+                check_stored
+            fi
             ;;
     esac
 }
@@ -187,7 +187,7 @@ sort_zip() {
             echo "[+] This option only contains a bootanimation file."
             echo "[+] Would you like to continue anyways:"
             echo "[+] 1) Yes   2) No"
-			echo -e $W"[CHOOSE]:"$N
+            echo -e $W"[CHOOSE]:"$N
             read -r BOTH
             case $BOTH in
                 y)
@@ -204,7 +204,7 @@ sort_zip() {
             echo "[+] This option only contains an Audio folder."
             echo "[+] Would you like to continue anyways:"
             echo "[+] 1) Yes   2) No"
-			echo -e $W"[CHOOSE]:"$N
+            echo -e $W"[CHOOSE]:"$N
             read -r BOTH
             case $BOTH in
                 y)
