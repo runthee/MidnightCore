@@ -64,7 +64,7 @@ fi
 if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; then
     FONTTEXT="$( cat /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt | tr -d ' ' )"
     FONT="$( echo $FONTTEXT | cut -d ']' -f 2 )"
-    ui_print " [+] Currently Applied: $FONT"
+    ui_print " [+] Currently Applied Font: $FONT"
     ui_print " [+] Would you like to restore this font?"
     ui_print " [!] IF YOU DONT HAVE A BACKUP, YOU NEED AN INTERNET CONNECTION!"
     ui_print " [+] Vol+ = Yes, Vol- = No"
@@ -81,7 +81,7 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
         else
             ui_print " [+] No Font Backup Found."
             ui_print " [+] Setting Up Font Restoration Environment..."
-            ui_print " [+] Checking Internet Connection..."
+            ui_print " [+] Checking For Internet Connection..."
             if $BOOTMODE; then
                 wget -q -O /data/media/0/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
                 ui_print " [+] Links List downloaded..."
@@ -101,6 +101,34 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
                 ui_print " [!] TWRP Installation Detected!"
                 ui_print " [+] Skipping Font Restoration."
             fi
+        fi
+    else
+        ui_print " [+] Resuming Process..."
+    fi
+fi
+# MEDIA SURVIVAL
+if [ -f /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt ]; then
+    MEDIATEXT="$( cat /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt | tr -d ' ' )"
+    MEDIA="$( echo $MEDIATEXT | cut -d ']' -f 2 )"
+    ui_print " [+] Currently Applied Media: $MEDIA"
+    ui_print " [+] Would you like to restore this font?"
+    ui_print " [!] IF YOU DONT HAVE A BACKUP, YOU NEED AN INTERNET CONNECTION!"
+    ui_print " [+] Vol+ = Yes, Vol- = No"
+    if $FUNCTION; then
+        if [ -f /data/media/0/MidnightMain/MidnightMedia/Backup/$MEDIA.tar.gz ]; then
+            ui_print " [+] Media Backup Found!"
+            ui_print " [+] Restoring Backup..."
+            dir=pwd
+            mkdir $INSTALLER/system/media
+            cd /data/media/0/MidnightMain/MidnightMedia/Backup
+            tar -xzf "$MEDIA.tar.gz" -C $INSTALLER/system/media
+            cd $dir
+            ui_print " [+] Backup Restored!"
+        else
+            ui_print " [+] No Media Backup Found."
+            ui_print " [+] Media files can only be restored"
+            ui_print " [+] if a backup exists."
+            ui_print " [+] Skipping Media Restoration..."
         fi
     else
         ui_print " [+] Resuming Process..."

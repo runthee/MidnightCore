@@ -22,13 +22,33 @@ fi
 main_download() {
     clear
     echo "[+] Downloading Zip..."
-    wget -q -O $STOREMEDIA/$MEDIA2.zip "$LINK"
+    wget --no-check-certificate -q -O $STOREMEDIA/$MEDIA2.zip "$LINK"
     if [ $? != 0 ]; then
         show_error "Media List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
     fi
     echo "[+] Media Zip Downloaded!"
     unzip $STOREMEDIA/$MEDIA2.zip -d $STOREMEDIA > /dev/null 2>&1
     sort_zip
+    echo "[+] Would you like to backup this zip?"
+    echo "[+] This makes it easier to apply in the future."
+    echo "[+] It also allows you to keep it during module updates."
+    echo "[+] 1) Backup  2) Don't Backup"
+    read -r BACKUP
+    case $BACKUP in
+        1)
+            echo "[+] Backing Up file: $MEDIA to: $MEDIABACKUP"
+            dir=pwd
+            cd $MEDIABACKUP > /dev/null 2>&1
+            tar -czf "$MEDIA2.tar.gz" -C $MODDIR/media .
+            if [ $? != 0 ]; then
+                show_error "Backup not created" "Unknown" "Report error on XDA thread"
+            fi
+            cd $dir > /dev/null 2>&1
+            ;;
+        2)
+            echo "[+] Resuming Process..."
+            ;;
+    esac
     rm -f $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
     touch $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
     echo $MEDIA > $MIDMEDIA/currently_applied_media.txt
@@ -51,7 +71,7 @@ audio_choice() {
             LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
             MEDIA="$( cat $STOREMEDIA/audio-list | xargs | cut -d '.' -f $CHOICE )"
             MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
-            main_download
+            check_stored
             ;;
     esac
 }
@@ -66,9 +86,46 @@ device_choice() {
             LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
             MEDIA="$( cat $STOREMEDIA/media-list | xargs | cut -d '.' -f $CHOICE )"
             MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
-            main_download
+            check_stored
             ;;
     esac
+}
+
+check_stored() {
+    clear
+    echo "[+] Checking for saved version..."
+    if [ -f "$MEDIABACKUP/$MEDIA2.tar.gz" ]; then
+        echo "[+] Saved version detected!"
+        echo "[+] Applying Files..."
+        mkdir $MODDIR/media > /dev/null 2>&1
+        dir=pwd
+        cd $MEDIABACKUP
+        tar -xzf "$MEDIA22.tar.gz" -C $MODDIR/media
+        if [ $? != 0 ]; then
+            show_error "Backup not restored" "Unknown" "Report error on XDA thread"
+        fi
+        cd $dir
+        chmod 755 $MODDIR/audio > /dev/null 2>&1
+        chmod 755 $MODDIR/audio/* /dev/null 2>&1
+        chmod 777 $MODDIR/audio/ui/* > /dev/null 2>&1
+        chmod 777 $MODDIR/audio/notifications/* > /dev/null 2>&1
+        chmod 777 $MODDIR/audio/alarms/* > /dev/null 2>&1
+        chmod 777 $MODDIR/audio/ringtones/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/bootanimation.zip > /dev/null 2>&1
+        echo "[+] File Permissions Set!"
+        clear
+        echo -e $Y"$divider"$N
+        echo -e $G"            [+] Media Files Restored!!          "$N
+        echo -e $Y"$divider"$N
+        echo -e $G"       [+] Reboot for changes to take effect    "$N
+        echo -e $Y"$divider"$N
+        main=false
+    else
+        echo "[#] Saved version not found!"
+        echo "[+] Resuming Process"
+        sleep 2
+        main_download
+    fi
 }
 
 sort_zip() {
