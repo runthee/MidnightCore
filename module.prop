@@ -1,7 +1,7 @@
 id=MidnightCore
 name=MidnightCore: Twilight Edition
 version=v3.0.0
-versionCode=30
+versionCode=41
 author=Fareed Idris
 description=An all-in-one Module for all the current 'Midnight Modules'. Uses the Unity template. Systemless-ly change your font, bootanimation and system audio.
 minMagisk=1530
