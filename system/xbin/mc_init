@@ -40,18 +40,18 @@ main_start () {
     do
         echo ""
         echo -e $G" "$N
-        echo -e $G"          ____________ __ ___  _  ____ ____ _   __ ______  "$N
-        echo -e $G"         / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/  "$N
-        echo -e $G"        / /  / /  / // // // /    / // (_ / __  /  /  /    "$N
-        echo -e $G"       /_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/     "$N
+        echo -e $G"       ____________ __ ___  _  ____ ____ _   __ ______  "$N
+        echo -e $G"      / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/  "$N
+        echo -e $G"     / /  / /  / // // // /    / // (_ / __  /  /  /    "$N
+        echo -e $G"    /_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/     "$N
         echo ""
         echo -e $Y"$divider"$N
-        echo -e $G"                        C     O     R     E                "$N
+        echo -e $G"                     C     O     R     E                "$N
         echo -e $Y"$divider"$N
-        sleep 0.1
-        echo -e $W"               Version: $version | Updated: $updated       "$N
+        sleep 0.2
+        echo -e $W"            Version: $version - Updated: $updated       "$N
         echo -e $Y"$divider"$N
-        sleep 0.1
+        sleep 0.2
         echo "[#] Choose from one of the below aspects to modify and make your device yours"
         echo "[#] Enter a corresponding number below"
         echo -e $G"[1] MidnightFonts      [2] MidnightMedia"$N
