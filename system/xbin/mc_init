@@ -1,6 +1,6 @@
 #!/system/bin/sh
 . /sbin/.core/mirror/bin/util_functions.sh
-divider='==================================================' > /dev/null 2>&1
+divider='=========================================================' > /dev/null 2>&1
 # COLORS
 #==================================
 BL='\e[01;90m' > /dev/null 2>&1; # Black
@@ -40,16 +40,16 @@ main_start () {
     do
         echo ""
         echo -e $G" "$N
-        echo -e $G"     ____________ __ ___  _  ____ ____ _   __ ______  "$N
-        echo -e $G"    / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/  "$N
-        echo -e $G"   / /  / /  / // // // /    / // (_ / __  /  /  /    "$N
-        echo -e $G"  /_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/     "$N
+        echo -e $G"          ____________ __ ___  _  ____ ____ _   __ ______  "$N
+        echo -e $G"         / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/  "$N
+        echo -e $G"        / /  / /  / // // // /    / // (_ / __  /  /  /    "$N
+        echo -e $G"       /_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/     "$N
         echo ""
         echo -e $Y"$divider"$N
-        echo -e $G"                   C     O     R     E                "$N
+        echo -e $G"                        C     O     R     E                "$N
         echo -e $Y"$divider"$N
         sleep 0.1
-        echo "    Version: $version | Updated: $updated"
+        echo -e $W"               Version: $version | Updated: $updated       "$N
         echo -e $Y"$divider"$N
         sleep 0.1
         echo "[#] Choose from one of the below aspects to modify and make your device yours"
@@ -67,7 +67,7 @@ main_start () {
                 sleep 4
                 clear
                 sh $fonts_frontend
-                $running=false
+                running=false
                 ;;
             2)
                 echo -e $Y"$divider"$N
@@ -77,14 +77,14 @@ main_start () {
                 sleep 4
                 clear
                 sh $media_frontend
-                $running=false
+                running=false
                 ;;
             r)
                 restore
-                $running=false
+                running=false
                 ;;
             q)
-                $running=false
+                running=false
                 ;;
             *)
                 echo "[+] Unrecognized Input."
@@ -135,7 +135,7 @@ show_error() {
     echo -e $R"[+] Cause: $2"$N
     echo -e $R"[+] Possible Solution(s): $3"$N
     echo "[#] Terminating Session. Please contact OldMidnight/Fareed Idris for more help."
-    #cleanup function
+    cleanup
 }
 
 cleanup() {
