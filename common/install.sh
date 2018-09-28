@@ -18,11 +18,11 @@ keytest() {
 chooseport() {
     while (true); do
         /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
-        if ( `cat $INSTALLR/events 2>/dev/null | /system/bin/grep VOLUME >/dev/null` ); then
+        if (`cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUME >/dev/null`); then
             break
         fi
     done
-    if ( `cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUMEUP >/dev/null` ); then
+    if (`cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUMEUP >/dev/null`); then
         return 0
     else
         return 1
