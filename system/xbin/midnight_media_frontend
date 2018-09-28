@@ -63,6 +63,8 @@ while [ "$main" == true ]; do
     echo -e $C"[+] b) Bootanimation |    s) Sounds (UI, Ringtones, etc)"$N
     echo -e $G"[+] m) Both (Audio & Bootanimation)"$N
     echo -e $R"[+] q) Quit"$N
+	echo ""
+	echo -e $W"[CHOOSE]:"$N
     read -r INPUT
     case $INPUT in
         b)
