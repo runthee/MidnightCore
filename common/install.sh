@@ -69,6 +69,8 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
     ui_print " [!] IF YOU DONT HAVE A BACKUP, YOU NEED AN INTERNET CONNECTION!"
     ui_print " [+] Vol+ = Yes, Vol- = No"
     if $FUNCTION; then
+        ui_print " [+] Resuming Process..."
+    else
         if [ -f /data/media/0/MidnightMain/MidnightFonts/Backup/$FONT.tar.gz ]; then
             ui_print " [+] Font Backup Found!"
             ui_print " [+] Restoring Backup..."
@@ -102,7 +104,5 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
                 ui_print " [+] Skipping Font Restoration."
             fi
         fi
-    else
-        ui_print " [+] Resuming Process..."
     fi
 fi
