@@ -2,6 +2,8 @@
 #=================================
 # VARIABLES
 #=================================
+alias wget="/sbin/.core/busybox/wget"
+
 if [ -d /system/xbin ]; then
     bin=xbin
 else
@@ -23,19 +25,19 @@ fi
 mkdir -p $STOREMEDIA > /dev/null 2>&1
 mkdir -p $MEDIABACKUP > /dev/null 2>&1
 echo "[+] Setting Up Environment..."
-wget -q -O $STOREMEDIA/media-list "https://ncloud.zaclys.com/index.php/s/qU9KDmCjAjeB35e/download"
+wget --no-check-certificate -q -O $STOREMEDIA/media-list "https://ncloud.zaclys.com/index.php/s/qU9KDmCjAjeB35e/download"
 if [ $? != 0 ]; then
     show_error "Media List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
 fi
-wget -q -O $STOREMEDIA/audio-list "https://ncloud.zaclys.com/index.php/s/DI7zN6jk0f5MWRT/download"
+wget --no-check-certificate -q -O $STOREMEDIA/audio-list "https://ncloud.zaclys.com/index.php/s/DI7zN6jk0f5MWRT/download"
 if [ $? != 0 ]; then
     show_error "Audio List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
 fi
-wget -q -O $STOREMEDIA/media-link-list "https://ncloud.zaclys.com/index.php/s/gw69DEq0706VN03/download"
+wget --no-check-certificate -q -O $STOREMEDIA/media-link-list "https://ncloud.zaclys.com/index.php/s/gw69DEq0706VN03/download"
 if [ $? != 0 ]; then
     show_error "Media Link List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
 fi
-wget -q -O $STOREMEDIA/audio-link-list "https://ncloud.zaclys.com/index.php/s/8vufQf9Wsu7NYaH/download"
+wget --no-check-certificate -q -O $STOREMEDIA/audio-link-list "https://ncloud.zaclys.com/index.php/s/8vufQf9Wsu7NYaH/download"
 if [ $? != 0 ]; then
     show_error "Audio Link List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
 fi
