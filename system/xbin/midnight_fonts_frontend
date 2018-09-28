@@ -31,13 +31,11 @@ if [ $? != 0 ]; then
     show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
 	sleep 2
 fi
-echo "[+] Fonts list downloaded to: $STOREFONT !"
 wget --no-check-certificate -q -O $STOREFONT/font-link-list "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
 if [ $? != 0 ]; then
     show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
 	sleep 2
 fi
-echo "[+] Links list downloaded to: $STOREFONT !"
 sleep 2
 #================================
 #================================

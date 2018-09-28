@@ -1,0 +1,153 @@
+#!/system/bin/sh
+
+#============================
+# MAGISK ALIAS'
+#============================
+alias wget="/sbin/.core/busybox/wget"
+alias unzip="/sbin/.core/busybox/unzip"
+alias awk="/sbin/.core/busybox/awk"
+#============================
+# VARIABLES
+#============================
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+
+. /system/$bin/mc_init
+#============================
+# FUNCTIONS
+#============================
+main_download() {
+    clear
+    echo "[+] Downloading Zip..."
+    wget -q -O $STOREMEDIA/$MEDIA2.zip "$LINK"
+    if [ $? != 0 ]; then
+        show_error "Media List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
+    fi
+    echo "[+] Media Zip Downloaded!"
+    unzip $STOREMEDIA/$MEDIA2.zip -d $STOREMEDIA > /dev/null 2>&1
+    sort_zip
+    rm -f $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
+    touch $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
+    echo $MEDIA > $MIDMEDIA/currently_applied_media.txt
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $G"          [+] Media Files Applied!!         "$N
+    echo -e $Y"$divider"$N
+    echo -e $G"   [+] Reboot for changes to take effect    "$N
+    echo -e $Y"$divider"$N
+    main=false
+}
+
+audio_choice() {
+    echo "[+] Select a device to get these files from:"
+    cat $STOREMEDIA/audio-list
+    echo ""
+    read -r CHOICE
+    case $CHOICE in
+        $CHOICE)
+            LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
+            MEDIA="$( cat $STOREMEDIA/audio-list | xargs | cut -d '.' -f $CHOICE )"
+            MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
+            main_download
+            ;;
+    esac
+}
+
+device_choice() {
+    echo "[+] Select a device to get these files from:"
+    cat $STOREMEDIA/media-list
+    echo ""
+    read -r CHOICE
+    case $CHOICE in
+        $CHOICE)
+            LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
+            MEDIA="$( cat $STOREMEDIA/media-list | xargs | cut -d '.' -f $CHOICE )"
+            MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
+            main_download
+            ;;
+    esac
+}
+
+sort_zip() {
+    echo "[+] Sorting Zip..."
+    if [ "$INPUT" == "b" ]; then
+        mkdir $MODDIR/media > /dev/null 2>&1
+        mv -f $STOREMEDIA/bootanimation.zip $MODDIR/media
+        chmod 644 $MODDIR/media/bootanimation.zip
+        echo "[+] Bootanimation Sorted!"
+    elif [ "$INPUT" == "s" ]; then
+        mkdir $MODDIR/media > /dev/null 2>&1
+        mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+        touch $MODDIR/audio/.replace
+        echo "[+] Setting audio file permissions..."
+        chmod 755 $MODDIR/audio
+        chmod 755 $MODDIR/audio/*
+        chmod 777 $MODDIR/audio/ui/*
+        chmod 777 $MODDIR/audio/notifications/*
+        chmod 777 $MODDIR/audio/alarms/*
+        chmod 777 $MODDIR/audio/ringtones/*
+        echo "[+] Permissions Set!"
+    elif [ "$INPUT" == "m" ]; then
+        if [ -d $STOREMEDIA/audio ]; then
+            mkdir $MODDIR/media > /dev/null 2>&1
+            echo "[+] Sorting Audio and bootanimation files..."
+            mv -f $STOREMEDIA/bootanimation.zip $MODDIR/media > /dev/null 2>&1
+            chmod 644 $MODDIR/media/bootanimation.zip
+            echo "[+] Bootanimation sorted!"
+            mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+            touch $MODDIR/audio/.replace
+            echo "[+] Setting audio file permissions..."
+            chmod 755 $MODDIR/audio
+            chmod 755 $MODDIR/audio/*
+            chmod 777 $MODDIR/audio/ui/*
+            chmod 777 $MODDIR/audio/notifications/*
+            chmod 777 $MODDIR/audio/alarms/*
+            chmod 777 $MODDIR/audio/ringtones/*
+            echo "[+] Permissions Set!"
+        elif [ ! -d $STOREMEDIA/audio ]; then
+            echo "[+] This option only contains a bootanimation file."
+            echo "[+] Would you like to continue anyways:"
+            echo "[+] 1) Yes   2) No"
+            read -r BOTH
+            case $BOTH in
+                y)
+                    mkdir $MODDIR/media > /dev/null 2>&1
+                    mv -f $STOREMEDIA/bootanimation.zip $MODDIR/media > /dev/null 2>&1
+                    chmod 644 $MODDIR/media/bootanimation.zip
+                    echo "[+] Bootanimation sorted"
+                    ;;
+                n)
+                    echo "[+] Resuming Process..."
+                    ;;
+            esac
+        elif [ ! -f $STOREMEDIA/bootanimation.zip ]; then
+            echo "[+] This option only contains an Audio folder."
+            echo "[+] Would you like to continue anyways:"
+            echo "[+] 1) Yes   2) No"
+            read -r BOTH
+            case $BOTH in
+                y)
+                    mkdir $MODDIR/media > /dev/null 2>&1
+                    mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+                    touch $MODDIR/audio/.replace
+                    echo "[+] Setting audio file permissions..."
+                    chmod 755 $MODDIR/audio
+                    chmod 755 $MODDIR/audio/*
+                    chmod 777 $MODDIR/audio/ui/*
+                    chmod 777 $MODDIR/audio/notifications/*
+                    chmod 777 $MODDIR/audio/alarms/*
+                    chmod 777 $MODDIR/audio/ringtones/*
+                    echo "[+] Permissions Set!"
+                    ;;
+                n)
+                    echo "[+] Resuming Process..."
+                    ;;
+            esac
+        fi
+    fi
+}
+#============================
+#============================

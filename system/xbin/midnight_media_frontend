@@ -1,0 +1,83 @@
+#!/system/bin/sh
+#=================================
+# VARIABLES
+#=================================
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+
+. /system/$bin/mc_init
+MIDMEDIA="/sdcard/MidnightMain/MidnightMedia"
+STOREMEDIA="$MIDMEDIA/tmp_media"
+MEDIABACKUP="$MIDMEDIA/Backup"
+if [ -f $MIDMEDIA/currently_applied_media.txt ]; then
+    CURRENT=$G"$( cat $MIDMEDIA/currently_applied_media.txt )"$N
+else
+    CURRENT=$R"Default"$N
+fi
+#=================================
+# ENVIRONMENT SETUP
+#=================================
+mkdir -p $STOREMEDIA > /dev/null 2>&1
+mkdir -p $MEDIABACKUP > /dev/null 2>&1
+echo "[+] Setting Up Environment..."
+wget -q -O $STOREMEDIA/media-list "https://ncloud.zaclys.com/index.php/s/qU9KDmCjAjeB35e/download"
+if [ $? != 0 ]; then
+    show_error "Media List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
+fi
+wget -q -O $STOREMEDIA/audio-list "https://ncloud.zaclys.com/index.php/s/DI7zN6jk0f5MWRT/download"
+if [ $? != 0 ]; then
+    show_error "Audio List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
+fi
+wget -q -O $STOREMEDIA/media-link-list "https://ncloud.zaclys.com/index.php/s/gw69DEq0706VN03/download"
+if [ $? != 0 ]; then
+    show_error "Media Link List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
+fi
+wget -q -O $STOREMEDIA/audio-link-list "https://ncloud.zaclys.com/index.php/s/8vufQf9Wsu7NYaH/download"
+if [ $? != 0 ]; then
+    show_error "Audio Link List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
+fi
+sleep 2
+#=================================
+#=================================
+main=true
+. $media_backend
+while [ "$main" == true ]; do
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $G"      __________ ____ ____   __ ____     "$N
+    echo -e $G"     / __  __  // __// __ \ / // __ \    "$N
+    echo -e $G"    / / / / / // __// / / // // /_/ /    "$N
+    echo -e $G"   /_/ /_/ /_//____/_____//_//_/ /_/     "$N
+    echo -e $Y"$divider"$N
+    echo -e $G"   A   M I D N I G H T   M O D U L E     "$N
+    echo -e $Y"$divider"$N
+    echo "              Applied: Current            "
+    echo -e $Y"$divider"$N
+    echo "[+] Choose what type of media you would like to change."
+    echo "[+] To change both bootanimation and audio files, type 'm'"
+    echo ""
+    echo -e $C"[+] b) Bootanimation - s) Sounds (UI, Ringtones, etc)"$N
+    echo -e $G"[+] m) Both (Audio & Bootanimation)"$N
+    echo -e $R"[+] q) Quit"$N
+    read -r INPUT
+    case $INPUT in
+        b)
+            device_choice
+            ;;
+        s)
+            audio_choice
+            ;;
+        m)
+            device_choice
+            ;;
+        q)
+            main=false
+            ;;
+        *)
+            echo "Inavlid Input."
+            ;;
+    esac
+done

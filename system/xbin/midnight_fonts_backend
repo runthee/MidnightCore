@@ -6,6 +6,7 @@
 alias rev="/sbin/.core/busybox/rev"
 alias unzip="/sbin/.core/busybox/unzip"
 alias awk="/sbin/.core/busybox/awk"
+alias wget="/sbin/.core/busybox/wget"
 #===============================
 # FUNCTIONS
 #===============================
@@ -56,6 +57,7 @@ zip_sort_store() {
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
         clear
+		echo -e $Y"$divider"$N
         echo -e $G"           [+] Font Applied and Saved!!        "$N
         echo -e $Y"$divider"$N
         echo -e $R"      [+] Reboot for changes to take effect!!  "$N
