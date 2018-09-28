@@ -73,8 +73,8 @@ print_modname() {
   ui_print "    ***************************************************"
   ui_print "              T W I L I G H T   E D I T I O N          "
   ui_print "    ***************************************************"
-  ui_print "    *<version>*"
-  ui_print "    *<author>*"
+  ui_print "    *                   <version>                     *"
+  ui_print "    *                   <author>                      *"
   ui_print "    ***************************************************"
   ui_print " "
 }

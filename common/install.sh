@@ -11,13 +11,13 @@ chmod 755 $INSTALLER/common/keycheck
 keytest() {
     ui_print " [#] Vol key Test-"
     ui_print " [+] Press Vol Up:"
-    (/system/bin/getevent -lc 1 2>$1 | /system/bin/grep VOLUME | /system/bin/grep "DOWN" > $INSTALLER/events) || return 1
+    (/system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events) || return 1
     return 0
 }
 
 chooseport() {
     while (true); do
-        /system/bin/getevent -lc 1 2>$1 | /system/bin/grep VOLUME | /system/bin/grep "DOWN" > $INSTALLER/events
+        /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
         if ( `cat $INSTALLR/events 2>/dev/null | /system/bin/grep VOLUME >/dev/null` ); then
             break
         fi
