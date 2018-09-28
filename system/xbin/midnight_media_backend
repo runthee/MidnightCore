@@ -7,16 +7,6 @@ alias wget="/sbin/.core/busybox/wget"
 alias unzip="/sbin/.core/busybox/unzip"
 alias tar="/sbin/.core/busybox/tar"
 #============================
-# VARIABLES
-#============================
-if [ -d /system/xbin ]; then
-    bin=xbin
-else
-    bin=bin
-fi
-
-. /system/$bin/mc_init
-#============================
 # FUNCTIONS
 #============================
 main_download() {
