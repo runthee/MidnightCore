@@ -38,6 +38,7 @@ if [ $? != 0 ]; then
 	sleep 2
 fi
 echo "[+] Links list downloaded to: $STOREFONT !"
+sleep 2
 #================================
 #================================
 main=true
@@ -60,7 +61,7 @@ do
     echo "[+] Choose From the selection of fonts offered below"
     echo "[+] Enter a corresponding Number"
     echo ""
-    cat $STOREFONT/DONT-DELETE
+    cat $STOREFONT/font-list
     echo ""
     echo "[q] Quit"
     echo ""
@@ -71,8 +72,8 @@ do
             if [ "$INPUT" == "q" ]; then
                 main=false
             else
-                LINK="$( cat $STOREFONT/DONT-DELETE-2 | xargs | tr -s ' ' | cut -d '' -f $INPUT )"
-                FONT="$( cat $STOREFONT/DONT-DELETE | xargs | cut -d '.' -f $INPUT )"
+                LINK="$( cat $STOREFONT/font-link-list | xargs | tr -s ' ' | cut -d '' -f $INPUT )"
+                FONT="$( cat $STOREFONT/font-list | xargs | cut -d '.' -f $INPUT )"
                 FONT2="$( echo $FONT | cut -d ']' -f 2 | tr -d ' ' )"
                 check_stored
                 font_steps
