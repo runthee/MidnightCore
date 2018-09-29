@@ -7,23 +7,162 @@ This module is an All-In-One package for the MidnightModule series. It currently
 * This Package allows you to systemless-ly switch between fonts On-The-Go. Fonts are downloaded, applied and cleaned up at the same time, so no font zips are left lying around. Choose from over 40 Fonts!
 ### MidnightMedia
 * This package allows you to Systemless-ly switch Media files such as boot animations, System UI sounds, lock screen sounds etc. Just a quick Reboot and you're good to go! Choose from a range of devices to apply files from!
-### MidnightMake: MidnightFonts Add-On
+### MidnightMake: MidnightFonts Add-On(Under Re-design!)
 * A simple add-on for MidnightFonts that allows you to create recovery flashable zips of the fonts available. This is for those who are switching ROM's or are leaving root behind or whatever reason!
-### MidnightMisc
+### MidnightMisc(Under Re-design!)
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
-### MidnightDNS
+### MidnightDNS(Under Re-design!)
 * This package allows you to systemlessly change your DNS server for speed, security, protection or privacy benefits.
 
-After flashing, type 'midnight' in a terminal to begin.
+## How To Use
+```bash
+su
+
+cd
+
+midnight
+```
+
+That Easy!
 
 #### Note:
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
-## Current Version
-v2.5.5
+# Current Version
+v3.0.0
+Twilight Edition
+
+## Included Fonts
+* Helvetica Neue Best.
+* Ubuntu Updated.
+* Caviar Dreams.
+* Google Product Sans.
+* Comic Sans Original.
+* Rosemary.
+* Scifly.
+* Lato UI.
+* Chinacat.
+* Century Gothic.
+* AppleMint.
+* Pycuaf.
+* Bellota.
+* GoodDog.
+* Oxygen.
+* Oswald.
+* Raindrops.
+* Armani.
+* Cool Jazz.
+* Bariol.
+* Oneplus Slate.
+* Exo.
+* Exo2.
+* Google Sans Mod.
+* Persona5.
+* Cocon Original.
+* Chococookey.
+* B612.
+* PFBeauSansPro.
+* Runescape.
+* Gotham Narrow.
+* Gotham Narrow Light.
+* Helvetica Condensed.
+* VAG Rounded.
+* Roboto43 Condensed.
+* Corporate.
+* SamsungOneBR.
+* Trebuchet.
+* Andrea Print CN.
+* Express Yourself.
+* Plasma.
+* Shine With Me.
+* Spring Is Coming.
+* Bookerly.
+* Barlow Semi Condensed.
+* Brandon Grotesque.
+* Bauhaus.
+* Zrnic.
+* Roboto442.
+* Sony Sketch.
+* A Dripping Marker.
+* Vandalism.
+* SegoeUI.
+* Tilana.
+* Proxima Nova.
+* Neutraface.
+* Dejavu.
+* Tecton Unicode.
+* Cabin.
+
+## Included Audio Files
+* Hammerhead(Nexus 5).
+* Shamu(Nexus 6).
+* Volantis(Nexus 9).
+* OnePlus.
+* xXxNoLimits(Custom ROM).
+* LiquidRemix(Custom ROM).
+* Asus.
+* Zenfone_Atomic(Custom Rom).
+* Samsung Galaxy Note 3.
+* AOSIP(N5).
+* Bullhead(Nexus 5).
+* Pixel 2.
+
+## Included Bootanimation Files
+* Hammerhead(Nexus 5).
+* Shamu(Nexus 6).
+* Volantis(Nexus 9).
+* OnePlus.
+* xXxNoLimits(Custom ROM).
+* LiquidRemix(Custom ROM).
+* Asus.
+* Zenfone_Atomic(Custom ROM).
+* Alienware(mauam@XDA).
+* Blink(mauam@XDA).
+* Blue DNA(mauam@XDA).
+* Bug Loader(mauam@XDA).
+* Circle(mauam@XDA).
+* Circuit(mauam@XDA).
+* Cortana(mauam@XDA).
+* Hexagon Loader(mauam@XDA).
+* HUD Hypnotism(mauam@XDA).
+* LIB(mauam@XDA).
+* Load  It 2(mauam@XDA).
+* Load It(mauam@XDA).
+* Loader Effect(mauam@XDA).
+* Loading(mauam@XDA).
+* Rainbow Orbit(mauam@XDA).
+* Unwrap(mauam@XDA).
+* Lineage OS(Custom ROM).
+* AOSIP(Custom ROM).
+* Bullhead(Nexus 5).
+* Colorful Helix(mauam@XDA).
+* Samsung(mauam@XDA).
+* Shuffled(mauam@XDA).
+* OnePlus Concept.
+* FrankenROM(Custom ROM).
+* ViperOS(Custom ROM).
+* Faces of Rick(nandakumar12@XDA).
+* Connections(nandakumar23@XDA).
+* Superheroes(nandakumar23@XDA).
+* Watchdogs.
+* Rubix.
+* PixelBoot Light(1080p).
+* PixelBoot Light(1440p).
+* PixelBoot Dark(1440p).
+* Aperture Science.
+* ResurrectionRemix Nougat.
+* ResurrectionRemix Oreo.
+* Take Your Time(Persona5).
 
 ## Changelog
+### v3.0.0 -29.09.18
+* Introducing Twilight Edition!
+* Revamped User Interface!
+* Most if not all bugs squashed!
+* Removed needless complexity.
+* Fixed Volume key logic
+* Fixed Backup and Restoration during Installation!
 ### v2.5.5 - 22.06.18
 * Fix for install and uninstall volume key logic
 * Fixed MidnightDNS
