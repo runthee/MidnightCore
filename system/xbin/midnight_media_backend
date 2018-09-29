@@ -56,15 +56,12 @@ audio_choice() {
     echo "[+] Select a device to get these files from:"
     cat $STOREMEDIA/audio-list
     audio_list_len=$( cat $STOREMEDIA/audio-list | wc -l )
-    re='^[0-9]+$'
     echo ""
     echo -e $W"[CHOOSE]:"$N
     read -r CHOICE
     case $CHOICE in
         $CHOICE)
             if [ $CHOICE -gt $audio_list_len ]; then
-                echo "[!] Invalid Input!"
-            elif ! [[ $CHOICE =~ $re ]]; then
                 echo "[!] Invalid Input!"
             else
                 LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
@@ -80,15 +77,12 @@ device_choice() {
     echo "[+] Select a device to get these files from:"
     cat $STOREMEDIA/media-list
     device_list_len=$( cat $STOREMEDIA/media-list | wc -l )
-    re='^[0-9]+$'
     echo ""
     echo -e $W"[CHOOSE]:"$N
     read -r CHOICE
     case $CHOICE in
         $CHOICE)
             if [ $CHOICE -gt $device_list_len ]; then
-                echo "[!] Invalid Input!"
-            elif ! [[ $CHOICE =~ $re ]]; then
                 echo "[!] Invalid Input!"
             else
                 LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"

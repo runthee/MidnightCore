@@ -36,7 +36,6 @@ if [ $? != 0 ]; then
     show_error "Fonts List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)."
 	sleep 2
 fi
-sleep 2
 #================================
 #================================
 main=true
