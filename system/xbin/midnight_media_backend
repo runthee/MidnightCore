@@ -19,10 +19,12 @@ main_download() {
     echo "[+] Media Zip Downloaded!"
     unzip $STOREMEDIA/$MEDIA2.zip -d $STOREMEDIA > /dev/null 2>&1
     sort_zip
-    echo "[+] Would you like to backup this zip?"
-    echo "[+] This makes it easier to apply in the future."
-    echo "[+] It also allows you to keep it during module updates."
-    echo "[+] 1) Backup  2) Don't Backup"
+	echo -e $Y"$divider"$N
+    echo -e $G"[+] Would you like to backup this zip?"$N
+    echo -e $C"[+] This makes it easier to apply in the future."$N
+    echo -e $C"[+] It also allows you to keep it during module updates."$N
+    echo -e $W"[+] 1) Backup  2) Don't Backup"$N
+	echo -e $Y"$divider"$N
     echo -e $W"[CHOOSE]:"$N
     read -r BACKUP
     case $BACKUP in
@@ -45,9 +47,9 @@ main_download() {
     echo $MEDIA > $MIDMEDIA/currently_applied_media.txt
     clear
     echo -e $Y"$divider"$N
-    echo -e $G"          [+] Media Files Applied!!         "$N
+    echo -e $G"                  [+] Media Files Applied!!           "$N
     echo -e $Y"$divider"$N
-    echo -e $G"   [+] Reboot for changes to take effect    "$N
+    echo -e $G"             [+] Reboot for changes to take effect    "$N
     echo -e $Y"$divider"$N
     main=false
 }
