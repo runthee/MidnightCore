@@ -13,7 +13,7 @@ alias wget="/sbin/.core/busybox/wget"
 get_font () {
     echo "[+] Retrieving Font..."
     if [ -f "$STOREFONT/$FONT2.zip" ]; then
-        chmod 777 $STOREFONT/$FONT2.zip
+        set_perm $STOREFONT/$FONT2.zip 0 0 0777
         echo "[+] Working..."
     else
         show_error "Permissions not set on Font zip." "Zip Not downloaded." "Check your internet connection. Remove any active VPN(s)."
@@ -26,7 +26,7 @@ zip_sort_no_store() {
         echo "[+] Working..."
         mkdir $MODDIR/fonts > /dev/null 2>&1
         cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
-        chmod 644 $DIR/fonts/* > /dev/null 2>&1
+        set_perm $DIR/fonts/* 0 0 0644 > /dev/null 2>&1
         rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
@@ -35,7 +35,6 @@ zip_sort_no_store() {
         echo -e $Y"$divider"$N
         echo -e $R" [+] Reboot for changes to take effect!!  "$N
         echo -e $Y"$divider"$N
-        main=false
     fi
 }
 
@@ -46,7 +45,7 @@ zip_sort_store() {
         echo "[+] Saving font to $FONTBACKUP..."
         mkdir $MODDIR/fonts > /dev/null 2>&1
         cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
-        chmod 644 $MODDIR/fonts/*
+        set_perm $MODDIR/fonts/* 0 0 0644
         dir=pwd
         cd $FONTBACKUP > /dev/null 2>&1
         tar -czf "$FONT2.tar.gz" -C $MODDIR/fonts .
@@ -63,7 +62,6 @@ zip_sort_store() {
         echo -e $Y"$divider"$N
         echo -e $R"      [+] Reboot for changes to take effect!!  "$N
         echo -e $Y"$divider"$N
-        main=false
     fi
 }
 
@@ -111,9 +109,107 @@ check_stored() {
         echo -e $Y"$divider"$N
         echo -e $R" [+] Reboot for changes to take effect!!  "$N
         echo -e $Y"$divider"$N
-        main=false
+        restored=true
     else
         echo "[#] Saved version not found!"
         echo "[+] Resuming Process.."
+        restored=false
     fi
+}
+
+apply_custom() {
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $B"[#] Specify Custom Fonts!"$N
+    sleep 0.3
+    echo -e $P"[+] Here you can choose from the list of available custom fonts you have created in the $CUSTOMFONT folder"$N
+    echo -e $B"[+] Steps to create your custom font:"$N
+    sleep 0.3
+    echo -e $G"[1] Create a folder named after the font you want to apply"$N
+    sleep 0.3
+    echo -e $G"[2] Place the correct font weights in this file, renamed to mimic Roboto Fonts"$N
+    sleep 0.3
+    echo -e $R"     [!] For optiomal results include font weights such as:"$N
+    echo -e $P"     [1] Regular e.g 'Roboto-Regular.ttf"$N
+    echo -e $P"     [2] Italic"$N
+    echo -e $P"     [3] Bold"$N
+    echo -e $P"     [4] Bold-Italic"$N
+    echo -e $P"     [5] Light"$N
+    echo -e $P"     [6] Light-Italic"$N
+    echo -e $P"     [7] Condensed Variants"$N
+    echo -e $R"     [!] These font weights are not necessary but are recommended"$N
+    sleep 0.3
+    echo -e $G"[3] Return back to this screen"$N
+    sleep 0.3
+    echo -e $G"[4] Apply Fonts!"$N
+    sleep 0.3
+    echo -e $Y"$divider"$N
+    fontnum=$( ls $CUSTOMFONT | wc -l )
+    sleep 0.4
+    echo -e $G"[!] Number of Custom fonts found: $fontnum"$N
+    if [ $fontnum -eq 0 ]; then
+        echo -e $R"[!] No available custom fonts!"$N
+        echo -e $R"[q] Quit"$N
+    else
+        echo -e $B"[+] Proceed to font selection?"$N
+        echo -e $G"[1] Continue - [2] Return to Normal font selection"$N
+    fi
+    echo -e $W"[CHOOSE]:"$N
+    read -r CUSTFONTCHOICE
+    case $CUSTFONTCHOICE in
+        1)
+            if [ $fontnum -eq 0 ]; then
+                echo -e $R"[!] Invalid Input."$N
+                pass=false
+            else
+                clear
+                echo -e $B"[#] Custom Fonts:"$N
+                fonts=$( ls $CUSTOMFONT | tr ' ' '*' )
+                i=1
+                for font in $fonts; do
+                    word=$( echo $font | tr '*' ' ' )
+                    echo "$C[$i]$N $W$word$N"
+                       i=$((i+1))
+                done
+                echo "[q] Quit"
+                custpass=true
+                while [ "$custpass" == true ]; do
+                    echo -e $W"[CHOOSE]:"$N
+                    read -r CHOICE
+                    case $CHOICE in
+                        $CHOICE)
+                            if [ "$CHOICE" == "q" ]; then
+                                custpass=false
+                                pass=false
+                            elif [ $CHOICE -gt $fontnum ]; then
+                                echo -e $R"[!] Invalid Input."$N
+                            else
+                                clear
+                                FONT="$( ls $CUSTOMFONT | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                echo "[+] Applying $FONT..."
+                                mkdir $MODDIR/fonts > /dev/null 2>&1
+                                cp -f $CUSTOMFONT/$FONT/* $MODDIR/fonts
+                                echo "[+] Setting Permissions..."
+                                set_perm $MODDIR/fonts/* 0 0 0644
+                                   echo "[+] Permissions Set!"
+                                custpass=false
+                                pass=false
+                                main=false
+                            fi
+                            ;;
+                    esac
+                done
+            fi
+            ;;
+        2)
+            pass=false
+            ;;
+        q)
+            pass=false
+            ;;
+        *)
+            echo -e $R"[!] Invalid Input."$N
+            ;;
+    esac
+
 }

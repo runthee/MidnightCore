@@ -6,6 +6,7 @@
 alias wget="/sbin/.core/busybox/wget"
 alias unzip="/sbin/.core/busybox/unzip"
 alias tar="/sbin/.core/busybox/tar"
+
 #============================
 # FUNCTIONS
 #============================
@@ -19,12 +20,12 @@ main_download() {
     echo "[+] Media Zip Downloaded!"
     unzip $STOREMEDIA/$MEDIA2.zip -d $STOREMEDIA > /dev/null 2>&1
     sort_zip
-	echo -e $Y"$divider"$N
+    echo -e $Y"$divider"$N
     echo -e $G"[+] Would you like to backup this zip?"$N
     echo -e $C"[+] This makes it easier to apply in the future."$N
     echo -e $C"[+] It also allows you to keep it during module updates."$N
-    echo -e $W"[+] 1) Backup  2) Don't Backup"$N
-	echo -e $Y"$divider"$N
+    echo -e $W"[1] Backup - [2] Don't Backup"$N
+    echo -e $Y"$divider"$N
     echo -e $W"[CHOOSE]:"$N
     read -r BACKUP
     case $BACKUP in
@@ -32,14 +33,24 @@ main_download() {
             echo "[+] Backing Up file: $MEDIA to: $MEDIABACKUP"
             dir=pwd
             cd $MEDIABACKUP > /dev/null 2>&1
-            tar -czf "$MEDIA2.tar.gz" -C $MODDIR/media .
-            if [ $? != 0 ]; then
-                show_error "Backup not created" "Unknown" "Report error on XDA thread"
+            if [ "$manufacturer" == "HTC" ]; then
+                tar -czf "$MEDIA2.tar.gz" -C $MODDIR$ANIMFOLDER $ANIM
+                if [ $? != 0 ]; then
+                    show_error "Backup not created" "Unknown" "Report error on XDA thread"
+                fi
+            else
+                tar -czf "$MEDIA2.tar.gz" -C $MODDIR/media .
+                if [ $? != 0 ]; then
+                    show_error "Backup not created" "Unknown" "Report error on XDA thread"
+                fi
             fi
             cd $dir > /dev/null 2>&1
             ;;
         2)
             echo "[+] Resuming Process..."
+            ;;
+        *)
+            echo "[!] Invalid Input. Skipping Backup Process..."
             ;;
     esac
     rm -f $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
@@ -51,12 +62,17 @@ main_download() {
     echo -e $Y"$divider"$N
     echo -e $G"             [+] Reboot for changes to take effect    "$N
     echo -e $Y"$divider"$N
-    main=false
 }
 
 audio_choice() {
     echo "[+] Select a device to get these files from:"
-    cat $STOREMEDIA/audio-list
+    devices=$( cat $STOREMEDIA/audio-list | tr ' ' '*' )
+    i=1
+    for device in $devices; do
+        word=$( echo $device | tr '*' ' ' )
+        echo "$C[$i]$N $W$word$N"
+        i=$((i+1))
+    done
     audio_list_len=$( cat $STOREMEDIA/audio-list | wc -l )
     echo ""
     echo -e $W"[CHOOSE]:"$N
@@ -77,7 +93,13 @@ audio_choice() {
 
 device_choice() {
     echo "[+] Select a device to get these files from:"
-    cat $STOREMEDIA/media-list
+    i=1
+    devices=$( cat $STOREMEDIA/media-list | tr ' ' '*' )
+    for device in $devices; do
+        word=$( echo $device | tr '*' ' ' )
+        echo "$C[$i]$N $W$word$N"
+        i=$((i+1))
+    done
     device_list_len=$( cat $STOREMEDIA/media-list | wc -l )
     echo ""
     echo -e $W"[CHOOSE]:"$N
@@ -99,34 +121,44 @@ device_choice() {
 check_stored() {
     clear
     echo "[+] Checking for saved version..."
-    if [ -f "$MEDIABACKUP/$MEDIA2.tar.gz" ]; then
+    if [ -f "$MEDIABACKUP/$MEDIA2.tar.gz" ] && [ -s "$MEDIABACKUP/$MEDIA2.tar.gz" ]; then
         echo "[+] Saved version detected!"
         echo "[+] Applying Files..."
         mkdir $MODDIR/media > /dev/null 2>&1
+        if [ "$manufacturer" == "HTC" ]; then
+            mkdir -p $MODDIR$ANIMFOLDER
+        fi
         dir=pwd
         cd $MEDIABACKUP
-        tar -xzf "$MEDIA22.tar.gz" -C $MODDIR/media
-        if [ $? != 0 ]; then
-            show_error "Backup not restored" "Unknown" "Report error on XDA thread"
+        if [ "$manufacturer" == "HTC" ]; then
+            tar -xzf "$MEDIA2.tar.gz" -C $MODDIR$ANIMFOLDER
+            if [ $? != 0 ]; then
+                show_error "Backup not restored" "Unknown" "Report error on XDA thread"
+            fi
+        else
+            tar -xzf "$MEDIA2.tar.gz" -C $MODDIR/media
+            if [ $? != 0 ]; then
+                show_error "Backup not restored" "Unknown" "Report error on XDA thread"
+            fi
         fi
         cd $dir
-        chmod 755 $MODDIR/audio > /dev/null 2>&1
-        chmod 755 $MODDIR/audio/* /dev/null 2>&1
-        chmod 777 $MODDIR/audio/ui/* > /dev/null 2>&1
-        chmod 777 $MODDIR/audio/notifications/* > /dev/null 2>&1
-        chmod 777 $MODDIR/audio/alarms/* > /dev/null 2>&1
-        chmod 777 $MODDIR/audio/ringtones/* > /dev/null 2>&1
-        chmod 644 $MODDIR/media/bootanimation.zip > /dev/null 2>&1
-        echo "[+] File Permissions Set!"
+        set_perm $MODDIR$ANIMFOLDER$ANIM 0 0 0644 > /dev/null 2>&1
+        mk touch $MODDIR/audio/.replace > /dev/null 2>&1
+        echo "[+] Setting audio file permissions..." > /dev/null 2>&1
+        set_perm_recursive $MODDIR/audio 0 0 0755 > /dev/null 2>&1
+        set_perm $MODDIR/audio/ui/*.ogg 0 0 0644 > /dev/null 2>&1
+        set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644 > /dev/null 2>&1
+        set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644 > /dev/null 2>&1
+        set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644 > /dev/null 2>&1
+        echo "[+] Permissions Set!"
         clear
         echo -e $Y"$divider"$N
         echo -e $G"            [+] Media Files Restored!!          "$N
         echo -e $Y"$divider"$N
         echo -e $G"       [+] Reboot for changes to take effect    "$N
         echo -e $Y"$divider"$N
-        main=false
     else
-        echo "[#] Saved version not found!"
+        echo "[#] Saved version not found or is empty!"
         echo "[+] Resuming Process"
         sleep 2
         main_download
@@ -136,82 +168,256 @@ check_stored() {
 sort_zip() {
     echo "[+] Sorting Zip..."
     if [ "$INPUT" == "b" ]; then
-        mkdir $MODDIR/media > /dev/null 2>&1
-        mv -f $STOREMEDIA/bootanimation.zip $MODDIR/media
-        chmod 644 $MODDIR/media/bootanimation.zip
+        mkdir -p $MODDIR$ANIMFOLDER > /dev/null 2>&1
+        mv -f $STOREMEDIA/bootanimation.zip $MODDIR$ANIMFOLDER$ANIM
+        set_perm $MODDIR$ANIMFOLDER$ANIM 0 0 0644
         echo "[+] Bootanimation Sorted!"
     elif [ "$INPUT" == "s" ]; then
         mkdir $MODDIR/media > /dev/null 2>&1
         mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
-        touch $MODDIR/audio/.replace
+        mktouch $MODDIR/audio/.replace
         echo "[+] Setting audio file permissions..."
-        chmod 755 $MODDIR/audio
-        chmod 755 $MODDIR/audio/*
-        chmod 777 $MODDIR/audio/ui/*
-        chmod 777 $MODDIR/audio/notifications/*
-        chmod 777 $MODDIR/audio/alarms/*
-        chmod 777 $MODDIR/audio/ringtones/*
+        set_perm_recursive $MODDIR/audio 0 0 0755
+        set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
+        set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
+        set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
+        set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
         echo "[+] Permissions Set!"
     elif [ "$INPUT" == "m" ]; then
         if [ -d $STOREMEDIA/audio ]; then
             mkdir $MODDIR/media > /dev/null 2>&1
+            if [ "$manufacturer" == "HTC" ]; then
+                mkdir -p $MODDIR$ANIMFOLDER > /dev/null 2>&1
+            fi
             echo "[+] Sorting Audio and bootanimation files..."
-            mv -f $STOREMEDIA/bootanimation.zip $MODDIR/media > /dev/null 2>&1
-            chmod 644 $MODDIR/media/bootanimation.zip
+            mv -f $STOREMEDIA/bootanimation.zip $MODDIR$ANIMFOLDER$ANIM > /dev/null 2>&1
+            set_perm $MODDIR$ANIMFOLDER$ANIM 0 0 0644
             echo "[+] Bootanimation sorted!"
             mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
-            touch $MODDIR/audio/.replace
+            mktouch $MODDIR/audio/.replace
             echo "[+] Setting audio file permissions..."
-            chmod 755 $MODDIR/audio
-            chmod 755 $MODDIR/audio/*
-            chmod 777 $MODDIR/audio/ui/*
-            chmod 777 $MODDIR/audio/notifications/*
-            chmod 777 $MODDIR/audio/alarms/*
-            chmod 777 $MODDIR/audio/ringtones/*
+            set_perm_recursive $MODDIR/audio 0 0 0755
+            set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
+            set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
+            set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
+            set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
             echo "[+] Permissions Set!"
         elif [ ! -d $STOREMEDIA/audio ]; then
             echo "[+] This option only contains a bootanimation file."
             echo "[+] Would you like to continue anyways:"
-            echo "[+] 1) Yes   2) No"
-            echo -e $W"[CHOOSE]:"$N
-            read -r BOTH
-            case $BOTH in
-                y)
-                    mkdir $MODDIR/media > /dev/null 2>&1
-                    mv -f $STOREMEDIA/bootanimation.zip $MODDIR/media > /dev/null 2>&1
-                    chmod 644 $MODDIR/media/bootanimation.zip
-                    echo "[+] Bootanimation sorted"
-                    ;;
-                n)
-                    echo "[+] Resuming Process..."
-                    ;;
-            esac
+            echo "[1] Yes - [2] No"
+            pass=true
+            while [ "$pass" == true ]; do
+                echo -e $W"[CHOOSE]:"$N
+                read -r BOTH
+                case $BOTH in
+                    y)
+                        mkdir -p $MODDIR$ANIMFOLDER
+                        mv -f $STOREMEDIA/bootanimation.zip $MODDIR$ANIMFOLDER$ANIM > /dev/null 2>&1
+                        set_perm $MODDIR$ANIMFOLDER$ANIM 0 0 0644
+                        echo "[+] Bootanimation sorted"
+                        pass=false
+                        ;;
+                    n)
+                        echo "[+] Resuming Process..."
+                        pass=false
+                        ;;
+                    *)
+                        echo "[!] Invalid Input."
+                        ;;
+                esac
+            done
         elif [ ! -f $STOREMEDIA/bootanimation.zip ]; then
             echo "[+] This option only contains an Audio folder."
             echo "[+] Would you like to continue anyways:"
-            echo "[+] 1) Yes   2) No"
-            echo -e $W"[CHOOSE]:"$N
-            read -r BOTH
-            case $BOTH in
-                y)
-                    mkdir $MODDIR/media > /dev/null 2>&1
-                    mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
-                    touch $MODDIR/audio/.replace
-                    echo "[+] Setting audio file permissions..."
-                    chmod 755 $MODDIR/audio
-                    chmod 755 $MODDIR/audio/*
-                    chmod 777 $MODDIR/audio/ui/*
-                    chmod 777 $MODDIR/audio/notifications/*
-                    chmod 777 $MODDIR/audio/alarms/*
-                    chmod 777 $MODDIR/audio/ringtones/*
-                    echo "[+] Permissions Set!"
-                    ;;
-                n)
-                    echo "[+] Resuming Process..."
-                    ;;
-            esac
+            echo "[1] Yes - [2] No"
+            pass=true
+            while [ "$pass" == true ]; do
+                echo -e $W"[CHOOSE]:"$N
+                read -r BOTH
+                case $BOTH in
+                    y)
+                        mkdir $MODDIR/media > /dev/null 2>&1
+                        mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+                        mktouch $MODDIR/audio/.replace
+                        echo "[+] Setting audio file permissions..."
+                        set_perm_recursive $MODDIR/audio 0 0 0755
+                        set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
+                        set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
+                        set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
+                        set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
+                        echo "[+] Permissions Set!"
+                        pass=false
+                        ;;
+                    n)
+                        echo "[+] Resuming Process..."
+                        pass=false
+                        ;;
+                    *)
+                        echo "[!] Invalid Input."
+                esac
+            done
         fi
     fi
+}
+
+apply_custom() {
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $B"[#] Specify Custom Media Files!"$N
+    sleep 0.3
+    echo -e $P"[+] Here you can choose from a list of available bootanimations and audio files you have created in $CUSTOMMEDIA."$N
+    echo -e $B"[+] Steps to apply your custom BOOTANIMATION:"$N
+    sleep 0.3
+    echo -e $R"[!] This works for all oems including Samsung and HTC!!"$N
+    sleep 0.3
+    echo -e $P"[1] Create a folder in $CUSTOMMEDIA/bootanimation named after the name of the bootanimation."$N
+    sleep 0.3
+    echo -e $P"[2] Make sure the bootanimation zip/qmg file is structured correctly."$N
+    sleep 0.3
+    echo -e $P"[3] Place the bootanimation file in the named folder"$N
+    sleep 0.3
+    echo -e $P"[4] Return to this screen"$N
+    sleep 0.3
+    echo -e $P"[5] Apply bootanimation!"$N
+    sleep 0.3
+    echo -e $Y"$divider"$N
+    echo -e $B"[+] Steps to apply your custom AUDIO FILES:"$N
+    sleep 0.3
+    echo -e $P"[1] Create a folder in $CUSTOMMEDIA/audio. Give it a name you will recognize later on."$N
+    sleep 0.3
+    echo -e $P"[2] Place the audio folders into this folder."$N
+    sleep 0.3
+    echo -e $R"    [!] Acceptable folders:"$N
+    echo -e $P"    [1] alarms"$N
+    echo -e $P"    [2] notifications"$N
+    echo -e $P"    [3] ringtones"$N
+    echo -e $P"    [4] ui"$N
+    echo -e $P"[3] Return to this screen"$N
+    echo -e $P"[4] Apply Media files!"$N
+    echo -e $Y"$divider"$N
+    sleep 0.3
+    animnum=$( ls $CUSTOMANIM | wc -l )
+    audionum=$( ls $CUSTOMAUDIO | wc -l )
+    echo -e $G"[!] Number of custom bootanimations found: $animnum"$N
+    sleep 0.3
+    echo -e $G"[!] Number of custom audio files found: $audionum"$N
+    sleep 0.3
+    echo -e $B"[#] Selection:"$N
+    sleep 0.3
+    if [ $animnum -gt 0 ]; then
+        echo "[b] Continue to custom Bootanimation selection?"
+    fi
+    if [ $audionum -gt 0 ]; then
+        echo "[a] Continue to custom audio selection?"
+    fi
+    if [ $audionum -eq 0 ] && [ $animnum -eq 0 ]; then
+        echo -e $R"[!] There are no custom files to apply!"$N
+    fi
+    echo -e $R"[q] Quit"$N
+    echo ""
+    custpass=true
+    while [ "$custpass" == true ]; do
+        echo -e $W"[CHOOSE]:"$N
+        read -r CHOICE
+        case $CHOICE in
+            b)
+                if [ $animnum -eq 0 ]; then
+                    echo -e $R"[!] There are no custom bootanimation files to apply!"$N
+                else
+                    clear
+                    echo -e $B"[#] Custom Bootanimations:"$N
+                    anims=$( ls $CUSTOMANIM )
+                    i=1
+                    for anim in $anims; do
+                        echo "[$i] $anim"
+                        i=$((i+1))
+                    done
+                    echo "[q] Quit"
+                    animspass=true
+                    while [ "$animspass" == true ]; do
+                        echo -e $W"[CHOOSE]:"$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    animspass=false
+                                    custpass=false
+                                elif [ $CHOICE -gt $animnum ]; then
+                                    echo "[!] Invalid Input."
+                                else
+                                    clear
+                                    CUSTANIMFOLDER=$( ls $CUSTOMANIM | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )
+                                    echo "[+] Applying $CUSTANIMFOLDER"
+                                    mkdir -p $MODDIR$ANIMFOLDER > /dev/null 2>&1
+                                    file=$( ls $CUSTOMANIM/$CUSTOMANIMFOLDER )
+                                    cp -f $CUSTOMANIM/$CUSTOMANIMFOLDER/$file $MODDIR$ANIMFOLDER
+                                    echo "[+] Setting Permissions..."
+                                    set_perm_recursive $MODDIR$ANIMFOLDER 0 0 0755 0644
+                                    echo "[+] Permissions set!"
+                                    animspass=false
+                                    custpass=false
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            a)
+                if [ $audionum -eq 0 ]; then
+                    echo -e $R"[!] There are no custom audio files to apply!"$N
+                else
+                    clear
+                    echo -e $B"[#] Custom Audio Files:"$N
+                    audios=$( ls $CUSTOMANIM )
+                    i=1
+                    for audio in $audios; do
+                        echo "[$i] $audio"
+                        i=$((i+1))
+                    done
+                    echo "[q] Quit"
+                    audiopass=true
+                    while [ "$audiopass" == true ]; do
+                        echo -e $W"[CHOOSE]:"$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    audiopass=false
+                                    custpass=false
+                                elif [ $CHOICE -gt $audionum ]; then
+                                    echo "[!] Invalid Input."
+                                else
+                                    clear
+                                    CUSTAUDIOFOLDER=$( ls $CUSTOMAUDIO | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )
+                                    echo "[+] Applying $CUSTAUDIOFOLDER"
+                                    mkdir -p $MODDIR/media > /dev/null 2>&1
+                                    file=$( ls $CUSTOMAUDIO/$CUSTOMAUDIOFOLDER )
+                                    cp -f $CUSTOMAUDIO/$CUSTOMAUDIOFOLDER/$file $MODDIR/media
+                                    mktouch $MODDIR/media/audio/.replace
+                                    echo "[+] Setting audio file permissions..."
+                                    set_perm_recursive $MODDIR/fmedia/audio 0 0 0755
+                                    set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
+                                    set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
+                                    set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
+                                    set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
+                                    echo "[+] Permissions Set!"
+                                    animspass=false
+                                    custpass=false
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            q)
+                custpass=false
+                ;;
+            *)
+                echo -e $R"[!] Invalid Input."$N
+                ;;
+        esac
+    done
 }
 #============================
 #============================

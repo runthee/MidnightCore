@@ -1,11 +1,28 @@
+#!/system/bin/sh
+#============================
+# Root checking...
+#============================
+if [ "$( id -u )" != 0 ]; then
+    cd /
+    su -c midnight
+    exit
+fi
 clear
 #============================
 # VARIABLES
+. /data/adb/magisk/util_functions.sh
 MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
-id="$(id)"; id="${id#*=}"; id="${id%%\(*}"; id="${id%% *}"
+manufacturer="$( grep_prop ro.product.manufacturer )"
+if [ "$manufacturer" == "HTC" ]; then
+    ANIMFOLDER="/customize/resource"
+    ANIM="/hTC_bootup.zip"
+else
+    ANIMFOLDER="/media"
+    ANIM="/bootanimation.zip"
+fi
 divider='==================================================' > /dev/null 2>&1
 if [ -d /system/xbin ]; then
     bin=xbin
@@ -14,27 +31,13 @@ else
 fi
 . /system/"$bin"/mc_init
 #============================
-# Root checking...
-#============================
-if [ "$id" != "0" ] && [ "$id" != "root" ]
-then
-    clear
-    echo -e $Y"$divider"$N
-    echo ''
-    echo -e $R'Please type'$N $G'su '$N $R'first'$N
-    echo -e $R'then type'$N $G'cd'$N
-    echo -e $R'then type'$N $G'midnight'$N
-    echo ''
-    echo -e $Y"$divider"$N
-    exit 0
-fi
-#============================
 # INIT
 #============================
 echo "Initializing..."
 mkdir "$MIDMAIN" > /dev/null 2>&1
 mkdir "$MIDFONT" > /dev/null 2>&1
 mkdir "$MIDMEDIA" > /dev/null 2>&1
+mkdir "$MIDMISC" > /dev/null 2>&1
 clear
 #============================
 # START PROGRAM

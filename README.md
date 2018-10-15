@@ -7,30 +7,27 @@ This module is an All-In-One package for the MidnightModule series. It currently
 * This Package allows you to systemless-ly switch between fonts On-The-Go. Fonts are downloaded, applied and cleaned up at the same time, so no font zips are left lying around. Choose from over 40 Fonts!
 ### MidnightMedia
 * This package allows you to Systemless-ly switch Media files such as boot animations, System UI sounds, lock screen sounds etc. Just a quick Reboot and you're good to go! Choose from a range of devices to apply files from!
-### MidnightMake: MidnightFonts Add-On(Under Re-design!)
-* A simple add-on for MidnightFonts that allows you to create recovery flashable zips of the fonts available. This is for those who are switching ROM's or are leaving root behind or whatever reason!
-### MidnightMisc(Under Re-design!)
+### MidnightMisc
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
 ### MidnightDNS(Under Re-design!)
 * This package allows you to systemlessly change your DNS server for speed, security, protection or privacy benefits.
 
+## Custom Support
+Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! V3.2.0 Brings custom file support! Easily apply custom files with a couple simple steps. Simply run the module, select the 'apply custom' option and follow the instructions!
+
 ## How To Use
 ```bash
-su
-
-cd
-
 midnight
 ```
 
-That Easy!
+That's It!
 
 #### Note:
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 # Current Version
-v3.0.0
+v3.2.0
 Twilight Edition
 
 ## Included Fonts
@@ -99,14 +96,9 @@ Twilight Edition
 * Shamu(Nexus 6).
 * Volantis(Nexus 9).
 * OnePlus.
-* xXxNoLimits(Custom ROM).
-* LiquidRemix(Custom ROM).
 * Asus.
-* Zenfone_Atomic(Custom Rom).
 * Samsung Galaxy Note 3.
-* AOSIP(N5).
 * Bullhead(Nexus 5).
-* Pixel 2.
 
 ## Included Bootanimation Files
 * Hammerhead(Nexus 5).
@@ -156,7 +148,21 @@ Twilight Edition
 * Take Your Time(Persona5).
 
 ## Changelog
-### v3.0.0 -29.09.18
+### v3.2.0 - 09.10.18
+* Added support for HTC devices
+* Added support for applying custom fonts!
+* Added support for applying custom Bootanimations!
+* Added support for applying custom Audio files!
+* Removed need to type 'su' and 'cd'!
+* Custom file support for Samsungs .qmg file format
+* Misc Code cleanups
+* Changed method of setting file permissions
+### v3.1.0 - 30.09.18
+* Added MidnightMisc
+* Added network connectivity check for font restoration
+* Minor Syntax changes
+* Minor Flow control changes
+### v3.0.0 - 29.09.18
 * Introducing Twilight Edition!
 * Revamped User Interface!
 * Most if not all bugs squashed!

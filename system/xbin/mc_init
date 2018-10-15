@@ -1,5 +1,4 @@
 #!/system/bin/sh
-. /sbin/.core/mirror/bin/util_functions.sh
 divider='========================================================' > /dev/null 2>&1
 # COLORS
 #==================================
@@ -25,12 +24,14 @@ fi
 #==================================
 magisk=/sbin/.core/img
 MODDIR=$magisk/MidnightCore/system
-version="$( cat $magisk/MidnightCore/module.prop | grep version | cut -d '=' -f 2 )"
+version="$( cat $magisk/MidnightCore/module.prop | grep "version=" | cut -d '=' -f 2 )"
 updated="$( cat $magisk/MidnightCore/module.prop | grep updated | cut -d '=' -f 2 )"
 fonts_frontend=/system/$bin/midnight_fonts_frontend
 fonts_backend=/system/$bin/midnight_fonts_backend
 media_frontend=/system/$bin/midnight_media_frontend
 media_backend=/system/$bin/midnight_media_backend
+misc_frontend=/system/$bin/midnight_misc_frontend
+misc_backend=/system/$bin/midnight_misc_backend
 #==================================
 # FUNCTIONS
 #==================================
@@ -54,7 +55,8 @@ main_start () {
         sleep 0.2
         echo "[#] Choose from one of the below aspects to modify and make your device yours"
         echo "[#] Enter a corresponding number below"
-        echo -e $G"[1] MidnightFonts      [2] MidnightMedia"$N
+        sleep 0.2
+        echo -e $G"[1] MidnightFonts - [2] MidnightMedia - [3] MidnightMisc"$N
         echo -e $C"[r] Restore Defaults"$N      $R"[q] Quit"$N
         echo -e -n $W"[CHOOSE]: "$N
         read -r INPUT
@@ -66,8 +68,8 @@ main_start () {
                 echo -e $Y"$divider"$N
                 sleep 4
                 clear
-                sh $fonts_frontend
-                running=false
+                . $fonts_frontend
+                clear
                 ;;
             2)
                 echo -e $Y"$divider"$N
@@ -76,18 +78,29 @@ main_start () {
                 echo -e $Y"$divider"$N
                 sleep 4
                 clear
-                sh $media_frontend
-                running=false
+                . $media_frontend
+                clear
+                ;;
+            3)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTMISC..."
+                echo "[+] OPTIMIZE YOUR DEVICE AND GET DIFFERENT TYPES OF LOGS WITH THIS MODULE!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                . $misc_frontend
+                clear
                 ;;
             r)
                 restore
-                running=false
+                clear
                 ;;
             q)
                 running=false
                 ;;
             *)
                 echo "[+] Unrecognized Input."
+                clear
                 ;;
         esac
     done
@@ -137,13 +150,20 @@ show_error() {
 }
 
 cleanup() {
-    echo "[+] Cleaning Up..."
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $P"[+] Cleaning Up..."$N
     MidFont=/sdcard/MidnightMain/MidnightFonts
     MidMedia=/sdcard/MidnightMain/MidnightMedia
     rm -rf $MidMedia/tmp_media > /dev/null 2>&1
     rm -rf $MidFont/tmp_fonts > /dev/null 2>&1
-    echo "[+] Done!"
-    echo "[+] T H A N K S ! ! !"
+    echo -e $G"[+] Done!"$N
+    echo -e $G""$N
+    echo -e $G"  _______ __  __ ____  _  __ __ __    __  __ __  "$N
+    echo -e $G" /__  __// /_/ // _  \/ \/ // // /   / / / / \/  "$N
+    echo -e $G"   / /  / __  // /_/ /    //    /   / /_/ /  __  "$N
+    echo -e $G"  /_/  /_/ /_//_/ /_/_/\_//__/\_\  /_____/  /_/  "$N
+    echo -e $Y"$divider"$N
     exit
 }
 #==================================

@@ -83,20 +83,23 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
             ui_print " [+] Setting Up Font Restoration Environment..."
             ui_print " [+] Checking For Internet Connection..."
             if $BOOTMODE; then
-                wget -q -O /data/media/0/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
-                ui_print " [+] Links List downloaded..."
-                FONTNUM="$( cat /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt | cut -d ']' -f 1 | cut -d '[' -f 2 )"
-                LINK="$( cat /data/media/0/DONT-DELETE-2 | xargs | cut -d ' ' -f $FONTNUM )"
-                ui_print " [+] Downloading Font..."
-                wget -q -O /data/media/0/$FONT.zip $LINK
-                ui_print " [+] $FONT Downloaded!"
-                mkdir /data/media/0/tmpmidfontdir > /dev/null 2>&1
-                unzip -o /data/media/0/$FONT.zip -d /data/media/0/tmpmidfontdir > /dev/null 2>&1
-                mv -f /data/media/0/tmpmidfontdir/system/* $INSTALLER/system > /dev/null 2>&1
-                rm -f /data/media/0/$FONT.zip > /dev/null 2>&1
-                rm -rf /data/media/0/tmpmidfontdir > /dev/null 2>&1
-                rm -f /data/media/0/DONT-DELETE-2
-                ui_print " [+] Font Restored!"
+                ping -q -c 1 -W 1 google.com > /dev/null 2>&1 && ui_print " [+] Internet Connection Established!" || { echo " [!] No Internet Connection detected"; false; }
+                if [ $? -eq 0 ]; then
+                    wget -q -O /data/media/0/DONT-DELETE-2 "https://ncloud.zaclys.com/index.php/s/HQpbpeNKYp5crlz/download"
+                    ui_print " [+] Links List downloaded..."
+                    FONTNUM="$( cat /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt | cut -d ']' -f 1 | cut -d '[' -f 2 )"
+                    LINK="$( cat /data/media/0/DONT-DELETE-2 | xargs | cut -d ' ' -f $FONTNUM )"
+                    ui_print " [+] Downloading Font..."
+                    wget -q -O /data/media/0/$FONT.zip $LINK
+                    ui_print " [+] $FONT Downloaded!"
+                    mkdir /data/media/0/tmpmidfontdir > /dev/null 2>&1
+                    unzip -o /data/media/0/$FONT.zip -d /data/media/0/tmpmidfontdir > /dev/null 2>&1
+                    mv -f /data/media/0/tmpmidfontdir/system/* $INSTALLER/system > /dev/null 2>&1
+                    rm -f /data/media/0/$FONT.zip > /dev/null 2>&1
+                    rm -rf /data/media/0/tmpmidfontdir > /dev/null 2>&1
+                    rm -f /data/media/0/DONT-DELETE-2
+                    ui_print " [+] Font Restored!"
+                fi
             else
                 ui_print " [!] TWRP Installation Detected!"
                 ui_print " [+] Skipping Font Restoration."
@@ -111,8 +114,8 @@ if [ -f /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt ]; 
     MEDIATEXT="$( cat /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt | tr -d ' ' )"
     MEDIA="$( echo $MEDIATEXT | cut -d ']' -f 2 )"
     ui_print " [+] Currently Applied Media: $MEDIA"
-    ui_print " [+] Would you like to restore this font?"
-    ui_print " [!] IF YOU DONT HAVE A BACKUP, YOU NEED AN INTERNET CONNECTION!"
+    ui_print " [+] Would you like to restore this file?"
+    ui_print " [!] A BACKUP IS NECESSARY FOR THIS!"
     ui_print " [+] Vol+ = Yes, Vol- = No"
     if $FUNCTION; then
         if [ -f /data/media/0/MidnightMain/MidnightMedia/Backup/$MEDIA.tar.gz ]; then
