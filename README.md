@@ -9,14 +9,13 @@ This module is an All-In-One package for the MidnightModule series. It currently
 * This package allows you to Systemless-ly switch Media files such as boot animations, System UI sounds, lock screen sounds etc. Just a quick Reboot and you're good to go! Choose from a range of devices to apply files from!
 ### MidnightMisc
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
-### MidnightDNS(Under Re-design!)
-* This package allows you to systemlessly change your DNS server for speed, security, protection or privacy benefits.
-
-## Custom Support
-Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! V3.2.0 Brings custom file support! Easily apply custom files with a couple simple steps. Simply run the module, select the 'apply custom' option and follow the instructions!
+### MidnightCustom
+Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! Easily apply your own files with Midnight Custom. You can find Instructions on how to use it in the module or on XDA
 
 ## How To Use
 ```bash
+su
+cd
 midnight
 ```
 
@@ -27,7 +26,7 @@ That's It!
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 # Current Version
-v3.2.0
+v3.3.0
 Twilight Edition
 
 ## Included Fonts
@@ -148,6 +147,10 @@ Twilight Edition
 * Take Your Time(Persona5).
 
 ## Changelog
+### v3.3.0 - xx.10.18
+* Introducing MidnightCustom, a refined implementaion of custom files
+* Fixed Simple Mount Bug (Thanks @Zackptg5!)
+* Fonts will apply automatically within seconds of choosing them! No need to reboot anymore!
 ### v3.2.0 - 09.10.18
 * Added support for HTC devices
 * Added support for applying custom fonts!
@@ -248,7 +251,7 @@ Twilight Edition
 * Initial release
 
 #### Magisk Template
-v1500
+v17000
 
 #### Links
 * [GitHub](https://github.com/Magisk-Modules-Repo/MidnightCore)

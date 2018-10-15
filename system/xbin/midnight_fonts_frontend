@@ -55,7 +55,8 @@ do
     echo -e $G"       A   M I D N I G H T   M O D U L E       "$N
     echo -e $Y"$divider"$N
     sleep 0.2
-    echo "             Applied: $CURRENT      "
+    echo "                        Applied:               "
+    echo "                   $CURRENT                    "
     echo -e $Y"$divider"$N
     sleep 0.2
     echo "[+] Choose From the selection of fonts offered below"
@@ -72,19 +73,16 @@ do
     list_len=$( cat $STOREFONT/font-list | wc -l )
     echo ""
     echo -e $R"[q] Quit"$N
-    echo -e $G"[custom] Specify Custom Font"$N
     echo ""
     pass=true
     while [ "$pass" == true ]; do
-    echo -e -n $W"[CHOOSE]: "$N
-    read -r INPUT
+        echo -e -n $W"[CHOOSE]: "$N
+        read -r INPUT
         case "$INPUT" in
             "$INPUT")
                 if [ "$INPUT" == "q" ]; then
                     pass=false
                     main=false
-                elif [ "$INPUT" == "custom" ]; then
-                    apply_custom
                 elif [ $INPUT -gt $list_len ]; then
                     echo "[!] Invalid Input."
                 else

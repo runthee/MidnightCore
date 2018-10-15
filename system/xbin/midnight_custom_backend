@@ -1,0 +1,273 @@
+#!/system/bin/sh
+#========================
+# FUNCTIONS
+#========================
+apply_fonts() {
+    applying=true
+    while [ "$applying" == true ]; do
+        clear
+        echo -e $y"$divider"$N
+        echo -e $B"[#] Specify Custom Fonts!"$N
+        echo -e $P"[+] Here you can choose from the list of available custom fonts you have placed in $CUSTOMFONTS"$N
+        echo -e $P"[+] For help creating a custom font, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
+        echo -e $Y"$divider"$N
+        fontnum=$( ls $CUSTOMFONTS | wc -l )
+        echo -e $G"[+] Number of Custom Fonts found: $fontnum"$N
+        echo -e $B"[+] Proceed to font selection?"$N
+        echo -e $G"[1] Continue - [2] Return"$N
+        echo -e $W"[CHOOSE]: "$N
+        read -r CHOICE
+        case $CHOICE in
+            1)
+                if [ $fontnum -eq 0]; then
+                    echo -e $R"[!] No Available Custom Fonts!"$N
+                    sleep 2
+                    applying=false
+                else
+                    clear
+                    echo -e $Y"$divider"$N
+                    echo -e $B"[#] Custom Fonts:"$N
+                    fonts=$( ls $CUSTOMFONTS | tr ' ' '*' )
+                    i=1
+                    for font in $fonts; do
+                        word=$( echo $font | tr '*' ' ' )
+                        echo -e "$C[$i]$N $W$word$N"
+                        i=$((i+1))
+                    done
+                    echo -e $R"[q] Quit"$N
+                    fontspass=true
+                    while [ "$fontspass" == true ]; do
+                        echo -e $W"[CHOOSE]: "$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    fontspass=false
+                                    applying=false
+                                elif [ $CHOICE -gt $fontnum ]; then
+                                    echo -e $R"[!] Invalid Input."$N
+                                else
+                                    clear
+                                    FONT="$( ls $CUSTOMFONTS | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                    echo "[+] Applying $FONT..."
+                                    mkdir $MODDIR/fonts > /dev/null 2>&1
+                                    cp -f $CUSTOMFONTS/$FONT/* $MODDIR/fonts
+                                    echo "[+] Setting Permisssions..."
+                                    set_perm_recursive $MODDIR/fonts 0 0 0755 0644
+                                    echo "[+] Permissions Set!"
+                                    echo -e $G"          [+] Font Applied!!             "$N
+                                    echo -e $Y"$divider"$N
+                                    echo -e $P"     [+] Fonts Will Apply Shortly!!      "$N
+                                    echo -e $Y"$divider"$N
+                                    sleep 3
+                                    fontspass=false
+                                    applying=false
+                                    pass=false
+                                    main=false
+                                    running=false
+                                    font_applied=true
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            2)
+                applying=false
+                ;;
+            *)
+                echo -e $R"Invalid Input."$N
+                applying=false
+                ;;
+        esac
+    done
+}
+
+apply_anims() {
+    applying=true
+    while [ "$applying" == true ]; do
+        clear
+        echo -e $y"$divider"$N
+        echo -e $B"[#] Specify Custom Bootanimations!"$N
+        echo -e $P"[+] Here you can choose from the list of available custom Bootanimations you have placed in $CUSTOMANIMS"$N
+        echo -e $P"[+] For help creating a custom bootanimation, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
+        echo -e $G"[!] This works for all OEMS including Samsung and HTC!"
+        echo -e $Y"$divider"$N
+        animnum=$( ls $CUSTOMANIMS | wc -l )
+        echo -e $G"[+] Number of Custom Bootanimations found: $animnum"$N
+        echo -e $B"[+] Proceed to bootanimation selection?"$N
+        echo -e $G"[1] Continue - [2] Return"$N
+        echo -e $W"[CHOOSE]: "$N
+        read -r CHOICE
+        case $CHOICE in
+            1)
+                if [ $animnum -eq 0]; then
+                    echo -e $R"[!] No Available Custom Bootanimations!"$N
+                    sleep 2
+                    applying=false
+                else
+                    clear
+                    echo -e $Y"$divider"$N
+                    echo -e $B"[#] Custom Bootanimations:"$N
+                    anims=$( ls $CUSTOMANIMS | tr ' ' '*' )
+                    i=1
+                    for anim in $anims; do
+                        word=$( echo $anim | tr '*' ' ' )
+                        echo -e "$C[$i]$N $W$word$N"
+                        i=$((i+1))
+                    done
+                    echo -e $R"[q] Quit"$N
+                    animspass=true
+                    while [ "$animspass" == true ]; do
+                        echo -e $W"[CHOOSE]: "$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    animspass=false
+                                    applying=false
+                                elif [ $CHOICE -gt $animnum ]; then
+                                    echo -e $R"[!] Invalid Input."$N
+                                else
+                                    clear
+                                    ANIM="$( ls $CUSTOMANIMS | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                    echo "[+] Applying $ANIM..."
+                                    mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
+                                    fol_len=$( ls $CUSTOMANIMS/$ANIM | wc -l )
+                                    if [ $fol_len -gt 1 ]; then
+                                        echo -e $R"[!] Wrong Custom Folder Formatting in: $CUSTOMANIMS/$ANIM"$N
+                                        echo -e $R"[!] Make Sure It Is Only One File Per Folder"$N
+                                        animspass=false
+                                        applying=false
+                                        pass=false
+                                    else
+                                        cp -f $CUSTOMANIMS/$ANIM $MOUNTFOL$ANIMFOLDER$ANIM
+                                        echo "[+] Setting Permisssions..."
+                                        set_perm $MOUNTFOL$ANIMFOLDER$ANIM 0 0 0644
+                                        echo "[+] Permissions Set!"
+                                        echo -e $G"          [+] Bootanimation Applied!!             "$N
+                                        echo -e $Y"$divider"$N
+                                        echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N
+                                        echo -e $Y"$divider"$N
+                                        sleep 3
+                                        animspass=false
+                                        applying=false
+                                        pass=false
+                                        main=false
+                                    fi
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            2)
+                applying=false
+                ;;
+            *)
+                echo -e $R"Invalid Input."$N
+                applying=false
+                ;;
+        esac
+    done
+
+}
+
+apply_audio() {
+    applying=true
+    while [ "$applying" == true ]; do
+        clear
+        echo -e $y"$divider"$N
+        echo -e $B"[#] Specify Custom Audio Files!"$N
+        echo -e $P"[+] Here you can choose from the list of available custom Audio Files you have placed in $CUSTOMAUDIO"$N
+        echo -e $P"[+] For help creating a custom Audio folder, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
+        echo -e $Y"$divider"$N
+        audionum=$( ls $CUSTOMAUDIO | wc -l )
+        echo -e $G"[+] Number of Custom Audio Filse found: $audionum"$N
+        echo -e $B"[+] Proceed to audio file selection?"$N
+        echo -e $G"[1] Continue - [2] Return"$N
+        echo -e $W"[CHOOSE]: "$N
+        read -r CHOICE
+        case $CHOICE in
+            1)
+                if [ $audionum -eq 0]; then
+                    echo -e $R"[!] No Available Custom Audio Files!"$N
+                    sleep 2
+                    applying=false
+                else
+                    clear
+                    echo -e $Y"$divider"$N
+                    echo -e $B"[#] Custom Audio Files:"$N
+                    audios=$( ls $CUSTOMAUDIO | tr ' ' '*' )
+                    i=1
+                    for audio in $audios; do
+                        word=$( echo $audio | tr '*' ' ' )
+                        echo -e "$C[$i]$N $W$word$N"
+                        i=$((i+1))
+                    done
+                    echo -e $R"[q] Quit"$N
+                    audiopass=true
+                    while [ "$audiopass" == true ]; do
+                        echo -e $W"[CHOOSE]: "$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    audiopass=false
+                                    applying=false
+                                elif [ $CHOICE -gt $audionum ]; then
+                                    echo -e $R"[!] Invalid Input."$N
+                                else
+                                    clear
+                                    AUDIO="$( ls $CUSTOMAUDIO | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                    echo "[+] Applying $AUDIO..."
+                                    mkdir -p $MODDIR/media > /dev/null 2>&1
+                                    set_perm $MODDIR/media 0 0 0755
+                                    fol_len=$( ls $CUSTOMAUDIO/$AUDIO | wc -l )
+                                    if [ $fol_len -gt 4 ]; then
+                                        echo -e $R"[!] Wrong Custom Folder Formatting in: $CUSTOMAUDIO/$AUDIO"$N
+                                        echo -e $R"[!] Make Sure It Is Only One File Per Folder"$N
+                                        audiopass=false
+                                        applying=false
+                                        pass=false
+                                    else
+                                        cp -rf $CUSTOMAUDIO/$AUDIO/* $MODDIR/media
+                                        echo "[+] Setting Permisssions..."
+                                        set_perm $MODDIR/media/audio 0 0 0755
+                                        set_perm_recursive $MODDIR/media/audio/ui 0 0 0755 0644 > /dev/null 2>&1
+                                        set_perm_recursive $MODDIR/media/audio/notifications 0 0 0755 0644 > /dev/null 2>&1
+                                        set_perm_recursive $MODDIR/media/audio/alarms 0 0 0755 0644 > /dev/null 2>&1
+                                        set_perm_recursive $MODDIR/media/audio/ringtones 0 0 0755 0644 > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/.replace > /dev/null 2>&1
+                                        echo "[+] Permissions Set!"
+                                        echo -e $G"          [+] Audio Files Applied!!             "$N
+                                        echo -e $Y"$divider"$N
+                                        echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N
+                                        echo -e $Y"$divider"$N
+                                        sleep 3
+                                        audiopass=false
+                                        applying=false
+                                        pass=false
+                                        main=false
+                                    fi
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            2)
+                applying=false
+                ;;
+            *)
+                echo -e $R"Invalid Input."$N
+                applying=false
+                ;;
+        esac
+    done
+
+}
+#========================
+#========================
+#========================
+#========================

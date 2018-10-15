@@ -62,7 +62,8 @@ while [ "$main" == true ]; do
     echo -e $G"     A   M I D N I G H T   M O D U L E      "$N
     echo -e $Y"$divider"$N
     sleep 0.2
-    echo "                  Applied: $CURRENT             "
+    echo "                       Applied:             "
+    echo "                  $CURRENT                  "
     echo -e $Y"$divider"$N
     sleep 0.2
     echo "[+] Choose what type of media you would like to change."
@@ -71,7 +72,6 @@ while [ "$main" == true ]; do
     sleep 0.2
     echo -e $C"[b] Bootanimation - [s] Sounds (UI, Ringtones, etc)"$N
     echo -e $G"[m] Both (Audio & Bootanimation)"$N
-    echo -e $B"[custom] Apply Custon Bootanimation(supports samsung, etc)"$N
     echo -e $R"[q] Quit"$N
     echo ""
     echo -e $W"[CHOOSE]:"$N
@@ -85,9 +85,6 @@ while [ "$main" == true ]; do
             ;;
         m)
             audio_choice
-            ;;
-        custom)
-            apply_custom
             ;;
         q)
             main=false

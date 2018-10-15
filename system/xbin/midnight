@@ -2,12 +2,13 @@
 #============================
 # Root checking...
 #============================
+clear
 if [ "$( id -u )" != 0 ]; then
-    cd /
-    su -c midnight
+    clear
+    echo "[!] Root Access Required For MidnightCore!"
+    echo "[!] Also Make Sure You Are In Your Root Directory!"
     exit
 fi
-clear
 #============================
 # VARIABLES
 . /data/adb/magisk/util_functions.sh
@@ -15,14 +16,17 @@ MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
+MIDCUSTOM="$MIDMAIN/MidnightCustom"
+
 manufacturer="$( grep_prop ro.product.manufacturer )"
 if [ "$manufacturer" == "HTC" ]; then
-    ANIMFOLDER="/customize/resource"
-    ANIM="/hTC_bootup.zip"
+    ANIMFOLDER="/customize/resource/"
+    ANIM="hTC_bootup.zip"
 else
-    ANIMFOLDER="/media"
-    ANIM="/bootanimation.zip"
+    ANIMFOLDER="/media/"
+    ANIM="bootanimation.zip"
 fi
+MOUNTFOL="/data/adb/magisk_simple/system"
 divider='==================================================' > /dev/null 2>&1
 if [ -d /system/xbin ]; then
     bin=xbin
@@ -38,13 +42,22 @@ mkdir "$MIDMAIN" > /dev/null 2>&1
 mkdir "$MIDFONT" > /dev/null 2>&1
 mkdir "$MIDMEDIA" > /dev/null 2>&1
 mkdir "$MIDMISC" > /dev/null 2>&1
+mkdir "$MIDCUSTOM" > /dev/null 2>&1
+mkdir $MIDCUSTOM/Fonts > /dev/null 2>&1
+mkdir -p $MIDCUSTOM/Media/Bootanimations > /dev/null 2>&1
+mkdir -p $MIDCUSTOM/Media/Audio > /dev/null 2>&1
 clear
 #============================
 # START PROGRAM
 #============================
+font_applied=false
 main_start
 #============================
 # CLEANUP
 #============================
 cleanup
+sleep 2
+if ["$font_applied" == true ]; then
+    killall zygote
+fi
 #============================

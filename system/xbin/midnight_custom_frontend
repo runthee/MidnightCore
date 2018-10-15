@@ -1,0 +1,90 @@
+#!/system/bin/sh
+#===========================
+# VARIABLES
+#===========================
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+. /system/$bin/mc_init
+MIDCUSTOM="/sdcard/MidnightMain/MidnightCustom"
+CUSTOMFONTS="$MIDCUSTOM/Fonts"
+CUSTOMMEDIA="$MIDCUSTOM/Media"
+CUSTOMANIMS="$CUSTOMMEDIA/Bootanimations"
+CUSTOMAUDIO="$CUSTOMMEDIA/Audio"
+if [ -f "$MIDFONT/currently_applied_font.txt" ]; then
+    CURRENTFONT=$G"$( cat $MIDFONT/currently_applied_font.txt )"$N
+else
+    CURRENTFONT=$R"Default"$N
+fi
+if [ -f "$MIDMEDIA/currently_applied_media.txt" ]; then
+    CURRENTMEDIA=$G"$( cat $MIDMEDIA/currently_applied_media.txt )"$N
+else
+    CURRENTMEDIA=$R"Default"$N
+fi
+#===========================
+# ENVIRONMENT SETUP
+#===========================
+mkdir -p $CUSTOMFONTS > /dev/null 2>&1
+mkdir -p $CUSTOMMEDIA > /dev/null 2>&1
+mkdir -p $CUSTOMANIMS > /dev/null 2>&1
+mkdir -p $CUSTOMAUDIO > /dev/null 2>&1
+#===========================
+#===========================
+main=true
+. $custom_backend
+while [ "$main" == true ]; do
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $G"      _______  __    ____________________ ____    _____________    "$N
+    echo -e $G"     /  ____/ / /   / //   __//___   ___//    \  /  __   __   /    "$N
+    echo -e $G"    /  /     / /   / //__  \     /  /   / /__  \/  / /  / /  /     "$N
+    echo -e $G"    \  \____/ /___/ / __/  /    /  /    \   /  /  / /  / /  /      "$N
+    echo -e $G"     \_____/_______/ /____/    /__/      \____/__/ /__/ /__/       "$N
+    echo -e $Y"$divider"$N
+    echo -e $G"                A   M I D N I G H T   M O D U L E                  "$N
+    echo -e $Y"$divider"$N
+    sleep 0.2
+    echo "[+] Select an option:"
+    echo ""
+    sleep 0.2
+    echo -e "$C[1]$N Custom Fonts - $C[2]$N Custom Bootanimations"
+    echo -e "$C[3]$N Custom Audio Files"
+    echo -e "$P[h]$N Help/How-To - $R[q] Quit$N"
+    echo ""
+    pass=true
+    while [ "$pass" == true ]; do
+        echo -e -n $W"[CHOOSE]: "$N
+        read -r INPUT
+        case $INPUT in
+            1)
+                apply_fonts
+                pass=false
+                ;;
+            2)
+                apply_anims
+                pass=false
+                ;;
+            3)
+                apply_audio
+                pass=false
+                ;;
+            h)
+                show_help
+                pass=false
+                ;;
+            q)
+                pass=false
+                main=false
+                ;;
+            *)
+                echo -e $R"[!] Invalid Input."$N
+                ;;
+        esac
+    done
+done
+#===========================
+#===========================
+#===========================
+#===========================

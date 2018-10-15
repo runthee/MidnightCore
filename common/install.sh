@@ -78,6 +78,12 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
             tar -xzf "$FONT.tar.gz" -C $INSTALLER/system/fonts
             cd $dir
             ui_print " [+] Backup Restored!"
+        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Fonts/$FONT ]; then
+            ui_print " [+] Font Backup Found!"
+            ui_print " [+] Restoring Backup..."
+            mkdir $INSTALLER/system/fonts
+            cp -f /data/media/0/MidnightMain/MidnightCustom/Fonts/$FONT/* $INSTALLER/system/fonts
+            ui_print " [+] Backup Restored!"
         else
             ui_print " [+] No Font Backup Found."
             ui_print " [+] Setting Up Font Restoration Environment..."
@@ -126,6 +132,18 @@ if [ -f /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt ]; 
             cd /data/media/0/MidnightMain/MidnightMedia/Backup
             tar -xzf "$MEDIA.tar.gz" -C $INSTALLER/system/media
             cd $dir
+            ui_print " [+] Backup Restored!"
+        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Media/Bootanimations/$MEDIA ]; then
+            ui_print " [+] Media Backup Found!"
+            ui_print " [+] Restoring Backup..."
+            mkdir $INSTALLER/system/media
+            cp /data/media/0/MidnightMain/MidnightCustom/Media/Bootanimations/$MEDIA/* $INSTALLER/system/media
+            ui_print " [+] Backup Restored!"
+        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Media/Audio/$MEDIA ]; then
+            ui_print " [+] Media Backup Found!"
+            ui_print " [+] Restoring Backup..."
+            mkdir $INSTALLER/system/media
+            cp /data/media/0/MidnightMain/MidnightCustom/Media/Audio/$MEDIA/* $INSTALLER/system/media
             ui_print " [+] Backup Restored!"
         else
             ui_print " [+] No Media Backup Found."
