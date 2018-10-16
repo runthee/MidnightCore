@@ -3,6 +3,11 @@
 # FUNCTIONS
 #========================
 apply_fonts() {
+	if [ -f $MIDFONT/currently_applied_font.txt ]; then
+		CURRENT="$( cat $MIDFONT/currently_applied_font.txt )"
+	else
+		CURRENT="DEFAULT"
+	fi
     applying=true
     while [ "$applying" == true ]; do
         clear
@@ -54,6 +59,9 @@ apply_fonts() {
                                     cp -f $CUSTOMFONTS/$FONT/* $MODDIR/fonts
                                     echo "[+] Setting Permisssions..."
                                     chmod 644 $MODDIR/fonts/*
+                                    rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+									touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+									echo $FONT > $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
                                     echo "[+] Permissions Set!"
                                     echo -e $G"              [+] Font Applied!!             "$N
                                     echo -e $Y"$divider"$N
@@ -80,6 +88,11 @@ apply_fonts() {
 }
 
 apply_anims() {
+	if [ -f $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt ]; then
+		CURRENT="$( cat $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt )"
+	else
+		CURRENT="DEFAULT"
+	fi
     applying=true
     while [ "$applying" == true ]; do
         clear
@@ -140,6 +153,9 @@ apply_anims() {
                                         cp -f $CUSTOMANIMS/$ANIM $MOUNTFOL$ANIMFOLDER$ANIM
                                         echo "[+] Setting Permisssions..."
                                         chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
+										rm -f $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
+										touch $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
+										echo $ANIM > $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
                                         echo "[+] Permissions Set!"
                                         echo -e $G"          [+] Bootanimation Applied!!             "$N
                                         echo -e $Y"$divider"$N
@@ -170,6 +186,11 @@ apply_anims() {
 }
 
 apply_audio() {
+	if [ -f $MIDCUSTOM/Media/currently_applied_custom_audio.txt ]; then
+		CURRENT="$( cat $MIDCUSTOM/Media/currently_applied_custom_audio.txt )"
+	else
+		CURRENT="DEFAULT"
+	fi
     applying=true
     while [ "$applying" == true ]; do
         clear
@@ -180,6 +201,7 @@ apply_audio() {
         echo -e $Y"$divider"$N
         audionum=$( ls $CUSTOMAUDIO | wc -l )
         echo -e $G"[+] Number of Custom Audio Filse found: $audionum"$N
+		echo -e $G"[+] Currently Applied Audio Files: $CURRENT"$N
         echo -e $B"[+] Proceed to audio file selection?"$N
         echo -e $G"[1] Continue - [2] Return"$N
         echo -e $W"[CHOOSE]: "$N
@@ -234,6 +256,9 @@ apply_audio() {
                                         chmod 644 $MODDIR/media/audio/ringtones/*> /dev/null 2>&1
                                         touch $MODDIR/media/audio/.replace > /dev/null 2>&1
                                         echo "[+] Permissions Set!"
+										rm -f $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
+										touch $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
+										echo $AUDIO > $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
                                         echo -e $G"          [+] Audio Files Applied!!             "$N
                                         echo -e $Y"$divider"$N
                                         echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N

@@ -17,7 +17,8 @@ MIDFONT="$MIDMAIN/MidnightFonts"
 MIDMEDIA="$MIDMAIN/MidnightMedia"
 MIDMISC="$MIDMAIN/MidnightMisc"
 MIDCUSTOM="$MIDMAIN/MidnightCustom"
-
+rm -rf $MIDMEDIA/tmp_media > /dev/null 2>&1
+rm -rf $MIDFONT/tmp_fonts > /dev/null 2>&1
 manufacturer="$( grep_prop ro.product.manufacturer )"
 if [ "$manufacturer" == "HTC" ]; then
     ANIMFOLDER="/customize/resource/"

@@ -15,7 +15,6 @@ fi
 MIDFONT="/sdcard/MidnightMain/MidnightFonts"
 STOREFONT="$MIDFONT/tmp_fonts"
 FONTBACKUP="$MIDFONT/Backup"
-CUSTOMFONT="$MIDFONT/Custom_Fonts"
 if [ -f "$MIDFONT/currently_applied_font.txt" ]; then
     CURRENT=$G"$( cat $MIDFONT/currently_applied_font.txt )"$N
 else
@@ -26,7 +25,6 @@ fi
 #================================
 mkdir -p $STOREFONT > /dev/null 2>&1
 mkdir -p $FONTBACKUP > /dev/null 2>&1
-mkdir -p $CUSTOMFONT > /dev/null 2>&1
 echo "[+] Setting Up Environment..."
 wget --no-check-certificate -q -O $STOREFONT/font-list "https://ncloud.zaclys.com/index.php/s/jWG7VgSePf30Dat/download"
 if [ $? != 0 ]; then

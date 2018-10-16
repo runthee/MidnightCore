@@ -14,9 +14,6 @@ fi
 MIDMEDIA="/sdcard/MidnightMain/MidnightMedia"
 STOREMEDIA="$MIDMEDIA/tmp_media"
 MEDIABACKUP="$MIDMEDIA/Backup"
-CUSTOMMEDIA="$MIDMEDIA/Custom_Media"
-CUSTOMANIM="$CUSTOMMEDIA/bootanimations"
-CUSTOMAUDIO="$CUSTOMMEDIA/audio"
 if [ -f $MIDMEDIA/currently_applied_media.txt ]; then
     CURRENT=$G"$( cat $MIDMEDIA/currently_applied_media.txt )"$N
 else
@@ -27,9 +24,6 @@ fi
 #=================================
 mkdir -p $STOREMEDIA > /dev/null 2>&1
 mkdir -p $MEDIABACKUP > /dev/null 2>&1
-mkdir -p $CUSTOMMEDIA > /dev/null 2>&1
-mkdir -p $CUSTOMANIM > /dev/null 2>&1
-mkdir -p $CUSTOMAUDIO > /dev/null 2>&1
 echo "[+] Setting Up Environment..."
 wget --no-check-certificate -q -O $STOREMEDIA/media-list "https://ncloud.zaclys.com/index.php/s/qU9KDmCjAjeB35e/download"
 if [ $? != 0 ]; then
