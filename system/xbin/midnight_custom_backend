@@ -60,9 +60,6 @@ apply_fonts() {
                                     echo -e $P"     [+] Please reboot for changes to apply!!      "$N
                                     echo -e $Y"$divider"$N
                                     sleep 3
-                                    font_applied=true
-                                    main=false
-                                    running=false
                                     fontspass=false
                                     applying=false
                                 fi

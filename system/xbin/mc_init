@@ -173,14 +173,11 @@ cleanup() {
     rm -rf $MidFont/tmp_fonts > /dev/null 2>&1
     echo -e $G"[+] Done!"$N
     echo -e $G""$N
-    echo -e $G"  _______ __  __ ____  _  __ __ __    __  __ __  "$N
-    echo -e $G" /__  __// /_/ // _  \/ \/ // // /   / / / / \/  "$N
-    echo -e $G"   / /  / __  // /_/ /    //    /   / /_/ /  __  "$N
-    echo -e $G"  /_/  /_/ /_//_/ /_/_/\_//__/\_\  /_____/  /_/  "$N
+    echo -e $G"      _______ __  __ ____  _  __ __ __    __  __ __      "$N
+    echo -e $G"     /__  __// /_/ // _  \/ \/ // // /   / / / / \/      "$N
+    echo -e $G"       / /  / __  // /_/ /    //    /   / /_/ /  __      "$N
+    echo -e $G"      /_/  /_/ /_//_/ /_/_/\_//__/\_\  /_____/  /_/      "$N
     echo -e $Y"$divider"$N
-    if [ "$font_applied" == true ]; then
-        echo -e $G"Applying font please wait..."$N
-    fi
     exit
 }
 #==================================

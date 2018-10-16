@@ -50,14 +50,9 @@ clear
 #============================
 # START PROGRAM
 #============================
-font_applied=false
 main_start
 #============================
 # CLEANUP
 #============================
 cleanup
-if [ "$font_applied" == true ]; then
-    sleep 2
-    killall zygote
-fi
 #============================
