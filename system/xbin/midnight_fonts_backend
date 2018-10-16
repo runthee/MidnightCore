@@ -25,7 +25,7 @@ zip_sort_no_store() {
         rm -rf $MODDIR/fonts > /dev/null 2>&1
         mkdir $MODDIR/fonts > /dev/null 2>&1
         cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
-        set_perm $MODDIR/fonts/* 0 0 0644 > /dev/null 2>&1
+        chmod 644 $MODDIR/fonts/*
         rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
@@ -34,6 +34,8 @@ zip_sort_no_store() {
         echo -e $Y"$divider"$N
         echo -e $R"     [+] Please reboot for changes to apply!!      "$N
         echo -e $Y"$divider"$N
+        font_applied=true
+        running=false
         sleep 3
     fi
 }
@@ -46,7 +48,7 @@ zip_sort_store() {
         rm -rf $MODDIR/fonts > /dev/null 2>&1
         mkdir $MODDIR/fonts > /dev/null 2>&1
         cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
-        set_perm $MODDIR/fonts/* 0 0 0644
+        chmod 644 $MODDIR/fonts/*
         dir=pwd
         cd $FONTBACKUP > /dev/null 2>&1
         tar -czf "$FONT2.tar.gz" -C $MODDIR/fonts .
@@ -63,6 +65,8 @@ zip_sort_store() {
         echo -e $Y"$divider"$N
         echo -e $R"   [+] Please reboot for changes to apply!!    "$N
         echo -e $Y"$divider"$N
+        font_applied=true
+        running=false
         sleep 3
     fi
 }
@@ -103,7 +107,7 @@ check_stored() {
             show_error "Backup not restored" "Unknown." "Report error on XDA thread."
         fi
         cd $dir
-        set_perm_recursive $MODDIR/fonts 0 0 0755 0644
+        chmod 644 $MODDIR/fonts/*
         rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
@@ -113,6 +117,8 @@ check_stored() {
         echo -e $R"      [+] Please reboot for changes to apply!!      "$N
         echo -e $Y"$divider"$N
         sleep 3
+        font_applied=true
+        running=false
         restored=true
     else
         echo "[#] Saved version not found!"

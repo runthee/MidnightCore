@@ -126,14 +126,13 @@ check_stored() {
             show_error "Backup not restored" "Unknown" "Report error on XDA thread"
         fi
         cd $dir
-        set_perm $MOUNTFOL$ANIMFOLDER$ANIM 0 0 0644 > /dev/null 2>&1
-        mktouch $MODDIR/audio/.replace > /dev/null 2>&1
+        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM > /dev/null 2>&1
+        touch $MODDIR/media/audio/.replace > /dev/null 2>&1
         echo "[+] Setting audio file permissions..." > /dev/null 2>&1
-        set_perm_recursive $MODDIR/audio 0 0 0755 > /dev/null 2>&1
-        set_perm $MODDIR/audio/ui/*.ogg 0 0 0644 > /dev/null 2>&1
-        set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644 > /dev/null 2>&1
-        set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644 > /dev/null 2>&1
-        set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644 > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/ui/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/ringtones/* > /dev/null 2>&1
         echo "[+] Permissions Set!"
         clear
         echo -e $Y"$divider"$N
@@ -155,34 +154,32 @@ sort_zip() {
     if [ "$INPUT" == "b" ]; then
         mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
         mv -f $STOREMEDIA/bootanimation.zip $MOUNTFOL$ANIMFOLDER$ANIM
-        set_perm $MOUNTFOL$ANIMFOLDER$ANIM 0 0 0644
+        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
         echo "[+] Bootanimation Sorted!"
     elif [ "$INPUT" == "s" ]; then
         mkdir $MODDIR/media > /dev/null 2>&1
         mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
-        mktouch $MODDIR/audio/.replace
+        touch $MODDIR/media/audio/.replace
         echo "[+] Setting audio file permissions..."
-        set_perm_recursive $MODDIR/audio 0 0 0755
-        set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
-        set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
-        set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
-        set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
+        chmod 644 $MODDIR/media/audio/ui/*
+        chmod 644 $MODDIR/media/audio/notifications/*
+        chmod 644 $MODDIR/media/audio/alarms/*
+        chmod 644 $MODDIR/media/audio/ringtones/*
         echo "[+] Permissions Set!"
     elif [ "$INPUT" == "m" ]; then
         if [ -d $STOREMEDIA/audio ]; then
             mkdir $MODDIR/media > /dev/null 2>&1
             mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
             mv -f $STOREMEDIA/bootanimation.zip $MOUNTFOL$ANIMFOLDER$ANIM > /dev/null 2>&1
-            set_perm $MOUNTFOL$ANIMFOLDER$ANIM 0 0 0644
+            chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
             echo "[+] Bootanimation Sorted!"
             mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
-            mktouch $MODDIR/audio/.replace
+            touch $MODDIR/media/audio/.replace
             echo "[+] Setting audio file permissions..."
-            set_perm_recursive $MODDIR/audio 0 0 0755
-            set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
-            set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
-            set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
-            set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
+            chmod 644 $MODDIR/audio/ui/*
+            chmod 644 $MODDIR/audio/notifications/*
+            chmod 644 $MODDIR/audio/alarms/*
+            chmod 644 $MODDIR/audio/ringtones/*
             echo "[+] Permissions Set!"
         elif [ ! -d $STOREMEDIA/audio ]; then
             echo "[+] This option only contains a bootanimation file."
@@ -196,7 +193,7 @@ sort_zip() {
                     y)
                         mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
                         mv -f $STOREMEDIA/bootanimation.zip $MOUNTFOL$ANIMFOLDER$ANIM
-                        set_perm $MOUNTFOL$ANIMFOLDER$ANIM 0 0 0644
+                        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
                         echo "[+] Bootanimation Sorted!"
                         pass=false
                         ;;
@@ -221,13 +218,12 @@ sort_zip() {
                     y)
                         mkdir $MODDIR/media > /dev/null 2>&1
                         mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
-                        mktouch $MODDIR/audio/.replace
+                        touch $MODDIR/audio/.replace
                         echo "[+] Setting audio file permissions..."
-                        set_perm_recursive $MODDIR/audio 0 0 0755
-                        set_perm $MODDIR/audio/ui/*.ogg 0 0 0644
-                        set_perm $MODDIR/audio/notifications/*.ogg 0 0 0644
-                        set_perm $MODDIR/audio/alarms/*.ogg 0 0 0644
-                        set_perm $MODDIR/audio/ringtones/*.ogg 0 0 0644
+                        chmod 644 $MODDIR/media/audio/ui/*
+                        chmod 644 $MODDIR/media/audio/notifications/*
+                        chmod 644 $MODDIR/media/audio/alarms/*
+                        chmod 644 $MODDIR/media/audio/ringtones/*
                         echo "[+] Permissions Set!"
                         pass=false
                         ;;

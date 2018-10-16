@@ -53,13 +53,16 @@ apply_fonts() {
                                     mkdir $MODDIR/fonts > /dev/null 2>&1
                                     cp -f $CUSTOMFONTS/$FONT/* $MODDIR/fonts
                                     echo "[+] Setting Permisssions..."
-                                    set_perm_recursive $MODDIR/fonts 0 0 0755 0644
+                                    chmod 644 $MODDIR/fonts/*
                                     echo "[+] Permissions Set!"
                                     echo -e $G"              [+] Font Applied!!             "$N
                                     echo -e $Y"$divider"$N
                                     echo -e $P"     [+] Please reboot for changes to apply!!      "$N
                                     echo -e $Y"$divider"$N
                                     sleep 3
+                                    font_applied=true
+                                    main=false
+                                    running=false
                                     fontspass=false
                                     applying=false
                                 fi
@@ -139,7 +142,7 @@ apply_anims() {
                                     else
                                         cp -f $CUSTOMANIMS/$ANIM $MOUNTFOL$ANIMFOLDER$ANIM
                                         echo "[+] Setting Permisssions..."
-                                        set_perm $MOUNTFOL$ANIMFOLDER$ANIM 0 0 0644
+                                        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
                                         echo "[+] Permissions Set!"
                                         echo -e $G"          [+] Bootanimation Applied!!             "$N
                                         echo -e $Y"$divider"$N
@@ -218,7 +221,6 @@ apply_audio() {
                                     AUDIO="$( ls $CUSTOMAUDIO | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
                                     echo "[+] Applying $AUDIO..."
                                     mkdir -p $MODDIR/media > /dev/null 2>&1
-                                    set_perm $MODDIR/media 0 0 0755
                                     fol_len=$( ls $CUSTOMAUDIO/$AUDIO | wc -l )
                                     if [ $fol_len -gt 4 ]; then
                                         echo -e $R"[!] Wrong Custom Folder Formatting in: $CUSTOMAUDIO/$AUDIO"$N
@@ -229,11 +231,10 @@ apply_audio() {
                                     else
                                         cp -rf $CUSTOMAUDIO/$AUDIO/* $MODDIR/media
                                         echo "[+] Setting Permisssions..."
-                                        set_perm $MODDIR/media/audio 0 0 0755
-                                        set_perm_recursive $MODDIR/media/audio/ui 0 0 0755 0644 > /dev/null 2>&1
-                                        set_perm_recursive $MODDIR/media/audio/notifications 0 0 0755 0644 > /dev/null 2>&1
-                                        set_perm_recursive $MODDIR/media/audio/alarms 0 0 0755 0644 > /dev/null 2>&1
-                                        set_perm_recursive $MODDIR/media/audio/ringtones 0 0 0755 0644 > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/ui/* > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/ringtones/*> /dev/null 2>&1
                                         touch $MODDIR/media/audio/.replace > /dev/null 2>&1
                                         echo "[+] Permissions Set!"
                                         echo -e $G"          [+] Audio Files Applied!!             "$N
