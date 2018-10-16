@@ -115,7 +115,7 @@ do_log() {
     done
 }
 
-do_dumpsys() {
+do_dump() {
     dump=true
     while [ "$dump" == true ]; do
         clear

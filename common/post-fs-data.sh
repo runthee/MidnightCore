@@ -11,7 +11,7 @@ else
 	basicmnt="/data/adb/magisk_simple"
 fi
 
-if [ ! -f $basicmnt/system/media/bootanimation.zip ]; then
+if [ ! -f $basicmnt/system/media/bootanimation.zip ] && [ -f $MODDIR/system/media/bootanimation.zip ]; then
 	mkdir -p $basicmnt/system/media
-	cp -rf $MODDIR/system/media/bootanimation.zip $basicmnt/system/media
+	cp -rf $MODDIR/system/media/bootanimation.zip $basicmnt/system/media > /dev/null 2>&1
 fi

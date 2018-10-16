@@ -5,8 +5,8 @@
 clear
 if [ "$( id -u )" != 0 ]; then
     clear
-    echo "[!] Root Access Required For MidnightCore!"
-    echo "[!] Also Make Sure You Are In Your Root Directory!"
+	cd /
+	su -c midnight
     exit
 fi
 #============================
@@ -56,8 +56,4 @@ main_start
 # CLEANUP
 #============================
 cleanup
-sleep 2
-if ["$font_applied" == true ]; then
-    killall zygote
-fi
 #============================

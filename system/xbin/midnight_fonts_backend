@@ -29,13 +29,11 @@ zip_sort_no_store() {
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
         clear
-        echo -e $G"           [+] Font Applied!!             "$N
+        echo -e $G"                [+] Font Applied!!                 "$N
         echo -e $Y"$divider"$N
-        echo -e $R"      [+] Fonts Will Apply Shortly!!      "$N
+        echo -e $R"     [+] Please reboot for changes to apply!!      "$N
         echo -e $Y"$divider"$N
         sleep 3
-        font_applied=true
-        running=false
     fi
 }
 
@@ -59,13 +57,11 @@ zip_sort_store() {
         echo $FONT > $MIDFONT/currently_applied_font.txt
         clear
         echo -e $Y"$divider"$N
-        echo -e $G"    [+] Font Applied and Saved!!     "$N
+        echo -e $G"        [+] Font Applied and Saved!!           "$N
         echo -e $Y"$divider"$N
-        echo -e $R"   [+] Fonts will apply shortly!!    "$N
+        echo -e $R"   [+] Please reboot for changes to apply!!    "$N
         echo -e $Y"$divider"$N
         sleep 3
-        font_applied=true
-        running=false
     fi
 }
 
@@ -109,14 +105,12 @@ check_stored() {
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
         clear
-        echo -e $G"           [+] Font Applied!!             "$N
+        echo -e $G"                [+] Font Applied!!                  "$N
         echo -e $Y"$divider"$N
-        echo -e $R"      [+] Fonts Will Apply Shortly!!      "$N
+        echo -e $R"      [+] Please reboot for changes to apply!!      "$N
         echo -e $Y"$divider"$N
         sleep 3
-        font_applied=true
         restored=true
-        running=false
     else
         echo "[#] Saved version not found!"
         echo "[+] Resuming Process.."
