@@ -5,8 +5,8 @@
 clear
 if [ "$( id -u )" != 0 ]; then
     clear
-	cd /
-	su -c midnight
+    cd /
+    su -c midnight
     exit
 fi
 #============================

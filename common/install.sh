@@ -116,42 +116,42 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
     fi
 fi
 # MEDIA SURVIVAL
-if [ -f /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt ]; then
-    MEDIATEXT="$( cat /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt | tr -d ' ' )"
-    MEDIA="$( echo $MEDIATEXT | cut -d ']' -f 2 )"
-    ui_print " [+] Currently Applied Media: $MEDIA"
-    ui_print " [+] Would you like to restore this file?"
-    ui_print " [!] A BACKUP IS NECESSARY FOR THIS!"
-    ui_print " [+] Vol+ = Yes, Vol- = No"
-    if $FUNCTION; then
-        if [ -f /data/media/0/MidnightMain/MidnightMedia/Backup/$MEDIA.tar.gz ]; then
-            ui_print " [+] Media Backup Found!"
-            ui_print " [+] Restoring Backup..."
-            dir=pwd
-            mkdir $INSTALLER/system/media
-            cd /data/media/0/MidnightMain/MidnightMedia/Backup
-            tar -xzf "$MEDIA.tar.gz" -C $INSTALLER/system/media
-            cd $dir
-            ui_print " [+] Backup Restored!"
-        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Media/Bootanimations/$MEDIA ]; then
-            ui_print " [+] Media Backup Found!"
-            ui_print " [+] Restoring Backup..."
-            mkdir $INSTALLER/system/media
-            cp /data/media/0/MidnightMain/MidnightCustom/Media/Bootanimations/$MEDIA/* $INSTALLER/system/media
-            ui_print " [+] Backup Restored!"
-        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Media/Audio/$MEDIA ]; then
-            ui_print " [+] Media Backup Found!"
-            ui_print " [+] Restoring Backup..."
-            mkdir $INSTALLER/system/media
-            cp /data/media/0/MidnightMain/MidnightCustom/Media/Audio/$MEDIA/* $INSTALLER/system/media
-            ui_print " [+] Backup Restored!"
-        else
-            ui_print " [+] No Media Backup Found."
-            ui_print " [+] Media files can only be restored"
-            ui_print " [+] if a backup exists."
-            ui_print " [+] Skipping Media Restoration..."
-        fi
-    else
-        ui_print " [+] Resuming Process..."
-    fi
-fi
+#if [ -f /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt ]; then
+#    MEDIATEXT="$( cat /data/media/0/MidnightMain/MidnightMedia/currently_applied_media.txt | tr -d ' ' )"
+#    MEDIA="$( echo $MEDIATEXT | cut -d ']' -f 2 )"
+#    ui_print " [+] Currently Applied Media: $MEDIA"
+#    ui_print " [+] Would you like to restore this file?"
+#    ui_print " [!] A BACKUP IS NECESSARY FOR THIS!"
+#    ui_print " [+] Vol+ = Yes, Vol- = No"
+#    if $FUNCTION; then
+#        if [ -f /data/media/0/MidnightMain/MidnightMedia/Backup/$MEDIA.tar.gz ]; then
+#            ui_print " [+] Media Backup Found!"
+#            ui_print " [+] Restoring Backup..."
+#            dir=pwd
+#            mkdir $INSTALLER/system/media
+#            cd /data/media/0/MidnightMain/MidnightMedia/Backup
+#            tar -xzf "$MEDIA.tar.gz" -C $INSTALLER/system/media
+#            cd $dir
+#            ui_print " [+] Backup Restored!"
+#        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Media/Bootanimations/$MEDIA ]; then
+#            ui_print " [+] Media Backup Found!"
+#            ui_print " [+] Restoring Backup..."
+#            mkdir $INSTALLER/system/media
+#            cp /data/media/0/MidnightMain/MidnightCustom/Media/Bootanimations/$MEDIA/* $INSTALLER/system/media
+#            ui_print " [+] Backup Restored!"
+#        elif [ -d /data/media/0/MidnightMain/MidnightCustom/Media/Audio/$MEDIA ]; then
+#            ui_print " [+] Media Backup Found!"
+#            ui_print " [+] Restoring Backup..."
+#            mkdir $INSTALLER/system/media
+#            cp /data/media/0/MidnightMain/MidnightCustom/Media/Audio/$MEDIA/* $INSTALLER/system/media
+#            ui_print " [+] Backup Restored!"
+#        else
+#            ui_print " [+] No Media Backup Found."
+#            ui_print " [+] Media files can only be restored"
+#            ui_print " [+] if a backup exists."
+#            ui_print " [+] Skipping Media Restoration..."
+#        fi
+#    else
+#        ui_print " [+] Resuming Process..."
+#    fi
+#fi

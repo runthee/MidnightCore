@@ -55,17 +55,13 @@ apply_fonts() {
                                     echo "[+] Setting Permisssions..."
                                     set_perm_recursive $MODDIR/fonts 0 0 0755 0644
                                     echo "[+] Permissions Set!"
-                                    echo -e $G"          [+] Font Applied!!             "$N
+                                    echo -e $G"              [+] Font Applied!!             "$N
                                     echo -e $Y"$divider"$N
-                                    echo -e $P"     [+] Fonts Will Apply Shortly!!      "$N
+                                    echo -e $P"     [+] Please reboot for changes to apply!!      "$N
                                     echo -e $Y"$divider"$N
                                     sleep 3
                                     fontspass=false
                                     applying=false
-                                    pass=false
-                                    main=false
-                                    running=false
-                                    font_applied=true
                                 fi
                                 ;;
                         esac

@@ -130,14 +130,15 @@ restore () {
         case $RESTORE in
             1)
                 echo "[+] Restoring defaults..."
-                rm -rf $magisk/MidnightCore/system/fonts
+                rm -rf $magisk/MidnightCore/system/fonts > /dev/null 2>&1
                 echo "[+] Defaults restored!"
                 res=false
                 exit
                 ;;
             2)
                 echo "[+] Restoring defaults..."
-                rm -rf $magisk/MidnightCore/system/media
+                rm -rf $magisk/MidnightCore/system/media > /dev/null 2>&1
+                rm -rf /data/adb/magisk_simple > /dev/null 2&1
                 echo "[+] Defaults restored!"
                 res=false
                 exit

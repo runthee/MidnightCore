@@ -22,9 +22,10 @@ zip_sort_no_store() {
     clear
     if [ -d "$STOREFONT/system" ]; then
         echo "[+] Working..."
+        rm -rf $MODDIR/fonts > /dev/null 2>&1
         mkdir $MODDIR/fonts > /dev/null 2>&1
         cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
-        set_perm $DIR/fonts/* 0 0 0644 > /dev/null 2>&1
+        set_perm $MODDIR/fonts/* 0 0 0644 > /dev/null 2>&1
         rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
@@ -42,6 +43,7 @@ zip_sort_store() {
     if [ -d $STOREFONT/system ]; then
         echo "[+] Working..."
         echo "[+] Saving font to $FONTBACKUP..."
+        rm -rf $MODDIR/fonts > /dev/null 2>&1
         mkdir $MODDIR/fonts > /dev/null 2>&1
         cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
         set_perm $MODDIR/fonts/* 0 0 0644
@@ -94,6 +96,7 @@ check_stored() {
         echo "[+] Applying Font..."
         dir=$( pwd )
         cd $FONTBACKUP
+        rm -rf $MODDIR/fonts > /dev/null 2>&1
         mkdir $MODDIR/fonts > /dev/null 2>&1
         tar -xzf "$FONT2.tar.gz" -C $MODDIR/fonts
         if [ $? != 0 ]; then
