@@ -290,6 +290,31 @@ apply_audio() {
     done
 
 }
+
+show_help() {
+    clear
+    echo -e $Y"$divider"$N
+    echo -e $P"[#] MidnightCustom: Help and How-To"$N
+    echo -e $Y"$divider"$N
+    echo -e $G"[+] How to apply a Custom Font:"$N
+    echo -e $B"  [+] CUstom Font file path:"$N
+    echo "      --/sdcard/"
+    echo "          |--..."
+    echo "          |--MidnightMain/"
+    echo "              |--MidnightCustom/"
+    echo "                  |--Fonts/"
+    echo "                      |--<font-folder-name>"
+    echo "                          |--<font>.ttf"
+    echo "                          |--<font>.ttf"
+    echo "                          |--<font>.ttf"
+    echo "                          |--<font>.ttf"
+    echo "                          |--<font>.ttf"
+    echo "                          |--<font>.ttf"
+    echo "                  |--Media/"
+    echo "              |--MidnightFonts/"
+    echo "              |--MidnightMedia/"
+    echo "              |--MidnightMisc/"
+}
 #========================
 #========================
 #========================
