@@ -71,7 +71,8 @@ while [ "$main" == true ]; do
                 pass=false
                 ;;
             h)
-                show_help
+                echo "This is Under Construction. Please Check out the XDA thread for help."
+                sleep 5
                 pass=false
                 ;;
             q)

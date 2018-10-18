@@ -10,12 +10,10 @@ This module is an All-In-One package for the MidnightModule series. It currently
 ### MidnightMisc
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
 ### MidnightCustom
-Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! Easily apply your own files with Midnight Custom. You can find Instructions on how to use it in the module or on XDA
+* Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! Easily apply your own files with Midnight Custom. You can find Instructions on how to use it in the module or on XDA
 
 ## How To Use
 ```bash
-su
-cd
 midnight
 ```
 
@@ -26,7 +24,7 @@ That's It!
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 # Current Version
-v3.3.0
+v3.3.1
 Twilight Edition
 
 ## Included Fonts
@@ -147,10 +145,13 @@ Twilight Edition
 * Take Your Time(Persona5).
 
 ## Changelog
-### v3.3.0 - xx.10.18
+### v3.3.1 - 17.10.18
+* Fix for custom bootanimations not applying
+* Fix for some fonts not applying
+### v3.3.0 - 16.10.18
 * Introducing MidnightCustom, a refined implementaion of custom files
 * Fixed Simple Mount Bug (Thanks @Zackptg5!)
-* Fonts will apply automatically within seconds of choosing them! No need to reboot anymore!
+* Fixed major bugs with paths
 ### v3.2.0 - 09.10.18
 * Added support for HTC devices
 * Added support for applying custom fonts!
