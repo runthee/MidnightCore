@@ -296,9 +296,22 @@ apply_audio() {
 
 show_help() {
     clear
-    echo -e $Y"$divider"$N
-    echo -e $P"[#] MidnightCustom: Help and How-To"$N
-    echo -e $Y"$divider"$N
+    helping=true
+    while [ "$helping" == true ]; do
+    	echo -e $Y"$divider"$N
+    	echo -e $P"[#] MidnightCustom: Help and How-To"$N
+    	echo -e $Y"$divider"$N
+    	echo -e $G"[+] Select an option:"$N
+        echo -e $P"[1] Apply Custom Fonts - [2] Apply Custom Audio"$N
+        echo -e $P"[3] Apply Custom Bootanimations -$N$R [q] Quit"$N
+        echo -e $W"[CHOOSE]: "$N
+        choosing=true
+        while [ "$choosing" == true ]; do
+            read -r CHOICE
+            case $CHOICE in
+                1)
+                    ;;
+	    esac
     echo -e $G"[+] How to apply a Custom Font:"$N
     echo -e $B"  [+] CUstom Font file path:"$N
     echo "      --/sdcard/"
@@ -317,6 +330,15 @@ show_help() {
     echo "              |--MidnightFonts/"
     echo "              |--MidnightMedia/"
     echo "              |--MidnightMisc/"
+    echo -e $G"[+] The font files you are applying (labeled <font> above)$N$R MUST$N$G be renamed to the Roboto variant of the font."$N
+    echo -e $G"[#] Examples:"$N
+    echo -e "[+]$P Bariol-Regular.ttf $N-->$C Roboto-Regular.ttf"$N
+    echo -e "[+]$P Bariol-Bold.ttf $N-->$C Roboto-Bold.ttf"$N
+    echo -e "[+]$P Bariol-Italic.ttf $N-->$C Roboto-Italic.ttf"$N
+    echo -e $G"[+] ETC..."$N
+    echo ""
+    echo -e $G"[+] After setting up your custom font folder correctly, return to MidnightCustom and apply your font as it should appear there."$N
+    echo -e $R"[!] If you have anymore questions, do not hesitate to ask at the MidnightCore XDA thread or the Telegram Support group at: t.me/MidnightSuite"$N
 }
 #========================
 #========================
