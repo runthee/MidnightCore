@@ -258,7 +258,10 @@ apply_audio() {
                                         chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
                                         chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
                                         chmod 644 $MODDIR/media/audio/ringtones/*> /dev/null 2>&1
-                                        touch $MODDIR/media/audio/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/notifications/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/alarms/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/ringtones/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/ui/.replace > /dev/null 2>&1
                                         echo "[+] Permissions Set!"
                                         rm -f $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
                                         touch $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
