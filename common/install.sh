@@ -100,11 +100,16 @@ if [ -f /data/media/0/MidnightMain/MidnightFonts/currently_applied_font.txt ]; t
                     ui_print " [+] $FONT Downloaded!"
                     mkdir /data/media/0/tmpmidfontdir > /dev/null 2>&1
                     unzip -o /data/media/0/$FONT.zip -d /data/media/0/tmpmidfontdir > /dev/null 2>&1
-                    mv -f /data/media/0/tmpmidfontdir/system/* $INSTALLER/system > /dev/null 2>&1
+                    mv -f /data/media/0/tmpmidfontdir/system/fonts $INSTALLER/system > /dev/null 2>&1
                     rm -f /data/media/0/$FONT.zip > /dev/null 2>&1
                     rm -rf /data/media/0/tmpmidfontdir > /dev/null 2>&1
                     rm -f /data/media/0/DONT-DELETE-2
-                    ui_print " [+] Font Restored!"
+                    chmod 644 $INSTALLER/system/fonts/*
+                    if [ -d $INSTALLER/system/fonts ]; then
+                        ui_print " [+] Font Restored!"
+                    else
+                        ui_print " [!] Font Not Restored!"
+                    fi
                 fi
             else
                 ui_print " [!] TWRP Installation Detected!"

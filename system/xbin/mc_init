@@ -60,7 +60,7 @@ main_start () {
         sleep 0.2
         echo -e $G"[1] MidnightFonts - [2] MidnightMedia - [3] MidnightMisc"$N
         echo -e $G"[4] MidnightCustom"$N
-        echo -e $C"[r] Restore Defaults"$N      $R"[q] Quit"$N
+        echo -e $C"[r] Restore Defaults"$N - $R"[q] Quit"$N
         echo -e -n $W"[CHOOSE]: "$N
         read -r INPUT
         case "$INPUT" in

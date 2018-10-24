@@ -24,7 +24,7 @@ That's It!
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 # Current Version
-v3.3.1
+v3.4.0
 Twilight Edition
 
 ## Included Fonts
@@ -145,6 +145,11 @@ Twilight Edition
 * Take Your Time(Persona5).
 
 ## Changelog
+### v3.4.0 - 23.10.18
+* Fixed audio permissions not setting correctly
+* Fixed Issues with all audio dissapearing
+* Applied audio will now work with stock files if custom folder not provided
+* Added MidnightCustom Help/How-To Section
 ### v3.3.1 - 17.10.18
 * Fix for custom bootanimations not applying
 * Fix for some fonts not applying

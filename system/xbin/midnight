@@ -11,6 +11,8 @@ if [ "$( id -u )" != 0 ]; then
 fi
 #============================
 # VARIABLES
+#============================
+alias wget="/sbin/.core/busybox/wget"
 . /data/adb/magisk/util_functions.sh
 MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"
@@ -47,6 +49,8 @@ mkdir "$MIDCUSTOM" > /dev/null 2>&1
 mkdir $MIDCUSTOM/Fonts > /dev/null 2>&1
 mkdir -p $MIDCUSTOM/Media/Bootanimations > /dev/null 2>&1
 mkdir -p $MIDCUSTOM/Media/Audio > /dev/null 2>&1
+rm -f $MIDFONT/fonts.xml > /dev/null 2>&1
+wget --no-check-certificate -q -O $MIDFONT/fonts.xml https://ncloud.zaclys.com/index.php/s/ynP7bQyNLLFPJHE/download
 clear
 #============================
 # START PROGRAM
