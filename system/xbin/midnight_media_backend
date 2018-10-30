@@ -43,7 +43,7 @@ main_download() {
             echo "[+] Resuming Process..."
             ;;
         *)
-            echo "[!] Invalid Input. Skipping Backup Process..."
+            echo -e $R"[!] Invalid Input. Skipping Backup Process..."$N
             ;;
     esac
     rm -f $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
@@ -69,12 +69,15 @@ audio_choice() {
     done
     audio_list_len=$( cat $STOREMEDIA/audio-list | wc -l )
     echo ""
+    echo -e $R"[q] Quit"$N
     echo -e $W"[CHOOSE]:"$N
     read -r CHOICE
     case $CHOICE in
         $CHOICE)
             if [ $CHOICE -gt $audio_list_len ]; then
-                echo "[!] Invalid Input!"
+                worng_input
+            elif [ "$CHOICE" == "q" ]; then
+                echo ""
             else
                 LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
                 MEDIA="$( cat $STOREMEDIA/audio-list | xargs | cut -d '.' -f $CHOICE )"
@@ -86,7 +89,7 @@ audio_choice() {
 }
 
 device_choice() {
-    echo "[+] Select a device to get these files from:"
+    echo "[+] Choose a file to apply:"
     i=1
     devices=$( cat $STOREMEDIA/media-list | tr ' ' '*' )
     for device in $devices; do
@@ -96,12 +99,15 @@ device_choice() {
     done
     device_list_len=$( cat $STOREMEDIA/media-list | wc -l )
     echo ""
+    echo -e $R"[q] Quit"$N
     echo -e $W"[CHOOSE]:"$N
     read -r CHOICE
     case $CHOICE in
         $CHOICE)
             if [ $CHOICE -gt $device_list_len ]; then
-                echo "[!] Invalid Input!"
+                wrong_input
+            elif [ "$CHOICE" == "q" ]; then
+                echo ""
             else
                 LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
                 MEDIA="$( cat $STOREMEDIA/media-list | xargs | cut -d '.' -f $CHOICE )"
@@ -211,7 +217,7 @@ sort_zip() {
                         pass=false
                         ;;
                     *)
-                        echo "[!] Invalid Input."
+                        wrong_input
                         ;;
                 esac
             done
@@ -244,7 +250,7 @@ sort_zip() {
                         pass=false
                         ;;
                     *)
-                        echo "[!] Invalid Input."
+                        wrong_input
                 esac
             done
         fi

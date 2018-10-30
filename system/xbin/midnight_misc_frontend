@@ -62,7 +62,7 @@ while [ "$main" == true ]; do
             main=false
             ;;
         *)
-            echo "[!] Invalid Input."
+            wrong_input
             ;;
     esac
 done

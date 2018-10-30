@@ -37,7 +37,7 @@ do_fstrim() {
                 trim=false
                 ;;
             *)
-                echo "[!] Invalid Input."
+                wrong_input
                 ;;
         esac
     done
@@ -76,7 +76,7 @@ do_log() {
                         echo "[+] Quitting logging process..."
                         ;;
                     *)
-                        echo "[!] Invalid Input."
+                        wrong_input
                         ;;
                 esac
                 ;;
@@ -101,7 +101,7 @@ do_log() {
                         echo "[+] Quitting logging process..."
                         ;;
                     *)
-                        echo "[!] Invalid Input."
+                        wrong_input
                         ;;
                 esac
                 ;;
@@ -109,7 +109,7 @@ do_log() {
                 log=false
                 ;;
             *)
-                echo "[!] Invalid Input."
+                wrong_input
                 ;;
         esac
     done
@@ -174,7 +174,7 @@ do_dump() {
                         echo "[+] Done, Dump saved to $MISCDUMP"
                         ;;
                     *)
-                        echo "[!] Invalid Input."
+                        wrong_input
                         ;;
                 esac
                 ;;
@@ -182,7 +182,7 @@ do_dump() {
                 dump=false
                 ;;
             *)
-                echo "[!] Invalid Input."
+                wrong_input
                 ;;
         esac
     done

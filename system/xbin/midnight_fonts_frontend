@@ -82,7 +82,7 @@ do
                     pass=false
                     main=false
                 elif [ $INPUT -gt $list_len ]; then
-                    echo "[!] Invalid Input."
+                    wrong_input
                 else
                     LINK="$( cat $STOREFONT/font-link-list | xargs | cut -d '?' -f $INPUT | tr -d ' ' )"
                     FONT="$( cat $STOREFONT/font-list | xargs | cut -d '.' -f $INPUT )"

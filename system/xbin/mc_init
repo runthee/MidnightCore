@@ -37,6 +37,10 @@ custom_backend=/system/$bin/midnight_custom_backend
 #==================================
 # FUNCTIONS
 #==================================
+wrong_input() {
+    echo -e $R"[!] Unrecognized Input!"$N
+}
+
 main_start () {
     running=true
     while [ "$running" = true ]

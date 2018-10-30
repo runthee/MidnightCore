@@ -50,7 +50,7 @@ apply_fonts() {
                                     fontspass=false
                                     applying=false
                                 elif [ $CHOICE -gt $fontnum ]; then
-                                    echo -e $R"[!] Invalid Input."$N
+                                    wrong_input
                                 else
                                     clear
                                     FONT="$( ls $CUSTOMFONTS | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
@@ -83,7 +83,7 @@ apply_fonts() {
                 applying=false
                 ;;
             *)
-                echo -e $R"Invalid Input."$N
+                wrong_input
                 applying=false
                 ;;
         esac
@@ -139,7 +139,7 @@ apply_anims() {
                                     animspass=false
                                     applying=false
                                 elif [ $CHOICE -gt $animnum ]; then
-                                    echo -e $R"[!] Invalid Input."$N
+                                    wrong_input
                                 else
                                     clear
                                     ANIM2="$( ls $CUSTOMANIMS | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
@@ -181,7 +181,7 @@ apply_anims() {
                 applying=false
                 ;;
             *)
-                echo -e $R"Invalid Input."$N
+                wrong_input
                 applying=false
                 ;;
         esac
@@ -238,7 +238,7 @@ apply_audio() {
                                     audiopass=false
                                     applying=false
                                 elif [ $CHOICE -gt $audionum ]; then
-                                    echo -e $R"[!] Invalid Input."$N
+                                    wrong_input
                                 else
                                     clear
                                     AUDIO="$( ls $CUSTOMAUDIO | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
@@ -286,7 +286,7 @@ apply_audio() {
                 applying=false
                 ;;
             *)
-                echo -e $R"Invalid Input."$N
+                wrong_input
                 applying=false
                 ;;
         esac
@@ -458,7 +458,7 @@ show_help() {
                     helping=false
                     ;;
                 *)
-                    echo "[!] Invalid Input."
+                    wrong_input
                     ;;
             esac
         done

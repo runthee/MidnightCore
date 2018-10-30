@@ -71,8 +71,7 @@ while [ "$main" == true ]; do
                 pass=false
                 ;;
             h)
-                echo "This is Under Construction. Please Check out the XDA thread for help."
-                sleep 5
+                show_help
                 pass=false
                 ;;
             q)
@@ -80,7 +79,7 @@ while [ "$main" == true ]; do
                 main=false
                 ;;
             *)
-                echo -e $R"[!] Invalid Input."$N
+                wrong_input
                 ;;
         esac
     done

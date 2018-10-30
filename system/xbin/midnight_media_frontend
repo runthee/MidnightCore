@@ -84,7 +84,7 @@ while [ "$main" == true ]; do
             main=false
             ;;
         *)
-            echo "Inavlid Input."
+            wrong_input
             ;;
     esac
 done
