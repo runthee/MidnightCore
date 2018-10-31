@@ -10,7 +10,7 @@ This module is an All-In-One package for the MidnightModule series. It currently
 ### MidnightMisc
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
 ### MidnightCustom
-* Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! Easily apply your own files with Midnight Custom. You can find Instructions on how to use it in the module or on XDA
+* Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! Easily apply your own files with Midnight Custom. You can find Instructions on how to use it in the module or on XDA!
 
 ## How To Use
 ```bash
@@ -24,7 +24,7 @@ That's It!
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
 # Current Version
-v3.4.0
+v3.4.1
 Twilight Edition
 
 ## Included Fonts
@@ -145,6 +145,9 @@ Twilight Edition
 * Take Your Time(Persona5).
 
 ## Changelog
+### v3.4.1 - 03.11.18
+* Enable MidnightCustom Help/How-to section(whoops!)
+* Minor Optimizations
 ### v3.4.0 - 23.10.18
 * Fixed audio permissions not setting correctly
 * Fixed Issues with all audio dissapearing
