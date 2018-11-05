@@ -24,7 +24,7 @@ apply_fonts() {
         read -r CHOICE
         case $CHOICE in
             1)
-                if [ $fontnum -eq 0]; then
+                if [ $fontnum -eq 0 ]; then
                     echo -e $R"[!] No Available Custom Fonts!"$N
                     sleep 2
                     applying=false
@@ -113,7 +113,7 @@ apply_anims() {
         read -r CHOICE
         case $CHOICE in
             1)
-                if [ $animnum -eq 0]; then
+                if [ $animnum -eq 0 ]; then
                     echo -e $R"[!] No Available Custom Bootanimations!"$N
                     sleep 2
                     applying=false
@@ -212,7 +212,7 @@ apply_audio() {
         read -r CHOICE
         case $CHOICE in
             1)
-                if [ $audionum -eq 0]; then
+                if [ $audionum -eq 0 ]; then
                     echo -e $R"[!] No Available Custom Audio Files!"$N
                     sleep 2
                     applying=false
