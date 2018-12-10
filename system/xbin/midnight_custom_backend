@@ -11,11 +11,11 @@ apply_fonts() {
     applying=true
     while [ "$applying" == true ]; do
         clear
-        echo -e $y"$divider"$N
+        divider "="
         echo -e $B"[#] Specify Custom Fonts!"$N
         echo -e $P"[+] Here you can choose from the list of available custom fonts you have placed in $CUSTOMFONTS"$N
         echo -e $P"[+] For help creating a custom font, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
-        echo -e $Y"$divider"$N
+        divider "="
         fontnum=$( ls $CUSTOMFONTS | wc -l )
         echo -e $G"[+] Number of Custom Fonts found: $fontnum"$N
         echo -e $B"[+] Proceed to font selection?"$N
@@ -30,7 +30,7 @@ apply_fonts() {
                     applying=false
                 else
                     clear
-                    echo -e $Y"$divider"$N
+                    divider "="
                     echo -e $B"[#] Custom Fonts:"$N
                     fonts=$( ls $CUSTOMFONTS | tr ' ' '*' )
                     i=1
@@ -67,9 +67,9 @@ apply_fonts() {
                                     echo $FONT > $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
                                     echo "[+] Permissions Set!"
                                     echo -e $G"              [+] Font Applied!!             "$N
-                                    echo -e $Y"$divider"$N
+                                    divider "="
                                     echo -e $P"     [+] Please reboot for changes to apply!!      "$N
-                                    echo -e $Y"$divider"$N
+                                    divider "="
                                     sleep 3
                                     fontspass=false
                                     applying=false
@@ -99,12 +99,12 @@ apply_anims() {
     applying=true
     while [ "$applying" == true ]; do
         clear
-        echo -e $y"$divider"$N
+        divider "="
         echo -e $B"[#] Specify Custom Bootanimations!"$N
         echo -e $P"[+] Here you can choose from the list of available custom Bootanimations you have placed in $CUSTOMANIMS"$N
         echo -e $P"[+] For help creating a custom bootanimation, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
         echo -e $G"[!] This works for all OEMS including Samsung and HTC!"
-        echo -e $Y"$divider"$N
+        divider "="
         animnum=$( ls $CUSTOMANIMS | wc -l )
         echo -e $G"[+] Number of Custom Bootanimations found: $animnum"$N
         echo -e $B"[+] Proceed to bootanimation selection?"$N
@@ -119,7 +119,7 @@ apply_anims() {
                     applying=false
                 else
                     clear
-                    echo -e $Y"$divider"$N
+                    divider "="
                     echo -e $B"[#] Custom Bootanimations:"$N
                     anims=$( ls $CUSTOMANIMS | tr ' ' '*' )
                     i=1
@@ -162,9 +162,9 @@ apply_anims() {
                                         echo $ANIM2 > $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
                                         echo "[+] Permissions Set!"
                                         echo -e $G"          [+] Bootanimation Applied!!             "$N
-                                        echo -e $Y"$divider"$N
+                                        divider "="
                                         echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N
-                                        echo -e $Y"$divider"$N
+                                        divider "="
                                         sleep 3
                                         animspass=false
                                         applying=false
@@ -202,7 +202,7 @@ apply_audio() {
         echo -e $B"[#] Specify Custom Audio Files!"$N
         echo -e $P"[+] Here you can choose from the list of available custom Audio Files you have placed in $CUSTOMAUDIO"$N
         echo -e $P"[+] For help creating a custom Audio folder, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
-        echo -e $Y"$divider"$N
+        divider "="
         audionum=$( ls $CUSTOMAUDIO | wc -l )
         echo -e $G"[+] Number of Custom Audio Filse found: $audionum"$N
         echo -e $G"[+] Currently Applied Audio Files: $CURRENT"$N
@@ -218,7 +218,7 @@ apply_audio() {
                     applying=false
                 else
                     clear
-                    echo -e $Y"$divider"$N
+                    divider "="
                     echo -e $B"[#] Custom Audio Files:"$N
                     audios=$( ls $CUSTOMAUDIO | tr ' ' '*' )
                     i=1
@@ -267,9 +267,9 @@ apply_audio() {
                                         touch $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
                                         echo $AUDIO > $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
                                         echo -e $G"          [+] Audio Files Applied!!             "$N
-                                        echo -e $Y"$divider"$N
+                                        divider "="
                                         echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N
-                                        echo -e $Y"$divider"$N
+                                        divider "="
                                         sleep 3
                                         audiopass=false
                                         applying=false
@@ -298,9 +298,9 @@ show_help() {
     helping=true
     while [ "$helping" == true ]; do
         clear
-        echo -e $Y"$divider"$N
+        divider "="
         echo -e $P"[#] MidnightCustom: Help and How-To"$N
-        echo -e $Y"$divider"$N
+        divider "="
         echo -e $G"[+] Select an option:"$N
         echo -e $P"[1] Apply Custom Fonts - [2] Apply Custom Audio"$N
         echo -e $P"[3] Apply Custom Bootanimations -$N$R [q] Quit"$N

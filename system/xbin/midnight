@@ -30,7 +30,6 @@ else
     ANIM="bootanimation.zip"
 fi
 MOUNTFOL="/data/adb/magisk_simple/system"
-divider='==================================================' > /dev/null 2>&1
 if [ -d /system/xbin ]; then
     bin=xbin
 else

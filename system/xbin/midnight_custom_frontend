@@ -36,15 +36,15 @@ main=true
 . $custom_backend
 while [ "$main" == true ]; do
     clear
-    echo -e $Y"$divider"$N
-    echo -e $G"      _______  __    ____________________ ____    _____________    "$N
-    echo -e $G"     /  ____/ / /   / //   __//___   ___//    \  /  __   __   /    "$N
-    echo -e $G"    /  /     / /   / //__  \     /  /   / /__  \/  / /  / /  /     "$N
-    echo -e $G"    \  \____/ /___/ / __/  /    /  /    \   /  /  / /  / /  /      "$N
-    echo -e $G"     \_____/_______/ /____/    /__/      \____/__/ /__/ /__/       "$N
-    echo -e $Y"$divider"$N
-    echo -e $G"                A   M I D N I G H T   M O D U L E                  "$N
-    echo -e $Y"$divider"$N
+    divider "="
+    center '  _______  __    ____________________ ____    _____________'
+    center ' /  ____/ / /   / //   __//___   ___//    \  /  __   __   /'
+    center '/  /     / /   / //__  \     /  /   / /__  \/  / /  / /  /'
+    center '\  \____/ /___/ / __/  /    /  /    \   /  /  / /  / /  /'
+    center ' \_____/_______/ /____/    /__/      \____/__/ /__/ /__/'
+    divider "="
+    center 'A   M I D N I G H T   M O D U L E'
+    divider "="
     sleep 0.2
     echo "[+] Select an option:"
     echo ""

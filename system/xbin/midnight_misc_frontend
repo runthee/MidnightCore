@@ -29,19 +29,19 @@ mkdir $MISCDUMP > /dev/null 2>&1
 main=true
 while [ "$main" == true ]; do
     clear
-    echo -e $Y"$divider"$N
-    echo -e $G"         __________ __ _____ ______      "$N
-    echo -e $G"        / __  __  // //  __//  ___/      "$N
-    echo -e $G"       / / / / / // //__ \ /  /          "$N
-    echo -e $G"      / / / / / // / __/  /\  \___       "$N
-    echo -e $G"     /_/ /_/ /_//_/ /____/  \____/       "$N
-    echo -e $Y"$divider"$N
-    echo -e $G"    A   M I D N I G H T   M O D U L E    "$N
-    echo -e $Y"$divider"$N
+    divider "="
+    center '    __________ __ _____ ______'
+    center '   / __  __  // //  __//  ___/'
+    center '  / / / / / // //__ \ /  /'
+    center ' / / / / / // / __/  /\  \___'
+    center '/_/ /_/ /_//_/ /____/  \____/'
+    divider "="
+    center 'A   M I D N I G H T   M O D U L E'
+    divider "="
     echo -e $C"[+] Below is a collection of different Miscellaneous"$N
     echo -e $C"[+] tools that are useful and may come in handy,"$N
     echo -e $C"[+] all in a nice, convenient place!"
-    echo -e $Y"$divider"$N
+    divider "="
     echo -e $W"[#] Choose an option"$N
     echo ""
     echo -e $P"[1] Fstrim - [2] Logcat - [3] Dumpsys"$N

@@ -9,11 +9,11 @@ alias timeout="/sbin/.core/busybox/timeout"
 #=========================
 do_fstrim() {
     clear
-    echo -e $Y"$divider"$N
+    divider "="
     echo "[+] Reduce lag and improve the performance of your device!"
     echo "[+] Android 4.3+ natively supports trimming but may not do it as frequently as you may like. This tool allows you to do it manually!"
     echo "[+] This tool will allow you to trim your /data and /system paritions"
-    echo -e $Y"$divider"$N
+    divider "="
     trim=true
     while [ "$trim" == true ]; do
         clear
@@ -47,11 +47,11 @@ do_log() {
     log=true
     while [ "$log" == true ]; do
         clear
-        echo -e $Y"$divider"$N
+        divider "="
         echo "[+] This tool allows you to take two kinds of logs:"
         echo "[+] Full Device Log: A log of everything happening with your device"
         echo "[+] MidnightLog: Specify a word and the tool will look through the device log and grab every instance of that word."
-        echo -e $Y"$divider"$N
+        divider "="
         echo "[+] Choose what kind of log you want"
         echo -e $P"[1] Full Device Log - [2] Specify a word to lookup"$N
         echo -e $R"[q] Quit"$N
@@ -119,12 +119,12 @@ do_dump() {
     dump=true
     while [ "$dump" == true ]; do
         clear
-        echo -e $Y"$divider"$N
+        divider "="
         echo "[+] The dumpsys tool allows you to get 'dumps' of information about your device."
         echo "[+] This Information is useful for debugging and testing purposes."
         echo "[+] I have included presets of dumps for easy access."
         echo "[+] You can also specify a word to get a dump of all related information."
-        echo -e $Y"$divider"$N
+        divider "="
         echo "[+] Choose an option"
         echo -e $P"[1] Wifi - [2] Battery"$N
         echo -e $P"[3] CPU Info - [s] Specify word"$N

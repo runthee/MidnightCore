@@ -20,12 +20,12 @@ main_download() {
     echo "[+] Media Zip Downloaded!"
     unzip $STOREMEDIA/$MEDIA2.zip -d $STOREMEDIA > /dev/null 2>&1
     sort_zip
-    echo -e $Y"$divider"$N
+    divider "="
     echo -e $G"[+] Would you like to backup this zip?"$N
     echo -e $C"[+] This makes it easier to apply in the future."$N
     echo -e $C"[+] It also allows you to keep it during module updates."$N
     echo -e $W"[1] Backup - [2] Don't Backup"$N
-    echo -e $Y"$divider"$N
+    divider "="
     echo -e $W"[CHOOSE]:"$N
     read -r BACKUP
     case $BACKUP in
@@ -50,11 +50,11 @@ main_download() {
     touch $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
     echo $MEDIA > $MIDMEDIA/currently_applied_media.txt
     clear
-    echo -e $Y"$divider"$N
-    echo -e $G"                  [+] Media Files Applied!!           "$N
-    echo -e $Y"$divider"$N
-    echo -e $G"             [+] Changes will take effect after reboot    "$N
-    echo -e $Y"$divider"$N
+    divider "="
+    center '[+] Media Files Applied!!'
+    divider "="
+    center '[+] Changes will take effect after reboot!!'
+    divider "="
     sleep 3
 }
 
@@ -144,11 +144,11 @@ check_stored() {
         chmod 644 $MODDIR/media/audio/ringtones/* > /dev/null 2>&1
         echo "[+] Permissions Set!"
         clear
-        echo -e $Y"$divider"$N
-        echo -e $G"            [+] Media Files Restored!!              "$N
-        echo -e $Y"$divider"$N
-        echo -e $G"       [+] Changes will take effect after reboot    "$N
-        echo -e $Y"$divider"$N
+        divider "="
+        center '[+] Media Files Restored!!'
+        divider "="
+        center '[+] Changes will take effect after reboot!!'
+        divider "="
         sleep 3
     else
         echo "[!] Saved version not found or is empty!"

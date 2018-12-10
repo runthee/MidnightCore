@@ -1,5 +1,4 @@
 #!/system/bin/sh
-divider='=============================================================' > /dev/null 2>&1
 # COLORS
 #==================================
 BL='\e[01;90m' > /dev/null 2>&1; # Black
@@ -19,10 +18,30 @@ if [ -d /system/xbin ]; then
 else
     bin=bin
 fi
+
+center() {
+    cols=$(($COLUMNS-2))
+    echo -e $G"$1"$N | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta"
+}
+
+divider() {
+    #cols=$COLUMNS
+    #chars=$(echo $@ | wc -c)
+    #cols1=$((cols/2))
+    #chars1=$((chars/2))
+    #cols2=$(((cols1-chars1)-1))
+    #cols3=$(((cols-cols1)-chars1))
+
+    #l_begin=$(printf '%*s' "${cols2}" '' | tr ' ' '=')
+    #l_end=$(printf '%*s' "${cols3}" '' | tr ' ' '=')
+    #echo -e $Y"$l_begin $@ $l_end"$N
+    value=$(echo "$1" | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta" | tr ' ' "$1")
+    echo -e $Y"$value"$N
+}
 #==================================
 # VARIABLES
 #==================================
-magisk=/sbin/.core/img
+magisk=/sbin/.magisk/img
 MODDIR=$magisk/MidnightCore/system
 version="$( cat $magisk/MidnightCore/module.prop | grep "version=" | cut -d '=' -f 2 )"
 updated="$( cat $magisk/MidnightCore/module.prop | grep updated | cut -d '=' -f 2 )"
@@ -47,17 +66,17 @@ main_start () {
     do
         echo ""
         echo -e $G" "$N
-        echo -e $G"      ____________ __ ___  _  ____ ____ _   __ ______  "$N
-        echo -e $G"     / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/  "$N
-        echo -e $G"    / /  / /  / // // // /    / // (_ / __  /  /  /    "$N
-        echo -e $G"   /_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/     "$N
+        center '   ____________ __ ___  _  ____ ____ _   __ ______'
+        center '  / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/'
+        center ' / /  / /  / // // // /    / // (_ / __  /  /  /'
+        center '/_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/'
         echo ""
-        echo -e $Y"$divider"$N
-        echo -e $G"                    C     O     R     E                "$N
-        echo -e $Y"$divider"$N
+        divider "="
+        center "C     O     R     E"
+        divider "="
         sleep 0.2
-        echo -e $W"           Version: $version - Updated: $updated       "$N
-        echo -e $Y"$divider"$N
+        center "Version: $version - Updated: $updated"
+        divider "="
         sleep 0.2
         echo "[#] Choose from one of the below aspects to modify and make your device yours"
         echo "[#] Enter a corresponding number below"
@@ -169,7 +188,7 @@ show_error() {
 
 cleanup() {
     clear
-    echo -e $Y"$divider"$N
+    echo -e $Y""
     echo -e $P"[+] Cleaning Up..."$N
     MidFont=/sdcard/MidnightMain/MidnightFonts
     MidMedia=/sdcard/MidnightMain/MidnightMedia
@@ -177,11 +196,11 @@ cleanup() {
     rm -rf $MidFont/tmp_fonts > /dev/null 2>&1
     echo -e $G"[+] Done!"$N
     echo -e $G""$N
-    echo -e $G"      _______ __  __ ____  _  __ __ __    __  __ __      "$N
-    echo -e $G"     /__  __// /_/ // _  \/ \/ // // /   / / / / \/      "$N
-    echo -e $G"       / /  / __  // /_/ /    //    /   / /_/ /  __      "$N
-    echo -e $G"      /_/  /_/ /_//_/ /_/_/\_//__/\_\  /_____/  /_/      "$N
-    echo -e $Y"$divider"$N
+    center '   _______ __  __ ____  _  __ __ __    __  __ __'
+    center '  /__  __// /_/ // _  \/ \/ // // /   / / / / \/'
+    center '    / /  / __  // /_/ /    //    /   / /_/ /'
+    center '   /_/  /_/ /_//_/ /_/_/\_//__/\_\  /_____/  /_/'
+    divider "="
     exit
 }
 #==================================

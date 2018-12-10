@@ -47,18 +47,18 @@ main=true
 . $media_backend
 while [ "$main" == true ]; do
     clear
-    echo -e $Y"$divider"$N
-    echo -e $G"        __________ ____ ____   __ ____      "$N
-    echo -e $G"       / __  __  // __// __ \ / // __ \     "$N
-    echo -e $G"      / / / / / // __// / / // // /_/ /     "$N
-    echo -e $G"     /_/ /_/ /_//____/_____//_//_/ /_/      "$N
-    echo -e $Y"$divider"$N
-    echo -e $G"     A   M I D N I G H T   M O D U L E      "$N
-    echo -e $Y"$divider"$N
+    divider "="
+    center '   __________ ____ ____   __ ____'
+    center '  / __  __  // __// __ \ / // __ \'
+    center ' / / / / / // __// / / // // /_/ /'
+    center '/_/ /_/ /_//____/_____//_//_/ /_/'
+    divider "="
+    center 'A   M I D N I G H T   M O D U L E'
+    divider "="
     sleep 0.2
-    echo "                       Applied:             "
-    echo "                  $CURRENT                  "
-    echo -e $Y"$divider"$N
+    center 'Applied:'
+    center '$CURRENT'
+    divider "="
     sleep 0.2
     echo "[+] Choose what type of media you would like to change."
     echo "[+] To change both bootanimation and audio files, type 'm'"

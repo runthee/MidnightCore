@@ -43,19 +43,19 @@ main=true
 while [ "$main" == true ]
 do
     clear
-    echo -e $Y"$divider"$N
-    echo -e $G"          _____ ____    _  ________________    "$N
-    echo -e $G"         / ___//    \  / \/ /__   __//  __/    "$N
-    echo -e $G"        / /__ / /__  \/    /  /  /  /__ \      "$N
-    echo -e $G"       / ___/ \   /  /    /  /  /   __/  /     "$N
-    echo -e $G"      /_/      \____/_/\_/  /__/   /____/      "$N
-    echo -e $Y"$divider"$N
-    echo -e $G"       A   M I D N I G H T   M O D U L E       "$N
-    echo -e $Y"$divider"$N
+    divider "="
+    center '    _____ ____    _  ________________'
+    center '   / ___//    \  / \/ /__   __//  __/'
+    center '  / /__ / /__  \/    /  /  /  /__ \'
+    center ' / ___/ \   /  /    /  /  /   __/  /'
+    center '/_/      \____/_/\_/  /__/   /____/'
+    divider "="
+    center 'A   M I D N I G H T   M O D U L E'
+    divider "="
     sleep 0.2
-    echo "                        Applied:               "
-    echo "                   $CURRENT                    "
-    echo -e $Y"$divider"$N
+    center 'Applied:'
+    center '$CURRENT'
+    divider "="
     sleep 0.2
     echo "[+] Choose From the selection of fonts offered below"
     echo "[+] Enter a corresponding Number"
