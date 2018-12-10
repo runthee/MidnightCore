@@ -25,16 +25,6 @@ center() {
 }
 
 divider() {
-    #cols=$COLUMNS
-    #chars=$(echo $@ | wc -c)
-    #cols1=$((cols/2))
-    #chars1=$((chars/2))
-    #cols2=$(((cols1-chars1)-1))
-    #cols3=$(((cols-cols1)-chars1))
-
-    #l_begin=$(printf '%*s' "${cols2}" '' | tr ' ' '=')
-    #l_end=$(printf '%*s' "${cols3}" '' | tr ' ' '=')
-    #echo -e $Y"$l_begin $@ $l_end"$N
     value=$(echo "$1" | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta" | tr ' ' "$1")
     echo -e $Y"$value"$N
 }
