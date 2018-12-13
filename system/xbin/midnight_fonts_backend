@@ -3,8 +3,8 @@
 #===============================
 # MAGISK ALIAS'
 #===============================
-alias unzip="/sbin/.core/busybox/unzip"
-alias wget="/sbin/.core/busybox/wget"
+alias unzip="/sbin/.magisk/busybox/unzip"
+alias wget="/sbin/.magisk/busybox/wget"
 #===============================
 # FUNCTIONS
 #===============================
@@ -63,6 +63,7 @@ zip_sort_store() {
         rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
         echo $FONT > $MIDFONT/currently_applied_font.txt
+	sleep 2
         clear
         divider "="
         center '[+] Font Applied and Saved!!'

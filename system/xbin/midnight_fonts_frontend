@@ -2,7 +2,7 @@
 #================================
 # MAGISK ALIAS'
 #================================
-alias wget="/sbin/.core/busybox/wget"
+alias wget="/sbin/.magisk/busybox/wget"
 #================================
 # VARIABLES
 #================================
@@ -54,7 +54,7 @@ do
     divider "="
     sleep 0.2
     center 'Applied:'
-    center '$CURRENT'
+    center "$CURRENT"
     divider "="
     sleep 0.2
     echo "[+] Choose From the selection of fonts offered below"

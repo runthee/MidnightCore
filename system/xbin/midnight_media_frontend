@@ -2,7 +2,7 @@
 #=================================
 # VARIABLES
 #=================================
-alias wget="/sbin/.core/busybox/wget"
+alias wget="/sbin/.magisk/busybox/wget"
 
 if [ -d /system/xbin ]; then
     bin=xbin
@@ -57,7 +57,7 @@ while [ "$main" == true ]; do
     divider "="
     sleep 0.2
     center 'Applied:'
-    center '$CURRENT'
+    center "$CURRENT"
     divider "="
     sleep 0.2
     echo "[+] Choose what type of media you would like to change."

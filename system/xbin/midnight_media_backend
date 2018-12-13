@@ -3,9 +3,9 @@
 #============================
 # MAGISK ALIAS'
 #============================
-alias wget="/sbin/.core/busybox/wget"
-alias unzip="/sbin/.core/busybox/unzip"
-alias tar="/sbin/.core/busybox/tar"
+alias wget="/sbin/.magisk/busybox/wget"
+alias unzip="/sbin/.magisk/busybox/unzip"
+alias tar="/sbin/.magisk/busybox/tar"
 
 #============================
 # FUNCTIONS

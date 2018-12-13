@@ -2,8 +2,8 @@
 #=========================
 # MAGISK ALIAS'
 #=========================
-alias fstrim="/sbin/.core/busybox/fstrim"
-alias timeout="/sbin/.core/busybox/timeout"
+alias fstrim="/sbin/.magisk/busybox/fstrim"
+alias timeout="/sbin/.magisk/busybox/timeout"
 #=========================
 # FUNCTIONS
 #=========================

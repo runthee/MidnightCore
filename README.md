@@ -145,8 +145,10 @@ Twilight Edition
 * Take Your Time(Persona5).
 
 ## Changelog
-* Updated Unity, Magsik v18!
-* Fixed Centering for text
+### v3.4.2 - 13.12.18
+* Updated to latest Unity
+* Magisk v18 support
+* Text centering fixes(*)
 ### v3.4.1.1 - 05.11.18
 * Fixed a couple typos
 ### v3.4.1 - 03.11.18

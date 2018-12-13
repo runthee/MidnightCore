@@ -1,8 +1,8 @@
 id=MidnightCore
 name=MidnightCore: Twilight Edition
 version=v3.4.2
-versionCode=61
-updated=10.12.18
+versionCode=62
+updated=13.12.18
 author=Fareed Idris-OldMidnight
 description=An all-in-one Module for systemlessly customizing your device! Easily change you Bootanimation, Audio files or Font from a range of over 50+ choices or apply your own with ease! Quickly get customized logs and dumpsys' for your device! Uses the Unity Template.
 minMagisk=18000

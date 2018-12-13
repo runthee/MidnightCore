@@ -12,7 +12,7 @@ fi
 #============================
 # VARIABLES
 #============================
-alias wget="/sbin/.core/busybox/wget"
+alias wget="/sbin/.magisk/busybox/wget"
 . /data/adb/magisk/util_functions.sh
 MIDMAIN="/sdcard/MidnightMain"
 MIDFONT="$MIDMAIN/MidnightFonts"

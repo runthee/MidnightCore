@@ -63,28 +63,19 @@ unity_custom() {
 
 # Set what you want to show when installing your mod
 
-center() {
-    cols=$(($COLUMNS-2))
-    ui_print "$1" | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta"
-}
-
-divider() {
-    ui_print "$1" | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta" | tr ' ' "$1"
-}
-
 print_modname() {
   ui_print " "
-  divider '*'
-  center '__________ __ __  _  __ _______  __   __ _____'
-  center '/ __  __  // // _ \/ \/ // // __// /__/ //_  _/'
-  center '/ / / / / // // // /    // // /_ /  __  /  / /'
-  center '/_/ /_/ /_//_//____/_/\_//_/ \___/__/ /_/  /_/'
-  divider '*'
-  center 'T W I L I G H T   E D I T I O N'
-  divider '*'
-  center '*<version>*'
-  center '*<author>*'
-  divider '*'
+  ui_print "    ***************************************************"
+  ui_print "        __________ __ __  _  __ _______  __   __ _____ "
+  ui_print "       / __  __  // // _ \/ \/ // // __// /__/ //_  _/ "
+  ui_print "      / / / / / // // // /    // // /_ /  __  /  / /   "
+  ui_print "     /_/ /_/ /_//_//____/_/\_//_/ \___/__/ /_/  /_/    "
+  ui_print "    ***************************************************"
+  ui_print "              T W I L I G H T   E D I T I O N          "
+  ui_print "    ***************************************************"
+  ui_print "    *<version>*    "
+  ui_print "    *<author>*     "
+  ui_print "    ***************************************************"
   ui_print " "
 }
 
