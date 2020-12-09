@@ -1,0 +1,189 @@
+#!/system/bin/sh
+#=========================
+# MAGISK ALIAS'
+#=========================
+alias fstrim="/sbin/.magisk/busybox/fstrim"
+alias timeout="/sbin/.magisk/busybox/timeout"
+#=========================
+# FUNCTIONS
+#=========================
+do_fstrim() {
+    clear
+    divider "="
+    echo "[+] Reduce lag and improve the performance of your device!"
+    echo "[+] Android 4.3+ natively supports trimming but may not do it as frequently as you may like. This tool allows you to do it manually!"
+    echo "[+] This tool will allow you to trim your /data and /system paritions"
+    divider "="
+    trim=true
+    while [ "$trim" == true ]; do
+        clear
+        echo "[+] Choose a partition you would like to trim."
+        echo -e $P"[d] Data Partition - [s] System Partition"$N
+        echo -e $R"[q] Quit"$N
+        echo -e $W"[CHOOSE]:"$N
+        read -r TRIM
+        case $TRIM in
+            d)
+                echo "[+] Trimming /data..."
+                fstrim -v /data
+                echo "[+] Done!"
+                ;;
+            s)
+                echo "[+] Trimming /system..."
+                fstrim -v /system
+                echo "[+] Done!"
+                ;;
+            q)
+                trim=false
+                ;;
+            *)
+                wrong_input
+                ;;
+        esac
+    done
+}
+
+do_log() {
+    log=true
+    while [ "$log" == true ]; do
+        clear
+        divider "="
+        echo "[+] This tool allows you to take two kinds of logs:"
+        echo "[+] Full Device Log: A log of everything happening with your device"
+        echo "[+] MidnightLog: Specify a word and the tool will look through the device log and grab every instance of that word."
+        divider "="
+        echo "[+] Choose what kind of log you want"
+        echo -e $P"[1] Full Device Log - [2] Specify a word to lookup"$N
+        echo -e $R"[q] Quit"$N
+        echo -e $W"[CHOOSE]:"$N
+        read -r LOG
+        case $LOG in
+            1)
+                clear
+                echo "[!] Taking a full device logcat will take a long time"
+                echo "[!] Continue?"
+                echo "[y] Yes - [n] No"
+                read -r LOGCHOICE
+                case $LOGCHOICE in
+                    y)
+                        echo "[+] The logs will actively be written t a file in $MISCLOG"
+                        echo "[+] They will take 20 seconds to complete"
+                        echo "[+] Creating Logcat..."
+                        timeout -t 20 logcat > $MISCLOG/logcat_$LOGDATE.log
+                        echo "[+] Done, Log saved to $MISCLOG!"
+                        ;;
+                    n)
+                        echo "[+] Quitting logging process..."
+                        ;;
+                    *)
+                        wrong_input
+                        ;;
+                esac
+                ;;
+            2)
+                clear
+                echo "[+] The Log search is case insensitive so 'midnight' is the same as 'MidNiGht'"
+                echo -e $W"[ENTER A SEARCH TERM]:"$N
+                read -r SELFLOG
+                echo -e "[+] You entered: $G$SELFLOG$N"
+                echo "[+] Continue?"
+                echo "[y] Yes - [n] No"
+                read -r CHOICE
+                case $CHOICE in
+                    y)
+                        echo "[+] The logs will be written to a file in $MISCLOG"
+                        echo "[+] The process will take 20 seconds to complete."
+                        echo "[+] Creating Logcat..."
+                        timeout -t 20 logcat | grep -i $SELFLOG > $MISCLOG/midnight_log_$LOGDATE.log
+                        echo "[+] Done, Log saved to $MISCLOG!"
+                        ;;
+                    n)
+                        echo "[+] Quitting logging process..."
+                        ;;
+                    *)
+                        wrong_input
+                        ;;
+                esac
+                ;;
+            q)
+                log=false
+                ;;
+            *)
+                wrong_input
+                ;;
+        esac
+    done
+}
+
+do_dump() {
+    dump=true
+    while [ "$dump" == true ]; do
+        clear
+        divider "="
+        echo "[+] The dumpsys tool allows you to get 'dumps' of information about your device."
+        echo "[+] This Information is useful for debugging and testing purposes."
+        echo "[+] I have included presets of dumps for easy access."
+        echo "[+] You can also specify a word to get a dump of all related information."
+        divider "="
+        echo "[+] Choose an option"
+        echo -e $P"[1] Wifi - [2] Battery"$N
+        echo -e $P"[3] CPU Info - [s] Specify word"$N
+        echo -e $R"[q] Quit"$N
+        echo -e $W"[CHOOSE]:"$N
+        read -r DUMP
+        case $DUMP in
+            1)
+                clear
+                echo "[+] Obtaining Wifi Dump..."
+                timeout -t 20 dumpsys wifi > $MISCDUMP/wifi_dump_$LOGDATE.txt
+                echo "[+] Done, Dump saved to $MISCDUMP"
+                ;;
+            2)
+                clear
+                echo "[+] Obtaining Battery Dump..."
+                timeout -t 20 dumpsys battery > $MISCDUMP/wifi_dump_$LOGDATE.txt
+                echo "[+] Done, Dump saved to $MISCDUMP"
+                ;;
+            3)
+                clear
+                echo "[+] Obtaining CPU Info Dump..."
+                timeout -t 20 dumpsys cpuinfo > $MISCDUMP/wifi_dump_$LOGDATE.txt
+                echo "[+] Done, Dump saved to $MISCDUMP"
+                ;;
+            s)
+                clear
+                echo "[+] You can either:"
+                echo "[1] Enter an option to make dumpsys only give a dump of that option"
+                echo "[+] Or"
+                echo "[2] Enter a word that will be searched for against a full device dumpsys"
+                echo -e $W"[CHOOSE]:"$N
+                read -r CHOICE
+                case $CHOICE in
+                    1)
+                        echo "[+] Enter Option:"
+                        read -r OPTION
+                        echo "[+] Collecting Dump..."
+                        dumpsys $OPTION > $MISCDUMP/$OPTION_dump_$LOGDATE.txt
+                        echo "[+] Done, Dump saved to $MISCDUMP"
+                        ;;
+                    2)
+                        echo "[+] Enter Keyword:"
+                        read -r OPTION
+                        echo "[+] Collecting Dump..."
+                        dumpsys | grep -i $OPTION > $MISCDUMP/$OPTION_dump_$LOGDATE.txt
+                        echo "[+] Done, Dump saved to $MISCDUMP"
+                        ;;
+                    *)
+                        wrong_input
+                        ;;
+                esac
+                ;;
+            q)
+                dump=false
+                ;;
+            *)
+                wrong_input
+                ;;
+        esac
+    done
+}

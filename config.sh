@@ -2,18 +2,18 @@
 #
 # Magisk Module Template Config Script
 # by topjohnwu
-# 
+#
 ##########################################################################################
 ##########################################################################################
-# 
+#
 # Instructions:
-# 
+#
 # 1. Place your files into system folder (delete the placeholder file)
 # 2. Fill in your module's info into module.prop
 # 3. Configure the settings in this file (config.sh)
 # 4. If you need boot scripts, add them into common/post-fs-data.sh or common/service.sh
 # 5. Add your additional or modified system properties into common/system.prop
-# 
+#
 ##########################################################################################
 
 ##########################################################################################
@@ -30,22 +30,32 @@ AUTOMOUNT=true
 PROPFILE=false
 
 # Set to true if you need post-fs-data script
-POSTFSDATA=true
+POSTFSDATA=false
 
 # Set to true if you need late_start service script
 LATESTARTSERVICE=false
 
 # Unity Variables
 # Uncomment and change 'MINAPI' and 'MAXAPI' to the minimum and maxium android version for your mod (note that magisk has it's own minimum api: 21 (lollipop))
-# Uncomment DYNAMICOREO if you want apps and libs installed to vendor for oreo and newer and system for anything older
+# Uncomment DYNAMICOREO if you want libs installed to vendor for oreo and newer and system for anything older
+# Uncomment DYNAMICAPP if you want anything in $INSTALLER/system/app to be installed to the optimal app directory (/system/priv-app if it exists, /system/app otherwise)
+# Uncomment SYSOVERRIDE if you want the mod to always be installed to system (even on magisk)
+# Uncomment RAMDISK if you have ramdisk modifications. If you only want ramdisk patching as part of a conditional, just keep this commented out and set RAMDISK=true in that conditional.
+# Uncomment DEBUG if you want full debug logs (saved to SDCARD if in twrp, part of regular log if in magisk manager (user will need to save log after flashing)
 #MINAPI=21
 #MAXAPI=25
+#SYSOVERRIDE=true
 #DYNAMICOREO=true
+#DYNAMICAPP=true
+#RAMDISK=true
+#DEBUG=true
 
-# Custom Variables - Keep everything within this function
+# Custom Variables for Install AND Uninstall - Keep everything within this function
 unity_custom() {
   :
 }
+
+# Custom Functions for Install AND Uninstall - You can put them here
 
 ##########################################################################################
 # Installation Message
@@ -55,12 +65,17 @@ unity_custom() {
 
 print_modname() {
   ui_print " "
-  ui_print "    *******************************************"
-  ui_print "    *<name>*"
-  ui_print "    *******************************************"
-  ui_print "    *<version>*"
-  ui_print "    *<author>*"
-  ui_print "    *******************************************"
+  ui_print "    ***************************************************"
+  ui_print "        __________ __ __  _  __ _______  __   __ _____ "
+  ui_print "       / __  __  // // _ \/ \/ // // __// /__/ //_  _/ "
+  ui_print "      / / / / / // // // /    // // /_ /  __  /  / /   "
+  ui_print "     /_/ /_/ /_//_//____/_/\_//_/ \___/__/ /_/  /_/    "
+  ui_print "    ***************************************************"
+  ui_print "              T W I L I G H T   E D I T I O N          "
+  ui_print "    ***************************************************"
+  ui_print "    *<version>*    "
+  ui_print "    *<author>*     "
+  ui_print "    ***************************************************"
   ui_print " "
 }
 
@@ -93,11 +108,11 @@ REPLACE="
 # NOTE: This part has to be adjusted to fit your own needs
 
 set_permissions() {
-  # DEFAULT PERMISSIONS, DON'T REMOVE THEM 
+  # DEFAULT PERMISSIONS, DON'T REMOVE THEM
   $MAGISK && set_perm_recursive $MODPATH 0 0 0755 0644
- 
+
   # CUSTOM PERMISSIONS
-  
+
   # Some templates if you have no idea what to do:
   # Note that all files/folders have the $UNITY prefix - keep this prefix on all of your files/folders
   # Also note the lack of '/' between variables - preceding slashes are already included in the variables
@@ -109,18 +124,16 @@ set_permissions() {
 
   # set_perm  <filename>                         <owner> <group> <permission> <contexts> (default: u:object_r:system_file:s0)
   # set_perm $UNITY$SYS/lib/libart.so 0 0 0644
-  if [ -d /system/xbin ]
-  then
+  if [ -d /system/xbin ]; then
     bin=xbin
   else
     bin=bin
   fi
   set_perm $UNITY$SYS/$bin/midnight 0 0 0777
-  set_perm $UNITY$SYS/$bin/setbeta 0 0 0777
-	if [ -e $UNITY$SYS/fonts ]
-	then
-		set_perm $UNITY$SYS/fonts/* 0 0 0644
-	fi
-	set_perm $UNITY$SYS/etc/security/cacerts/5a060201.0 0 0 0644
-
+  set_perm $UNITY$SYS/$bin/midnight_fonts_frontend 0 0 0777
+  set_perm $UNITY$SYS/$bin/midnight_fonts_backend 0 0 0777
+  set_perm $UNITY$SYS/$bin/mc_init 0 0 0777
+  if [ -d $UNITY$SYS/fonts ]; then
+    set_perm $UNITY$SYS/fonts/* 0 0 0644
+  fi
 }

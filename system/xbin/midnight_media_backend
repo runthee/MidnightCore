@@ -1,0 +1,260 @@
+#!/system/bin/sh
+
+#============================
+# MAGISK ALIAS'
+#============================
+alias wget="/sbin/.magisk/busybox/wget"
+alias unzip="/sbin/.magisk/busybox/unzip"
+alias tar="/sbin/.magisk/busybox/tar"
+
+#============================
+# FUNCTIONS
+#============================
+main_download() {
+    clear
+    echo "[+] Downloading Zip..."
+    wget --no-check-certificate -q -O $STOREMEDIA/$MEDIA2.zip "$LINK"
+    if [ $? != 0 ]; then
+        show_error "Media List not downloaded." "Bad Internet Connection." "Check your internet connection. Remove any active VPN(s)"
+    fi
+    echo "[+] Media Zip Downloaded!"
+    unzip $STOREMEDIA/$MEDIA2.zip -d $STOREMEDIA > /dev/null 2>&1
+    sort_zip
+    divider "="
+    echo -e $G"[+] Would you like to backup this zip?"$N
+    echo -e $C"[+] This makes it easier to apply in the future."$N
+    echo -e $C"[+] It also allows you to keep it during module updates."$N
+    echo -e $W"[1] Backup - [2] Don't Backup"$N
+    divider "="
+    echo -e $W"[CHOOSE]:"$N
+    read -r BACKUP
+    case $BACKUP in
+        1)
+            echo "[+] Backing Up file: $MEDIA to: $MEDIABACKUP"
+            dir=pwd
+            cd $MEDIABACKUP > /dev/null 2>&1
+            tar -czf "$MEDIA2.tar.gz" -C $MOUNTFOL$ANIMFOLDER $ANIM -C $MODDIR/media . > /dev/null 2>&1
+                if [ $? != 0 ]; then
+                    show_error "Backup not created" "Unknown" "Report error on XDA thread"
+                fi
+            cd $dir > /dev/null 2>&1
+            ;;
+        2)
+            echo "[+] Resuming Process..."
+            ;;
+        *)
+            echo -e $R"[!] Invalid Input. Skipping Backup Process..."$N
+            ;;
+    esac
+    rm -f $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
+    touch $MIDMEDIA/currently_applied_media.txt > /dev/null 2>&1
+    echo $MEDIA > $MIDMEDIA/currently_applied_media.txt
+    clear
+    divider "="
+    center '[+] Media Files Applied!!'
+    divider "="
+    center '[+] Changes will take effect after reboot!!'
+    divider "="
+    sleep 3
+}
+
+audio_choice() {
+    echo "[+] Select a device to get these files from:"
+    devices=$( cat $STOREMEDIA/audio-list | tr ' ' '*' )
+    i=1
+    for device in $devices; do
+        word=$( echo $device | tr '*' ' ' )
+        echo "$C[$i]$N $W$word$N"
+        i=$((i+1))
+    done
+    audio_list_len=$( cat $STOREMEDIA/audio-list | wc -l )
+    echo ""
+    echo -e $R"[q] Quit"$N
+    echo -e $W"[CHOOSE]:"$N
+    read -r CHOICE
+    case $CHOICE in
+        $CHOICE)
+            if [ $CHOICE -gt $audio_list_len ]; then
+                worng_input
+            elif [ "$CHOICE" == "q" ]; then
+                echo ""
+            else
+                LINK="$( cat $STOREMEDIA/audio-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
+                MEDIA="$( cat $STOREMEDIA/audio-list | xargs | cut -d '.' -f $CHOICE )"
+                MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
+                check_stored
+            fi
+            ;;
+    esac
+}
+
+device_choice() {
+    echo "[+] Choose a file to apply:"
+    i=1
+    devices=$( cat $STOREMEDIA/media-list | tr ' ' '*' )
+    for device in $devices; do
+        word=$( echo $device | tr '*' ' ' )
+        echo "$C[$i]$N $W$word$N"
+        i=$((i+1))
+    done
+    device_list_len=$( cat $STOREMEDIA/media-list | wc -l )
+    echo ""
+    echo -e $R"[q] Quit"$N
+    echo -e $W"[CHOOSE]:"$N
+    read -r CHOICE
+    case $CHOICE in
+        $CHOICE)
+            if [ $CHOICE -gt $device_list_len ]; then
+                wrong_input
+            elif [ "$CHOICE" == "q" ]; then
+                echo ""
+            else
+                LINK="$( cat $STOREMEDIA/media-link-list | xargs | cut -d '?' -f $CHOICE | tr -d ' ' )"
+                MEDIA="$( cat $STOREMEDIA/media-list | xargs | cut -d '.' -f $CHOICE )"
+                MEDIA2="$( echo $MEDIA | cut -d ']' -f 2 | tr -d ' ' )"
+                check_stored
+            fi
+            ;;
+    esac
+}
+
+check_stored() {
+    clear
+    echo "[+] Checking for saved version..."
+    if [ -f "$MEDIABACKUP/$MEDIA2.tar.gz" ] && [ -s "$MEDIABACKUP/$MEDIA2.tar.gz" ]; then
+        echo "[+] Saved version detected!"
+        echo "[+] Applying Files..."
+        mkdir $MODDIR/media > /dev/null 2>&1
+        dir=pwd
+        cd $MEDIABACKUP
+        tar -xzf "$MEDIA2.tar.gz" -C $MOUNTFOL$ANIMFOLDER $ANIM -C $MODDIR/media audi/
+        if [ $? != 0 ]; then
+            show_error "Backup not restored" "Unknown" "Report error on XDA thread"
+        fi
+        cd $dir
+        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM > /dev/null 2>&1
+        touch $MODDIR/media/audio/ui/.replace > /dev/null 2>&1
+        touch $MODDIR/media/audio/notifications/.replace > /dev/null 2>&1
+        touch $MODDIR/media/audio/alarms/.replace > /dev/null 2>&1
+        touch $MODDIR/media/audio/ringtones/.replace > /dev/null 2>&1
+        echo "[+] Setting audio file permissions..." > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/ui/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/ringtones/* > /dev/null 2>&1
+        echo "[+] Permissions Set!"
+        clear
+        divider "="
+        center '[+] Media Files Restored!!'
+        divider "="
+        center '[+] Changes will take effect after reboot!!'
+        divider "="
+        sleep 3
+    else
+        echo "[!] Saved version not found or is empty!"
+        echo "[+] Resuming Process"
+        sleep 2
+        main_download
+    fi
+}
+
+sort_zip() {
+    echo "[+] Sorting Zip..."
+    if [ "$INPUT" == "b" ]; then
+        mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
+        mv -f $STOREMEDIA/bootanimation.zip $MOUNTFOL$ANIMFOLDER$ANIM
+        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
+        echo "[+] Bootanimation Sorted!"
+    elif [ "$INPUT" == "s" ]; then
+        mkdir $MODDIR/media > /dev/null 2>&1
+        mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+        touch $MODDIR/media/audio/ui/.replace > /dev/null 2>&1
+        touch $MODDIR/media/audio/notifications/.replace > /dev/null 2>&1
+        touch $MODDIR/media/audio/alarms/.replace > /dev/null 2>&1
+        touch $MODDIR/media/audio/ringtones/.replace > /dev/null 2>&1
+        echo "[+] Setting audio file permissions..."
+        chmod 644 $MODDIR/media/audio/ui/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
+        chmod 644 $MODDIR/media/audio/ringtones/* > /dev/null 2>&1
+        echo "[+] Permissions Set!"
+    elif [ "$INPUT" == "m" ]; then
+        if [ -d $STOREMEDIA/audio ]; then
+            mkdir $MODDIR/media > /dev/null 2>&1
+            mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
+            mv -f $STOREMEDIA/bootanimation.zip $MOUNTFOL$ANIMFOLDER$ANIM > /dev/null 2>&1
+            chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM > /dev/null 2>&1
+            echo "[+] Bootanimation Sorted!"
+            mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+            touch $MODDIR/media/audio/ui/.replace > /dev/null 2>&1
+            touch $MODDIR/media/audio/notifications/.replace > /dev/null 2>&1
+            touch $MODDIR/media/audio/alarms/.replace > /dev/null 2>&1
+            touch $MODDIR/media/audio/ringtones/.replace > /dev/null 2>&1
+            echo "[+] Setting audio file permissions..."
+            chmod 644 $MODDIR/audio/ui/* > /dev/null 2>&1
+            chmod 644 $MODDIR/audio/notifications/* > /dev/null 2>&1
+            chmod 644 $MODDIR/audio/alarms/* > /dev/null 2>&1
+            chmod 644 $MODDIR/audio/ringtones/* > /dev/null 2>&1
+            echo "[+] Permissions Set!"
+        elif [ ! -d $STOREMEDIA/audio ]; then
+            echo "[+] This option only contains a bootanimation file."
+            echo "[+] Would you like to continue anyways:"
+            echo "[1] Yes - [2] No"
+            pass=true
+            while [ "$pass" == true ]; do
+                echo -e $W"[CHOOSE]:"$N
+                read -r BOTH
+                case $BOTH in
+                    y)
+                        mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
+                        mv -f $STOREMEDIA/bootanimation.zip $MOUNTFOL$ANIMFOLDER$ANIM
+                        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
+                        echo "[+] Bootanimation Sorted!"
+                        pass=false
+                        ;;
+                    n)
+                        echo "[+] Resuming Process..."
+                        pass=false
+                        ;;
+                    *)
+                        wrong_input
+                        ;;
+                esac
+            done
+        elif [ ! -f $STOREMEDIA/bootanimation.zip ]; then
+            echo "[+] This option only contains an Audio folder."
+            echo "[+] Would you like to continue anyways:"
+            echo "[1] Yes - [2] No"
+            pass=true
+            while [ "$pass" == true ]; do
+                echo -e $W"[CHOOSE]:"$N
+                read -r BOTH
+                case $BOTH in
+                    y)
+                        mkdir $MODDIR/media > /dev/null 2>&1
+                        mv -f $STOREMEDIA/audio $MODDIR/media > /dev/null 2>&1
+                        touch $MODDIR/media/audio/ui/.replace > /dev/null 2>&1
+                        touch $MODDIR/media/audio/notifications/.replace > /dev/null 2>&1
+                        touch $MODDIR/media/audio/alarms/.replace > /dev/null 2>&1
+                        touch $MODDIR/media/audio/ringtones/.replace > /dev/null 2>&1
+                        echo "[+] Setting audio file permissions..."
+                        chmod 644 $MODDIR/media/audio/ui/* > /dev/null 2>&1
+                        chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
+                        chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
+                        chmod 644 $MODDIR/media/audio/ringtones/* > /dev/null 2>&1
+                        echo "[+] Permissions Set!"
+                        pass=false
+                        ;;
+                    n)
+                        echo "[+] Resuming Process..."
+                        pass=false
+                        ;;
+                    *)
+                        wrong_input
+                esac
+            done
+        fi
+    fi
+}
+#============================
+#============================

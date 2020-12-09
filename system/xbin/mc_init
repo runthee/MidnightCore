@@ -1,0 +1,196 @@
+#!/system/bin/sh
+# COLORS
+#==================================
+BL='\e[01;90m' > /dev/null 2>&1; # Black
+R='\e[01;91m' > /dev/null 2>&1; # Red
+G='\e[01;92m' > /dev/null 2>&1; # Green
+Y='\e[01;93m' > /dev/null 2>&1; # Yellow
+B='\e[01;94m' > /dev/null 2>&1; # Blue
+P='\e[01;95m' > /dev/null 2>&1; # Purple
+C='\e[01;96m' > /dev/null 2>&1; # Cyan
+W='\e[01;97m' > /dev/null 2>&1; # White
+N='\e[0m' > /dev/null 2>&1; # Null
+#==================================
+# SYS STRUCTURE
+#==================================
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+
+center() {
+    cols=$(($COLUMNS-2))
+    echo -e $G"$1"$N | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta"
+}
+
+divider() {
+    value=$(echo "$1" | sed -e :a -e "s/^.\{1,$cols\}$/ & /;ta" | tr ' ' "$1")
+    echo -e $Y"$value"$N
+}
+#==================================
+# VARIABLES
+#==================================
+magisk=/sbin/.magisk/img
+MODDIR=$magisk/MidnightCore/system
+version="$( cat $magisk/MidnightCore/module.prop | grep "version=" | cut -d '=' -f 2 )"
+updated="$( cat $magisk/MidnightCore/module.prop | grep updated | cut -d '=' -f 2 )"
+fonts_frontend=/system/$bin/midnight_fonts_frontend
+fonts_backend=/system/$bin/midnight_fonts_backend
+media_frontend=/system/$bin/midnight_media_frontend
+media_backend=/system/$bin/midnight_media_backend
+misc_frontend=/system/$bin/midnight_misc_frontend
+misc_backend=/system/$bin/midnight_misc_backend
+custom_frontend=/system/$bin/midnight_custom_frontend
+custom_backend=/system/$bin/midnight_custom_backend
+#==================================
+# FUNCTIONS
+#==================================
+wrong_input() {
+    echo -e $R"[!] Unrecognized Input!"$N
+}
+
+main_start () {
+    running=true
+    while [ "$running" = true ]
+    do
+        echo ""
+        echo -e $G" "$N
+        center '   ____________ __ ___  _  ____ ____ _   __ ______'
+        center '  / ___  ___  // // _ \/ \/ / // __// /_/ //_   _/'
+        center ' / /  / /  / // // // /    / // (_ / __  /  /  /'
+        center '/_/  /_/  /_//_//____/_/\_/_/ \___/_/ /_/  /__/'
+        echo ""
+        divider "="
+        center "C     O     R     E"
+        divider "="
+        sleep 0.2
+        center "Version: $version - Updated: $updated"
+        divider "="
+        sleep 0.2
+        echo "[#] Choose from one of the below aspects to modify and make your device yours"
+        echo "[#] Enter a corresponding number below"
+        sleep 0.2
+        echo -e $G"[1] MidnightFonts - [2] MidnightMedia - [3] MidnightMisc"$N
+        echo -e $G"[4] MidnightCustom"$N
+        echo -e $C"[r] Restore Defaults"$N - $R"[q] Quit"$N
+        echo -e -n $W"[CHOOSE]: "$N
+        read -r INPUT
+        case "$INPUT" in
+            1)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTFONTS..."
+                echo "[+] MAKE SURE TO REBOOT AFTER APPLYING A FONT!!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                . $fonts_frontend
+                clear
+                ;;
+            2)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTMEDIA..."
+                echo "[+] MAKE SURE TO REBOOT AFTER APPLYING A FILE!!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                . $media_frontend
+                clear
+                ;;
+            3)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTMISC..."
+                echo "[+] OPTIMIZE YOUR DEVICE AND GET DIFFERENT TYPES OF LOGS WITH THIS MODULE!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                . $misc_frontend
+                clear
+                ;;
+            4)
+                echo -e $Y"$divider"$N
+                echo "[+] INITIALIZING MIDNIGHTCUSTOM..."
+                echo "[+] SPECIFY AND APPLY CUSTOM FONTS, BOOTANIMATIONS AND AUDIO FILES!"
+                echo -e $Y"$divider"$N
+                sleep 4
+                clear
+                . $custom_frontend
+                clear
+                ;;
+            r)
+                restore
+                clear
+                ;;
+            q)
+                running=false
+                ;;
+            *)
+                echo "[+] Unrecognized Input."
+                clear
+                ;;
+        esac
+    done
+}
+restore () {
+    res=true
+    while [ "$res" = true ]
+    do
+        echo "[#] Select a package to restore to your system default"
+        echo -e $G"[1] MidnightFonts      [2] MidnightMedia"$N
+        echo -e $R"               [q] Quit"$N
+        echo -e -n $W'[CHOOSE] : '$N
+        read -r RESTORE
+        case $RESTORE in
+            1)
+                echo "[+] Restoring defaults..."
+                rm -rf $magisk/MidnightCore/system/fonts > /dev/null 2>&1
+                echo "[+] Defaults restored!"
+                res=false
+                exit
+                ;;
+            2)
+                echo "[+] Restoring defaults..."
+                rm -rf $magisk/MidnightCore/system/media > /dev/null 2>&1
+                rm -rf /data/adb/magisk_simple > /dev/null 2&1
+                echo "[+] Defaults restored!"
+                res=false
+                exit
+                ;;
+            q)
+                res=false
+                clear
+                exit
+                ;;
+            *)
+                echo "[+] Unrecognised Input."
+                ;;
+        esac
+    done
+}
+show_error() {
+    echo -e $R"[#] Error Occured!!"$N
+    echo -e $R"[+] Message: $1"$N
+    echo -e $R"[+] Cause: $2"$N
+    echo -e $R"[+] Possible Solution(s): $3"$N
+    echo "[#] Terminating Session. Please contact OldMidnight/Fareed Idris for more help."
+    cleanup
+}
+
+cleanup() {
+    clear
+    echo -e $Y""
+    echo -e $P"[+] Cleaning Up..."$N
+    MidFont=/sdcard/MidnightMain/MidnightFonts
+    MidMedia=/sdcard/MidnightMain/MidnightMedia
+    rm -rf $MidMedia/tmp_media > /dev/null 2>&1
+    rm -rf $MidFont/tmp_fonts > /dev/null 2>&1
+    echo -e $G"[+] Done!"$N
+    echo -e $G""$N
+    center '   _______ __  __ ____  _  __ __ __    __  __ __'
+    center '  /__  __// /_/ // _  \/ \/ // // /   / / / / \/'
+    center '    / /  / __  // /_/ /    //    /   / /_/ /'
+    center '   /_/  /_/ /_//_/ /_/_/\_//__/\_\  /_____/  /_/'
+    divider "="
+    exit
+}
+#==================================

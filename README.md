@@ -7,23 +7,186 @@ This module is an All-In-One package for the MidnightModule series. It currently
 * This Package allows you to systemless-ly switch between fonts On-The-Go. Fonts are downloaded, applied and cleaned up at the same time, so no font zips are left lying around. Choose from over 40 Fonts!
 ### MidnightMedia
 * This package allows you to Systemless-ly switch Media files such as boot animations, System UI sounds, lock screen sounds etc. Just a quick Reboot and you're good to go! Choose from a range of devices to apply files from!
-### MidnightMake: MidnightFonts Add-On
-* A simple add-on for MidnightFonts that allows you to create recovery flashable zips of the fonts available. This is for those who are switching ROM's or are leaving root behind or whatever reason!
 ### MidnightMisc
 * This package gives users a couple of tools and utilities that make debugging and other things easier. It is a home for any modifications or tools that do not need a home of their own. Will be regularly updated with user requests!
-### MidnightDNS
-* This package allows you to systemlessly change your DNS server for speed, security, protection or privacy benefits.
+### MidnightCustom
+* Is your favourite Font, Bootanimation or Audio file not available in MidnightCore? Not to worry! Easily apply your own files with Midnight Custom. You can find Instructions on how to use it in the module or on XDA!
 
-After flashing, type 'midnight' in a terminal to begin.
+## How To Use
+```bash
+midnight
+```
+
+That's It!
 
 #### Note:
 * All files available in this module are all being hosted by me, so the font list and media list will be maintained regularly and updated.
 * For details on joining the beta stream, type 'setbeta -h' or 'setbeta --help' in a terminal.
 
-## Current Version
-v2.5.5
+# Current Version
+v3.4.2
+Twilight Edition
+
+## Included Fonts
+* Helvetica Neue Best.
+* Ubuntu Updated.
+* Caviar Dreams.
+* Google Product Sans.
+* Comic Sans Original.
+* Rosemary.
+* Scifly.
+* Lato UI.
+* Chinacat.
+* Century Gothic.
+* AppleMint.
+* Pycuaf.
+* Bellota.
+* GoodDog.
+* Oxygen.
+* Oswald.
+* Raindrops.
+* Armani.
+* Cool Jazz.
+* Bariol.
+* Oneplus Slate.
+* Exo.
+* Exo2.
+* Google Sans Mod.
+* Persona5.
+* Cocon Original.
+* Chococookey.
+* B612.
+* PFBeauSansPro.
+* Runescape.
+* Gotham Narrow.
+* Gotham Narrow Light.
+* Helvetica Condensed.
+* VAG Rounded.
+* Roboto43 Condensed.
+* Corporate.
+* SamsungOneBR.
+* Trebuchet.
+* Andrea Print CN.
+* Express Yourself.
+* Plasma.
+* Shine With Me.
+* Spring Is Coming.
+* Bookerly.
+* Barlow Semi Condensed.
+* Brandon Grotesque.
+* Bauhaus.
+* Zrnic.
+* Roboto442.
+* Sony Sketch.
+* A Dripping Marker.
+* Vandalism.
+* SegoeUI.
+* Tilana.
+* Proxima Nova.
+* Neutraface.
+* Dejavu.
+* Tecton Unicode.
+* Cabin.
+
+## Included Audio Files
+* Hammerhead(Nexus 5).
+* Shamu(Nexus 6).
+* Volantis(Nexus 9).
+* OnePlus.
+* Asus.
+* Samsung Galaxy Note 3.
+* Bullhead(Nexus 5).
+
+## Included Bootanimation Files
+* Hammerhead(Nexus 5).
+* Shamu(Nexus 6).
+* Volantis(Nexus 9).
+* OnePlus.
+* xXxNoLimits(Custom ROM).
+* LiquidRemix(Custom ROM).
+* Asus.
+* Zenfone_Atomic(Custom ROM).
+* Alienware(mauam@XDA).
+* Blink(mauam@XDA).
+* Blue DNA(mauam@XDA).
+* Bug Loader(mauam@XDA).
+* Circle(mauam@XDA).
+* Circuit(mauam@XDA).
+* Cortana(mauam@XDA).
+* Hexagon Loader(mauam@XDA).
+* HUD Hypnotism(mauam@XDA).
+* LIB(mauam@XDA).
+* Load  It 2(mauam@XDA).
+* Load It(mauam@XDA).
+* Loader Effect(mauam@XDA).
+* Loading(mauam@XDA).
+* Rainbow Orbit(mauam@XDA).
+* Unwrap(mauam@XDA).
+* Lineage OS(Custom ROM).
+* AOSIP(Custom ROM).
+* Bullhead(Nexus 5).
+* Colorful Helix(mauam@XDA).
+* Samsung(mauam@XDA).
+* Shuffled(mauam@XDA).
+* OnePlus Concept.
+* FrankenROM(Custom ROM).
+* ViperOS(Custom ROM).
+* Faces of Rick(nandakumar12@XDA).
+* Connections(nandakumar23@XDA).
+* Superheroes(nandakumar23@XDA).
+* Watchdogs.
+* Rubix.
+* PixelBoot Light(1080p).
+* PixelBoot Light(1440p).
+* PixelBoot Dark(1440p).
+* Aperture Science.
+* ResurrectionRemix Nougat.
+* ResurrectionRemix Oreo.
+* Take Your Time(Persona5).
 
 ## Changelog
+### v3.4.2 - 13.12.18
+* Updated to latest Unity
+* Magisk v18 support
+* Text centering fixes(*)
+### v3.4.1.1 - 05.11.18
+* Fixed a couple typos
+### v3.4.1 - 03.11.18
+* Enable MidnightCustom Help/How-to section(whoops!)
+* Minor Optimizations
+### v3.4.0 - 23.10.18
+* Fixed audio permissions not setting correctly
+* Fixed Issues with all audio dissapearing
+* Applied audio will now work with stock files if custom folder not provided
+* Added MidnightCustom Help/How-To Section
+### v3.3.1 - 17.10.18
+* Fix for custom bootanimations not applying
+* Fix for some fonts not applying
+### v3.3.0 - 16.10.18
+* Introducing MidnightCustom, a refined implementaion of custom files
+* Fixed Simple Mount Bug (Thanks @Zackptg5!)
+* Fixed major bugs with paths
+### v3.2.0 - 09.10.18
+* Added support for HTC devices
+* Added support for applying custom fonts!
+* Added support for applying custom Bootanimations!
+* Added support for applying custom Audio files!
+* Removed need to type 'su' and 'cd'!
+* Custom file support for Samsungs .qmg file format
+* Misc Code cleanups
+* Changed method of setting file permissions
+### v3.1.0 - 30.09.18
+* Added MidnightMisc
+* Added network connectivity check for font restoration
+* Minor Syntax changes
+* Minor Flow control changes
+### v3.0.0 - 29.09.18
+* Introducing Twilight Edition!
+* Revamped User Interface!
+* Most if not all bugs squashed!
+* Removed needless complexity.
+* Fixed Volume key logic
+* Fixed Backup and Restoration during Installation!
 ### v2.5.5 - 22.06.18
 * Fix for install and uninstall volume key logic
 * Fixed MidnightDNS
@@ -103,7 +266,7 @@ v2.5.5
 * Initial release
 
 #### Magisk Template
-v1500
+v17000
 
 #### Links
 * [GitHub](https://github.com/Magisk-Modules-Repo/MidnightCore)

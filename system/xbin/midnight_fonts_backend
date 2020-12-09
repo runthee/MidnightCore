@@ -1,0 +1,132 @@
+#!/system/bin/sh
+
+#===============================
+# MAGISK ALIAS'
+#===============================
+alias unzip="/sbin/.magisk/busybox/unzip"
+alias wget="/sbin/.magisk/busybox/wget"
+#===============================
+# FUNCTIONS
+#===============================
+get_font () {
+    echo "[+] Retrieving Font..."
+    if [ -f "$STOREFONT/$FONT2.zip" ]; then
+        chmod 777 $STOREFONT/$FONT2.zip > /dev/null 2>&1
+        echo "[+] Working..."
+    else
+        show_error "Permissions not set on Font zip." "Zip Not downloaded." "Check your internet connection. Remove any active VPN(s)."
+    fi
+}
+
+zip_sort_no_store() {
+    clear
+    if [ -d "$STOREFONT/system" ]; then
+        echo "[+] Working..."
+        rm -rf $MODDIR/fonts > /dev/null 2>&1
+        mkdir $MODDIR/fonts > /dev/null 2>&1
+        mkdir $MODDIR/etc > /dev/null 2>&1
+        cp -f $MIDFONT/fonts.xml $MODDIR/etc > /dev/null 2>&1
+        chmod 644 $MODDIR/etc/fonts.xml > /dev/null 2>&1
+        cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
+        chmod 644 $MODDIR/fonts/*
+        rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        echo $FONT > $MIDFONT/currently_applied_font.txt
+        clear
+        center '[+] Font Applied!!'
+        divider "="
+        center '[+] Please reboot for changes to apply!!'
+        divider "="
+        sleep 3
+    fi
+}
+
+zip_sort_store() {
+    clear
+    if [ -d $STOREFONT/system ]; then
+        echo "[+] Working..."
+        echo "[+] Saving font to $FONTBACKUP..."
+        rm -rf $MODDIR/fonts > /dev/null 2>&1
+        mkdir $MODDIR/fonts > /dev/null 2>&1
+        mkdir $MODDIR/etc > /dev/null 2>&1
+        cp -f $MIDFONT/fonts.xml $MODDIR/etc > /dev/null 2>&1
+        chmod 644 $MODDIR/etc/fonts.xml > /dev/null 2>&1
+        cp -f $STOREFONT/system/fonts/* $MODDIR/fonts > /dev/null 2>&1
+        chmod 644 $MODDIR/fonts/*
+        dir=pwd
+        cd $FONTBACKUP > /dev/null 2>&1
+        tar -czf "$FONT2.tar.gz" -C $MODDIR/fonts .
+        if [ $? != 0 ]; then
+            show_error "Backup not created" "Unknown." "Report error on XDA thread."
+        fi
+        cd $dir > /dev/null 2>&1
+        rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        echo $FONT > $MIDFONT/currently_applied_font.txt
+	sleep 2
+        clear
+        divider "="
+        center '[+] Font Applied and Saved!!'
+        divider "="
+        center '[+] Please reboot for changes to apply!!'
+        divider "="
+        sleep 3
+    fi
+}
+
+other_steps() {
+    clear
+    wget --no-check-certificate -q -O $STOREFONT/$FONT2.zip "$LINK"
+    get_font
+    unzip $STOREFONT/$FONT2.zip -d "$STOREFONT"
+    if [ "$LOCALCHOICE" == "1" ]; then
+        zip_sort_store
+    else
+        zip_sort_no_store
+    fi
+}
+
+font_steps() {
+    echo ""
+    echo -e $B"[#] Save Font Offline?"$N
+    echo -e $G"[1] Save Font     [2] Don't Save Font"$N
+    echo -e -n $W"[CHOOSE]: "$N
+    read -r LOCALCHOICE
+    other_steps
+}
+
+check_stored() {
+    clear
+    echo "[+] Checking for saved version..."
+    if [ -f "$FONTBACKUP/$FONT2.tar.gz" ]; then
+        echo "[+] Saved version detected!"
+        echo "[+] Applying Font..."
+        dir=$( pwd )
+        cd $FONTBACKUP
+        mkdir $MODDIR/etc > /dev/null 2>&1
+        cp -f $MIDFONT/fonts.xml $MODDIR/etc > /dev/null 2>&1
+        chmod 644 $MODDIR/etc/fonts.xml > /dev/null 2>&1
+        rm -rf $MODDIR/fonts > /dev/null 2>&1
+        mkdir $MODDIR/fonts > /dev/null 2>&1
+        tar -xzf "$FONT2.tar.gz" -C $MODDIR/fonts
+        if [ $? != 0 ]; then
+            show_error "Backup not restored" "Unknown." "Report error on XDA thread."
+        fi
+        cd $dir
+        chmod 644 $MODDIR/fonts/*
+        rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+        echo $FONT > $MIDFONT/currently_applied_font.txt
+        clear
+        center '[+] Font Applied!!'
+        divider "="
+        center '[+] Please reboot for changes to apply!!'
+        divider "="
+        sleep 3
+        restored=true
+    else
+        echo "[#] Saved version not found!"
+        echo "[+] Resuming Process.."
+        restored=false
+    fi
+}

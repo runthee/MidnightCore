@@ -1,0 +1,470 @@
+#!/system/bin/sh
+#========================
+# FUNCTIONS
+#========================
+apply_fonts() {
+    if [ -f $MIDFONT/currently_applied_font.txt ]; then
+        CURRENT="$( cat $MIDFONT/currently_applied_font.txt )"
+    else
+        CURRENT="DEFAULT"
+    fi
+    applying=true
+    while [ "$applying" == true ]; do
+        clear
+        divider "="
+        echo -e $B"[#] Specify Custom Fonts!"$N
+        echo -e $P"[+] Here you can choose from the list of available custom fonts you have placed in $CUSTOMFONTS"$N
+        echo -e $P"[+] For help creating a custom font, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
+        divider "="
+        fontnum=$( ls $CUSTOMFONTS | wc -l )
+        echo -e $G"[+] Number of Custom Fonts found: $fontnum"$N
+        echo -e $B"[+] Proceed to font selection?"$N
+        echo -e $G"[1] Continue - [2] Return"$N
+        echo -e $W"[CHOOSE]: "$N
+        read -r CHOICE
+        case $CHOICE in
+            1)
+                if [ $fontnum -eq 0 ]; then
+                    echo -e $R"[!] No Available Custom Fonts!"$N
+                    sleep 2
+                    applying=false
+                else
+                    clear
+                    divider "="
+                    echo -e $B"[#] Custom Fonts:"$N
+                    fonts=$( ls $CUSTOMFONTS | tr ' ' '*' )
+                    i=1
+                    for font in $fonts; do
+                        word=$( echo $font | tr '*' ' ' )
+                        echo -e "$C[$i]$N $W$word$N"
+                        i=$((i+1))
+                    done
+                    echo -e $R"[q] Quit"$N
+                    fontspass=true
+                    while [ "$fontspass" == true ]; do
+                        echo -e $W"[CHOOSE]: "$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    fontspass=false
+                                    applying=false
+                                elif [ $CHOICE -gt $fontnum ]; then
+                                    wrong_input
+                                else
+                                    clear
+                                    FONT="$( ls $CUSTOMFONTS | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                    echo "[+] Applying $FONT..."
+                                    mkdir $MODDIR/fonts > /dev/null 2>&1
+                                    mkdir $MODDIR/etc > /dev/null 2>&1
+                                    cp -f $MIDFONT/fonts.xml $MODDIR/etc > /dev/null 2>&1
+                                    chmod 644 $MODDIR/etc/fonts.xml > /dev/null 2>&1
+                                    cp -f $CUSTOMFONTS/$FONT/* $MODDIR/fonts
+                                    echo "[+] Setting Permisssions..."
+                                    chmod 644 $MODDIR/fonts/*
+                                    rm -f $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+                                    touch $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+                                    echo $FONT > $MIDFONT/currently_applied_font.txt > /dev/null 2>&1
+                                    echo "[+] Permissions Set!"
+                                    echo -e $G"              [+] Font Applied!!             "$N
+                                    divider "="
+                                    echo -e $P"     [+] Please reboot for changes to apply!!      "$N
+                                    divider "="
+                                    sleep 3
+                                    fontspass=false
+                                    applying=false
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            2)
+                applying=false
+                ;;
+            *)
+                wrong_input
+                applying=false
+                ;;
+        esac
+    done
+}
+
+apply_anims() {
+    if [ -f $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt ]; then
+        CURRENT="$( cat $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt )"
+    else
+        CURRENT="DEFAULT"
+    fi
+    applying=true
+    while [ "$applying" == true ]; do
+        clear
+        divider "="
+        echo -e $B"[#] Specify Custom Bootanimations!"$N
+        echo -e $P"[+] Here you can choose from the list of available custom Bootanimations you have placed in $CUSTOMANIMS"$N
+        echo -e $P"[+] For help creating a custom bootanimation, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
+        echo -e $G"[!] This works for all OEMS including Samsung and HTC!"
+        divider "="
+        animnum=$( ls $CUSTOMANIMS | wc -l )
+        echo -e $G"[+] Number of Custom Bootanimations found: $animnum"$N
+        echo -e $B"[+] Proceed to bootanimation selection?"$N
+        echo -e $G"[1] Continue - [2] Return"$N
+        echo -e $W"[CHOOSE]: "$N
+        read -r CHOICE
+        case $CHOICE in
+            1)
+                if [ $animnum -eq 0 ]; then
+                    echo -e $R"[!] No Available Custom Bootanimations!"$N
+                    sleep 2
+                    applying=false
+                else
+                    clear
+                    divider "="
+                    echo -e $B"[#] Custom Bootanimations:"$N
+                    anims=$( ls $CUSTOMANIMS | tr ' ' '*' )
+                    i=1
+                    for anim in $anims; do
+                        word=$( echo $anim | tr '*' ' ' )
+                        echo -e "$C[$i]$N $W$word$N"
+                        i=$((i+1))
+                    done
+                    echo -e $R"[q] Quit"$N
+                    animspass=true
+                    while [ "$animspass" == true ]; do
+                        echo -e $W"[CHOOSE]: "$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    animspass=false
+                                    applying=false
+                                elif [ $CHOICE -gt $animnum ]; then
+                                    wrong_input
+                                else
+                                    clear
+                                    ANIM2="$( ls $CUSTOMANIMS | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                    echo "[+] Applying $ANIM2..."
+                                    rm -rf $MOUNTFOL$ANIMFOLDER > /dev/null
+                                    mkdir -p $MOUNTFOL$ANIMFOLDER > /dev/null 2>&1
+                                    fol_len=$( ls $CUSTOMANIMS/$ANIM2 | wc -l )
+                                    if [ $fol_len -gt 1 ]; then
+                                        echo -e $R"[!] Wrong Custom Folder Formatting in: $CUSTOMANIMS/$ANIM2"$N
+                                        echo -e $R"[!] Make Sure It Is Only One File Per Folder"$N
+                                        animspass=false
+                                        applying=false
+                                        pass=false
+                                    else
+                                        cp -f $CUSTOMANIMS/$ANIM2/* $MOUNTFOL$ANIMFOLDER$ANIM
+                                        echo "[+] Setting Permisssions..."
+                                        chmod 644 $MOUNTFOL$ANIMFOLDER$ANIM
+                                        rm -f $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
+                                        touch $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
+                                        echo $ANIM2 > $MIDCUSTOM/Media/currently_applied_custom_bootanim.txt > /dev/null 2>&1
+                                        echo "[+] Permissions Set!"
+                                        echo -e $G"          [+] Bootanimation Applied!!             "$N
+                                        divider "="
+                                        echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N
+                                        divider "="
+                                        sleep 3
+                                        animspass=false
+                                        applying=false
+                                        pass=false
+                                        main=false
+                                    fi
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            2)
+                applying=false
+                ;;
+            *)
+                wrong_input
+                applying=false
+                ;;
+        esac
+    done
+
+}
+
+apply_audio() {
+    if [ -f $MIDCUSTOM/Media/currently_applied_custom_audio.txt ]; then
+        CURRENT="$( cat $MIDCUSTOM/Media/currently_applied_custom_audio.txt )"
+    else
+        CURRENT="DEFAULT"
+    fi
+    applying=true
+    while [ "$applying" == true ]; do
+        clear
+        echo -e $y"$divider"$N
+        echo -e $B"[#] Specify Custom Audio Files!"$N
+        echo -e $P"[+] Here you can choose from the list of available custom Audio Files you have placed in $CUSTOMAUDIO"$N
+        echo -e $P"[+] For help creating a custom Audio folder, follow the guide on the xda thread or choose the help/How-To option in the previous menu."$N
+        divider "="
+        audionum=$( ls $CUSTOMAUDIO | wc -l )
+        echo -e $G"[+] Number of Custom Audio Filse found: $audionum"$N
+        echo -e $G"[+] Currently Applied Audio Files: $CURRENT"$N
+        echo -e $B"[+] Proceed to audio file selection?"$N
+        echo -e $G"[1] Continue - [2] Return"$N
+        echo -e $W"[CHOOSE]: "$N
+        read -r CHOICE
+        case $CHOICE in
+            1)
+                if [ $audionum -eq 0 ]; then
+                    echo -e $R"[!] No Available Custom Audio Files!"$N
+                    sleep 2
+                    applying=false
+                else
+                    clear
+                    divider "="
+                    echo -e $B"[#] Custom Audio Files:"$N
+                    audios=$( ls $CUSTOMAUDIO | tr ' ' '*' )
+                    i=1
+                    for audio in $audios; do
+                        word=$( echo $audio | tr '*' ' ' )
+                        echo -e "$C[$i]$N $W$word$N"
+                        i=$((i+1))
+                    done
+                    echo -e $R"[q] Quit"$N
+                    audiopass=true
+                    while [ "$audiopass" == true ]; do
+                        echo -e $W"[CHOOSE]: "$N
+                        read -r CHOICE
+                        case $CHOICE in
+                            $CHOICE)
+                                if [ "$CHOICE" == "q" ]; then
+                                    audiopass=false
+                                    applying=false
+                                elif [ $CHOICE -gt $audionum ]; then
+                                    wrong_input
+                                else
+                                    clear
+                                    AUDIO="$( ls $CUSTOMAUDIO | xargs | tr ' ' '*' | cut -d '*' -f $CHOICE )"
+                                    echo "[+] Applying $AUDIO..."
+                                    mkdir -p $MODDIR/media > /dev/null 2>&1
+                                    fol_len=$( ls $CUSTOMAUDIO/$AUDIO | wc -l )
+                                    if [ $fol_len -gt 4 ]; then
+                                        echo -e $R"[!] Wrong Custom Folder Formatting in: $CUSTOMAUDIO/$AUDIO"$N
+                                        echo -e $R"[!] Make Sure It Is Only One File Per Folder"$N
+                                        audiopass=false
+                                        applying=false
+                                        pass=false
+                                    else
+                                        cp -rf $CUSTOMAUDIO/$AUDIO/* $MODDIR/media
+                                        echo "[+] Setting Permisssions..."
+                                        chmod 644 $MODDIR/media/audio/ui/* > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/notifications/* > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/alarms/* > /dev/null 2>&1
+                                        chmod 644 $MODDIR/media/audio/ringtones/*> /dev/null 2>&1
+                                        touch $MODDIR/media/audio/notifications/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/alarms/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/ringtones/.replace > /dev/null 2>&1
+                                        touch $MODDIR/media/audio/ui/.replace > /dev/null 2>&1
+                                        echo "[+] Permissions Set!"
+                                        rm -f $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
+                                        touch $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
+                                        echo $AUDIO > $MIDCUSTOM/Media/currently_applied_custom_audio.txt > /dev/null 2>&1
+                                        echo -e $G"          [+] Audio Files Applied!!             "$N
+                                        divider "="
+                                        echo -e $P"     [+] Changes Will Apply After Reboot!!        "$N
+                                        divider "="
+                                        sleep 3
+                                        audiopass=false
+                                        applying=false
+                                        pass=false
+                                        main=false
+                                    fi
+                                fi
+                                ;;
+                        esac
+                    done
+                fi
+                ;;
+            2)
+                applying=false
+                ;;
+            *)
+                wrong_input
+                applying=false
+                ;;
+        esac
+    done
+
+}
+
+show_help() {
+    helping=true
+    while [ "$helping" == true ]; do
+        clear
+        divider "="
+        echo -e $P"[#] MidnightCustom: Help and How-To"$N
+        divider "="
+        echo -e $G"[+] Select an option:"$N
+        echo -e $P"[1] Apply Custom Fonts - [2] Apply Custom Audio"$N
+        echo -e $P"[3] Apply Custom Bootanimations -$N$R [q] Quit"$N
+        echo -e $W"[CHOOSE]: "$N
+        choosing=true
+        while [ "$choosing" == true ]; do
+            read -r CHOICE
+            case $CHOICE in
+                1)
+                    clear
+                    echo -e $G"[+] How to apply a Custom Font:"$N
+                    echo -e $B"  [+] Custom Font file path:"$N
+                    echo "      --/sdcard/"
+                    echo "          |--..."
+                    echo "          |--MidnightMain/"
+                    echo "              |--MidnightCustom/"
+                    echo "                  |--Fonts/"
+                    echo -e "                      $R|--<font-folder-name>/"$N
+                    echo -e "                          $Y|--<font>.ttf"$N
+                    echo -e "                          $Y|--<font>.ttf"$N
+                    echo -e "                          $Y|--<font>.ttf"$N
+                    echo -e "                          $Y|--<font>.ttf"$N
+                    echo -e "                          $Y|--<font>.ttf"$N
+                    echo -e "                          $Y|--<font>.ttf"$N
+                    echo "                  |--Media/"
+                    echo "              |--MidnightFonts/"
+                    echo "              |--MidnightMedia/"
+                    echo "              |--MidnightMisc/"
+                    echo -e $G"[+] The font files you are applying (labeled <font> above)$N$R MUST$N$G be renamed to the Roboto variant of the font."$N
+                    echo -e $G"[#] Examples:"$N
+                    echo -e "[+]$P Bariol-Regular.ttf $N-->$C Roboto-Regular.ttf"$N
+                    echo -e "[+]$P Bariol-Bold.ttf $N-->$C Roboto-Bold.ttf"$N
+                    echo -e "[+]$P Bariol-Italic.ttf $N-->$C Roboto-Italic.ttf"$N
+                    echo -e $G"[+] ETC..."$N
+                    echo ""
+                    echo -e $G"[+] The lines in$N$R RED$N$G above are folders you create and name whatever you want. They are how you will see your folder font in MidnightCustom"$N
+                    echo -e $G"[+] The files in$N$Y YELLOW$N$G above are the font fils you are applying, renamed to their Roboto variant as shown above."$N
+                    echo -e $G"[+] After setting up your custom font folder correctly, return to MidnightCustom and apply your font as it should appear there."$N
+                    echo -e $R"[!] If you have anymore questions, do not hesitate to ask at the MidnightCore XDA thread or the Telegram Support group at: t.me/MidnightSuite"$N
+                    echo ""
+                    echo "[+] Press any key to return..."
+                    read -r RETURN
+                    case $RETURN in
+                        *)
+                            choosing=false
+                            ;;
+                    esac
+                    ;;
+                2)
+                    clear
+                    echo -e $G"[+] How to apply Custom Audio:"$N
+                    echo -e $B"  [+] Custom Audio file structure:"$N
+                    echo "      --/sdcard/"
+                    echo "          |--..."
+                    echo "          |--MidnightMain/"
+                    echo "              |--MidnightCustom/"
+                    echo "                  |--Fonts/"
+                    echo "                  |--Media/"
+                    echo "                        |--Audio/"
+                    echo -e "                            $R|--<Audio-Folder-Name>/"$N
+                    echo -e "                                $P|--ui/"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                $P|--alarms/"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                $P|--notifications/"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                $P|--ringtones/"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo -e "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                        |--Bootanimations/"
+                    echo "              |--MidnightFonts/"
+                    echo "              |--MidnightMedia/"
+                    echo "              |--MidnightMisc/"
+                    echo ""
+                    echo -e $G"[+] The lines in$N$R RED$N$G above are folders you create and name whatever you want. They are how you will see your custom audio in MidnightCustom"$N
+                    echo -e $G"[+] The files in$N$P PURPLE$N$G above are the necessary folders required when applying audio files. if you dont have these folders, DONT APPLY THE FILE."$N
+                    echo -e $G"[+] The files in$N$Y YELLOW$N$G are the actual audio files you'll be applying, they should already be available in their corresponding ui/alarms/notifications/ringtones folder. Dont make any changes to these files."$N
+                    echo -e $G"[+] After setting up your custom audio folder correctly, return to MidnightCustom and apply your audio as it should appear there."$N
+                    echo -e $R"[!] If you have anymore questions, do not hesitate to ask at the MidnightCore XDA thread or the Telegram Support group at: t.me/MidnightSuite"$N
+                    echo ""
+                    echo "[+] Press any key to return..."
+                    read -r RETURN
+                    case $RETURN in
+                        *)
+                            choosing=false
+                            ;;
+                    esac
+                    ;;
+                3)
+                    clear
+                    echo -e $G"[+] How to apply a Custom Bootanimation:"$N
+                    echo -e $B"  [+] Custom Bootanimation file structure:"$N
+                    echo "      --/sdcard/"
+                    echo "          |--..."
+                    echo "          |--MidnightMain/"
+                    echo "              |--MidnightCustom/"
+                    echo "                  |--Fonts/"
+                    echo "                  |--Media/"
+                    echo "                        |--Audio/"
+                    echo "                            $R|--<Audio-Folder-Name>"$N
+                    echo "                                $P|--ui/"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                $P|--alarms/"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                $P|--notifications/"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                $P|--ringtones/"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                                    $Y|--<Audio-File>.ogg"$N
+                    echo "                        |--Bootanimations/"
+                    echo -e "                            $R|--<bootanimation-folder-here>/"$N
+                    echo -e "                                $Y|--<bootanimation-format>.zip/.qmg"$N
+                    echo "              |--MidnightFonts/"
+                    echo "              |--MidnightMedia/"
+                    echo "              |--MidnightMisc/"
+                    echo ""
+                    echo -e $G"[+] The lines in$N$R RED$N$G above are folders you create and name whatever you want. They are how you will see your custom Bootanimation in MidnightCustom"$N
+                    echo -e $G"[+] The files in$N$Y YELLOW$N$G are the actual bootanimation files you'll be applying.$N$B TO FIND OUT WHAT THIS FILE SHOULD BE CALLED, GO TO WHERE IT IS NORMALLY LOCATED, USUALLY IN /system/media AND USE THE APPROPRIATE FILE NAME/FORMAT."$N
+                    echo -e $B"[+] IN HTC ROMS, THIS CAN BE FOUND IN /syste/media/customize."$N
+                    echo -e $G"[+] After setting up your custom bootanimation folder correctly, return to MidnightCustom and apply your bootanimation as it should appear there."$N
+                    echo -e $R"[!] If you have anymore questions, do not hesitate to ask at the MidnightCore XDA thread or the Telegram Support group at: t.me/MidnightSuite"$N
+                    echo ""
+                    echo "[+] Press any key to return..."
+                    read -r RETURN
+                    case $RETURN in
+                        *)
+                            choosing=false
+                            ;;
+                    esac
+                    ;;
+                q)
+                    choosing=false
+                    helping=false
+                    ;;
+                *)
+                    wrong_input
+                    ;;
+            esac
+        done
+    done
+}
+#========================
+#========================
+#========================
+#========================

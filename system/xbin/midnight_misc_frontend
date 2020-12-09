@@ -1,0 +1,68 @@
+#!/system/bin/sh
+#===============================
+# VARIABLES/ALIAS'
+#===============================
+alias fstrim="/sbin/.magisk/busybox/fstrim"
+alias timeout="/sbin/.magisk/busybox/timeout"
+
+if [ -d /system/xbin ]; then
+    bin=xbin
+else
+    bin=bin
+fi
+
+MIDMISC="/sdcard/MidnightMain/MidnightMisc"
+MISCLOG="$MIDMISC/logs"
+MISCDUMP="$MIDMISC/dumps"
+LOGDATE="$( date | cut -d ' ' -f 2,3,4 | tr ' ' '_' )"
+
+. /system/$bin/mc_init
+#===============================
+# INITIALIZE ENVIRONMENT
+#===============================
+echo "[+] Setting Up Environment..."
+mkdir $MISCLOG > /dev/null 2>&1
+mkdir $MISCDUMP > /dev/null 2>&1
+#===============================
+#===============================
+. $misc_backend
+main=true
+while [ "$main" == true ]; do
+    clear
+    divider "="
+    center '    __________ __ _____ ______'
+    center '   / __  __  // //  __//  ___/'
+    center '  / / / / / // //__ \ /  /'
+    center ' / / / / / // / __/  /\  \___'
+    center '/_/ /_/ /_//_/ /____/  \____/'
+    divider "="
+    center 'A   M I D N I G H T   M O D U L E'
+    divider "="
+    echo -e $C"[+] Below is a collection of different Miscellaneous"$N
+    echo -e $C"[+] tools that are useful and may come in handy,"$N
+    echo -e $C"[+] all in a nice, convenient place!"
+    divider "="
+    echo -e $W"[#] Choose an option"$N
+    echo ""
+    echo -e $P"[1] Fstrim - [2] Logcat - [3] Dumpsys"$N
+    echo -e $R"[q] Quit"$N
+    echo -e $W"[CHOOSE]: "$N
+    read -r INPUT
+    case $INPUT in
+        1)
+            do_fstrim
+            ;;
+        2)
+            do_log
+            ;;
+        3)
+            do_dump
+            ;;
+        q)
+            main=false
+            ;;
+        *)
+            wrong_input
+            ;;
+    esac
+done
